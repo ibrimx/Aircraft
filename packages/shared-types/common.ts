@@ -1,4 +1,4 @@
-import type { AssetId, Brand } from "./ids";
+import type { ActorId, AssetId, Brand, ProjectId } from "./ids";
 
 export type ISODateString = Brand<string, "ISODateString">;
 
@@ -24,16 +24,23 @@ export interface Transform {
   readonly rotation: number;
 }
 
-export type HEXColor = Brand<`#${string}`, "HEXColor">;
-export type RGBAColor = Brand<`rgba(${number},${number},${number},${number})`, "RGBAColor">;
+/** Expected format: "#RRGGBB" or "#RRGGBBAA". */
+export type HEXColor = Brand<string, "HEXColor">;
+/** Expected format: "rgba(r,g,b,a)" with any spacing. */
+export type RGBAColor = Brand<string, "RGBAColor">;
 
 export interface AssetRef {
   readonly id: AssetId;
-  readonly src: string;
-  readonly mimeType: string;
+  readonly url: string;
+  readonly mime: string;
   readonly width?: number;
   readonly height?: number;
-  readonly alt?: string;
+  readonly hash?: string;
+  readonly size?: number;
+  readonly tags?: readonly string[];
+  readonly ownerId?: ActorId;
+  readonly projectId?: ProjectId;
+  readonly createdAt?: ISODateString;
 }
 
 export type DeepReadonly<T> = T extends (...args: never[]) => unknown

@@ -1,14 +1,29 @@
-import type { DocumentId, ProjectId } from "./ids";
+import type { Brand, DocumentId, ProjectId } from "./ids";
+
+export type PageId = Brand<string, "PageId">;
+export const asPageId = (value: string): PageId => value as PageId;
+
+export interface SiteManifestPage {
+  readonly pageId: PageId;
+  readonly slug: string;
+  readonly title: string;
+  readonly documentId: DocumentId;
+}
+
+export interface SiteCmsConfig {
+  readonly databaseId?: string;
+  readonly collectionId?: string;
+  readonly spaceId?: string;
+  readonly endpoint?: string;
+  readonly apiVersion?: string;
+  readonly apiKeyEnvVar?: string;
+  readonly contentPath?: string;
+}
 
 export interface SiteManifest {
   readonly siteId: ProjectId;
   readonly name: string;
-  readonly pages: ReadonlyArray<{
-    readonly pageId: string;
-    readonly slug: string;
-    readonly title: string;
-    readonly documentId: DocumentId;
-  }>;
+  readonly pages: readonly SiteManifestPage[];
   readonly publishTarget: "astro" | "next" | "static";
   readonly repoIntegration?: {
     readonly provider: "github" | "gitlab";
@@ -18,6 +33,6 @@ export interface SiteManifest {
   };
   readonly cms?: {
     readonly provider: "notion" | "headless";
-    readonly config: Readonly<object>;
+    readonly config: SiteCmsConfig;
   };
 }

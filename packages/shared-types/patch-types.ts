@@ -3,10 +3,12 @@ import type { EffectSpec } from "./design-document";
 import type { ActorId, AssetId, DocumentId, NodeId, PatchId } from "./ids";
 
 export interface PatchBase {
-  readonly id: PatchId;
-  readonly documentId: DocumentId;
+  readonly patchId: PatchId;
+  readonly docId: DocumentId;
   readonly actorId: ActorId;
-  readonly createdAt: ISODateString;
+  readonly clientSeq: number;
+  readonly timestamp: ISODateString;
+  readonly baseVersion?: number;
 }
 
 export interface NodeAdd extends PatchBase {
@@ -37,14 +39,83 @@ export interface NodeUpdateTransform extends PatchBase {
   readonly transform: Transform;
 }
 
-export interface NodeUpdateStyle extends PatchBase {
+export type DesignNodeStylePatch =
+  | {
+      readonly type: "text";
+      readonly fill?: HEXColor | RGBAColor;
+      readonly opacity?: number;
+    }
+  | {
+      readonly type: "image";
+      readonly cornerRadius?: number;
+      readonly opacity?: number;
+    }
+  | {
+      readonly type: "shape";
+      readonly fill?: HEXColor | RGBAColor;
+      readonly stroke?: HEXColor | RGBAColor;
+      readonly strokeWidth?: number;
+    }
+  | {
+      readonly type: "group";
+      readonly opacity?: number;
+    };
+
+export type PageNodeStylePatch =
+  | {
+      readonly type: "section";
+      readonly background?: HEXColor | RGBAColor;
+      readonly padding?: number;
+    }
+  | {
+      readonly type: "container";
+      readonly background?: HEXColor | RGBAColor;
+      readonly gap?: number;
+      readonly padding?: number;
+    }
+  | {
+      readonly type: "text";
+      readonly color?: HEXColor | RGBAColor;
+      readonly fontSize?: number;
+      readonly fontWeight?: number;
+    }
+  | {
+      readonly type: "image";
+      readonly cornerRadius?: number;
+      readonly objectFit?: "cover" | "contain" | "fill";
+    }
+  | {
+      readonly type: "button";
+      readonly variant?: "primary" | "secondary" | "ghost";
+      readonly radius?: number;
+      readonly background?: HEXColor | RGBAColor;
+    }
+  | {
+      readonly type: "divider";
+      readonly color?: HEXColor | RGBAColor;
+      readonly thickness?: number;
+    }
+  | {
+      readonly type: "component-instance";
+      readonly gap?: number;
+      readonly padding?: number;
+    };
+
+export interface NodeUpdateStyleDesign extends PatchBase {
   readonly type: "node.updateStyle";
   readonly nodeId: NodeId;
-  readonly style:
-    | { readonly fill?: HEXColor | RGBAColor; readonly opacity?: number }
-    | { readonly color?: HEXColor | RGBAColor; readonly fontSize?: number; readonly fontWeight?: number }
-    | { readonly background?: HEXColor | RGBAColor; readonly padding?: number; readonly gap?: number };
+  readonly kind: "design";
+  readonly style: DesignNodeStylePatch;
 }
+
+export interface NodeUpdateStylePage extends PatchBase {
+  readonly type: "node.updateStyle";
+  readonly nodeId: NodeId;
+  readonly kind: "page";
+  readonly style: PageNodeStylePatch;
+}
+
+export type NodeUpdateStyle = NodeUpdateStyleDesign | NodeUpdateStylePage;
 
 export interface NodeUpdateText extends PatchBase {
   readonly type: "node.updateText";
