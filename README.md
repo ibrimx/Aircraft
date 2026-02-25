@@ -366,5 +366,11 @@ No parallel chaos.
 No feature creep.
 
 ---
+## Architecture
+
+Brimair follows strict layered architecture.
+All contributors must read:
+- ARCHITECTURE_RULES.md
+- docs/CODEX_TASK_TEMPLATE.md
 
 END — Brimair v3.0 Locked
