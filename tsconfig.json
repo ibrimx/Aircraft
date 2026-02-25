@@ -1,1 +1,6 @@
-{ "files": [] }
+{
+  "files": [],
+  "references": [
+    { "path": "./packages/shared-types" }
+  ]
+}
