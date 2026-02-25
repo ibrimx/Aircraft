@@ -18,12 +18,6 @@ export interface SiteManifest {
   };
   readonly cms?: {
     readonly provider: "notion" | "headless";
-    readonly config: Readonly<{
-      readonly dataset?: string;
-      readonly endpoint?: string;
-      readonly projectId?: string;
-      readonly spaceId?: string;
-      readonly token?: string;
-    }>;
+    readonly config: Readonly<object>;
   };
 }
