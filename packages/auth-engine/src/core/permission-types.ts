@@ -37,7 +37,7 @@ const ALL_SYSTEM_PERMISSIONS: readonly SystemPermission[] = [
   'view_audit_log',
 ] as const
 
-/** Result returned by permission checks after evaluating user access context. */
+/** Result returned by a single permission check operation. */
 export type PermissionCheckResult = {
   allowed: boolean
   reason: string | null
@@ -47,7 +47,7 @@ export type PermissionCheckResult = {
   resourceId: string | null
 }
 
-/** Input payload used by permission resolvers and guards to evaluate access. */
+/** Input payload used by resolvers/guards to evaluate one permission check. */
 export type PermissionCheckRequest = {
   userId: UserId
   action: ActionPermission
@@ -56,17 +56,17 @@ export type PermissionCheckRequest = {
   workspaceId: WorkspaceId
 }
 
-/** Flat cache-friendly permission entry for a single resource/action tuple. */
+/** Flat cache-friendly permission entry for one resource/action tuple. */
 export type FlatPermission = {
   resource: ResourceType
   resourceId: string | null
   action: ActionPermission
 }
 
-/** Flat permission list used for fast in-memory access checks. */
+/** Array form used when caching resolved permissions for fast lookup. */
 export type FlatPermissionList = FlatPermission[]
 
-/** Strategy used when combining permissions from role, user, and invite sources. */
+/** Strategy used to merge permissions from multiple policy sources. */
 export type PermissionMergeStrategy = 'union' | 'intersection' | 'role_override'
 
 const buildResourcePermissions = (
@@ -78,25 +78,25 @@ const buildResourcePermissions = (
     actions: [...actions],
   }))
 
-/** Default admin permissions: full access to all resources and system actions. */
+/** Default admin permissions: all resource actions and all system actions. */
 export const DEFAULT_ADMIN_PERMISSIONS: PermissionSet = {
   resources: buildResourcePermissions(ALL_ACTIONS),
   system: [...ALL_SYSTEM_PERMISSIONS],
 } as const
 
-/** Default editor permissions: read/update access across resources without user/invite management. */
+/** Default editor permissions: read/update only, with no system management actions. */
 export const DEFAULT_EDITOR_PERMISSIONS: PermissionSet = {
   resources: buildResourcePermissions(['read', 'update']),
   system: [],
 } as const
 
-/** Default viewer permissions: read-only access across resources. */
+/** Default viewer permissions: read-only on resources with no system actions. */
 export const DEFAULT_VIEWER_PERMISSIONS: PermissionSet = {
   resources: buildResourcePermissions(['read']),
   system: [],
 } as const
 
-/** Route-level permission contract used by UI/API guards. */
+/** Route-level permission contract consumed by UI/API route guards. */
 export type ProtectedRoute = {
   path: string
   requiredAction: ActionPermission | SystemPermission
@@ -104,7 +104,7 @@ export type ProtectedRoute = {
   resourceIdParam: string | null
 }
 
-/** Static route protection table used by route guards and middleware. */
+/** Static RBAC mapping for protected application routes. */
 export const PROTECTED_ROUTES: readonly ProtectedRoute[] = [
   {
     path: '/studio/:fileId',
