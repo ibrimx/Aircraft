@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@brimair/shared-types": ["./packages/shared-types/src"],
+      "@brimair/studio-engine": ["./packages/studio-engine/src"],
+      "@brimair/builder-engine": ["./packages/builder-engine/src"],
+      "@brimair/cms-engine": ["./packages/cms-engine/src"],
+      "@brimair/auth-engine": ["./packages/auth-engine/src"],
+      "@brimair/fabric-adapter": ["./packages/fabric-adapter/src"],
+      "@brimair/mobile-runtime": ["./packages/mobile-runtime/src"],
+      "@brimair/brand-kit": ["./packages/brand-kit/src"],
+      "@brimair/state-bridge": ["./packages/state-bridge/src"],
+      "@brimair/local-draft": ["./packages/local-draft/src"],
+      "@brimair/sync-engine": ["./packages/sync-engine/src"],
+      "@brimair/error-boundary": ["./packages/error-boundary/src"],
+      "@brimair/storage-adapter": ["./packages/storage-adapter/src"],
+      "@brimair/publish-adapters": ["./packages/publish-adapters/src"],
+      "@brimair/a11y": ["./packages/a11y/src"]
+    }
+  }
+}
