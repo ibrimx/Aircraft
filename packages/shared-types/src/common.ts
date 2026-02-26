@@ -49,37 +49,6 @@ declare const timestampBrand: unique symbol
 /** @internal Unique symbol used to brand validated hex colors. */
 declare const hexColorBrand: unique symbol
 
-/** @internal Allowed hexadecimal character (upper/lower case). */
-type HexDigit =
-  | '0'
-  | '1'
-  | '2'
-  | '3'
-  | '4'
-  | '5'
-  | '6'
-  | '7'
-  | '8'
-  | '9'
-  | 'a'
-  | 'b'
-  | 'c'
-  | 'd'
-  | 'e'
-  | 'f'
-  | 'A'
-  | 'B'
-  | 'C'
-  | 'D'
-  | 'E'
-  | 'F'
-
-/** @internal `#RRGGBB` hex format. */
-type HexColor6 = `#${HexDigit}${HexDigit}${HexDigit}${HexDigit}${HexDigit}${HexDigit}`
-/** @internal `#RRGGBBAA` hex format. */
-type HexColor8 =
-  `#${HexDigit}${HexDigit}${HexDigit}${HexDigit}${HexDigit}${HexDigit}${HexDigit}${HexDigit}`
-
 /** ISO 8601 date-time string (for example: `2026-01-01T10:00:00.000Z`). */
 export type ISODateString = string & { readonly [isoDateBrand]: 'ISODateString' }
 
@@ -87,7 +56,7 @@ export type ISODateString = string & { readonly [isoDateBrand]: 'ISODateString' 
 export type Timestamp = number & { readonly [timestampBrand]: 'Timestamp' }
 
 /** Hex color string in `#RRGGBB` or `#RRGGBBAA` format. */
-export type HexColor = (HexColor6 | HexColor8) & {
+export type HexColor = string & {
   readonly [hexColorBrand]: 'HexColor'
 }
 
