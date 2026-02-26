@@ -5,7 +5,10 @@
     "moduleResolution": "Bundler",
     "strict": true,
     "noEmit": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": ["next-env.d.ts", "src/**/*", ".next/types/**/*.ts"]
 }
