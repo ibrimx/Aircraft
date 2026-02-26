@@ -41,7 +41,7 @@ export type GradientStop = {
   offset: number
   opacity: number
 }
-=======
+
 /** @internal Unique symbol used to brand ISO date strings. */
 declare const isoDateBrand: unique symbol
 /** @internal Unique symbol used to brand Unix millisecond timestamps. */
