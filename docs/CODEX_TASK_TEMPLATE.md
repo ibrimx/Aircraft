@@ -1,22 +1,45 @@
-# Brimair Task Template
+Brimair — Codex Task Template
+هذا القالب يُتبع في كل task يُعطى لـ Codex.
+لا يوجد task بدون هذا القالب.
 
-Context:
-You are working on Brimair v3.0.
+Task Structure:
+كل task لازم يحتوي:
+1) CONTEXT — ما الملفات التي يقرأها Codex قبل البدء
+2) TASK — ما المطلوب كتابته (ملف واحد أو ملفين)
+3) RULES — القواعد المحددة لهذا الـ task
+4) SELF-CHECK — قائمة مراجعة قبل التسليم
 
-TASK:
-[Describe the task clearly]
+Template:
+## Context
+اقرأ الملفات التالية قبل البدء:
+- [ملف قواعد 1]
+- [ملف قواعد 2]
+- [ملف مرجعي إن وجد]
 
-Location:
-[Full file path]
+## Task
+اكتب الملف: [اسم الملف ومساره]
+الغرض: [جملة واحدة]
 
-Allowed Dependencies:
-[List allowed packages]
+## Requirements
+- [متطلب 1]
+- [متطلب 2]
+- [متطلب 3]
 
-Forbidden:
-- Do not modify other packages
-- Do not introduce new dependencies
-- Do not use any
+## Rules
+- [قاعدة محددة 1]
+- [قاعدة محددة 2]
 
-After implementation:
-- Run pnpm -w exec tsc -b --noEmit
-- Fix all errors
+## Self-Check
+قبل التسليم تأكد:
+- [ ] [نقطة 1]
+- [ ] [نقطة 2]
+- [ ] [نقطة 3]
+- [ ] [نقطة 4]
+- [ ] [نقطة 5]
+
+Rules for Task Creation:
+1) ملف واحد per task — الأفضل دائماً
+2) ملفين max — فقط إذا مترابطين
+3) 3-4 ملفات قواعد max
+4) Self-check 5-7 نقاط max
+5) لا تطلب features غير مذكورة في الوثيقة v4.5
