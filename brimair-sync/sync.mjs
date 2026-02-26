@@ -1,5 +1,9 @@
 const { GITHUB_TOKEN, GITHUB_OWNER, GITHUB_REPO, NOTION_API_KEY, NOTION_DB_ID } = process.env;
 
+const BRANCH_MAP = {
+  // "feature/some-branch": 1
+};
+
 const PROMPT_FILES = {
   1: "ids.ts",
   2: "common.ts",
@@ -215,7 +219,7 @@ export async function sync() {
 
     for (const pr of pullRequests) {
       const branch = pr.head.ref;
-      const promptNum = extractPromptNumber(branch);
+      const promptNum = BRANCH_MAP[branch] ?? extractPromptNumber(branch);
 
       if (!promptNum) {
         console.log(`⏭️ Skipping PR #${pr.number} (${branch}) — no prompt number detected.`);
