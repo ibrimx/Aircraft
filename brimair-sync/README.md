@@ -5,15 +5,19 @@ Syncs GitHub Pull Requests from `ibrimx/Brimair` (targeting `main`) into a Notio
 ## Setup
 
 1. **Create tokens and IDs**
-   - GitHub classic token with `repo` scope
+   - GitHub token with `repo` scope
    - Notion integration token
    - Notion database ID for your PR Tracker
-2. **Create and fill `.env`**
-   - Copy `.env.example` to `.env`
-   - Fill the five variables with real values
-3. **Install and run sync**
-   - `npm install`
-   - `npm run sync`
+2. **Set environment variables**
+   - `GITHUB_TOKEN`
+   - `GITHUB_OWNER`
+   - `GITHUB_REPO`
+   - `NOTION_API_KEY`
+   - `NOTION_DB_ID`
+3. **Run sync**
+   - `node sync.mjs`
+
+This script has zero runtime dependencies and only uses built-in Node.js `fetch()`.
 
 ## Branch naming convention
 
@@ -24,15 +28,15 @@ Use branches in this format so prompt numbers can be detected:
 
 ## Available commands
 
-- `npm run sync` — run a one-time sync
-- `npm run sync:watch` — run via tsx watch mode during development
+- `npm run sync` — run a one-time sync (`node sync.mjs`)
+- `npm run sync:watch` — run with Node watch mode during development
 
 ## Cron setup
 
 Run every 10 minutes from this folder:
 
 ```bash
-*/10 * * * * cd /path/to/Brimair/brimair-sync && /usr/bin/env bash -lc 'npm run sync >> sync.log 2>&1'
+*/10 * * * * cd /path/to/Brimair/brimair-sync && /usr/bin/env bash -lc 'node sync.mjs >> sync.log 2>&1'
 ```
 
 1. Run `crontab -e`
@@ -47,7 +51,7 @@ From the repository root (`/workspace/Brimair`):
 cat > .git/hooks/post-push <<'HOOK'
 #!/bin/bash
 cd "$(git rev-parse --show-toplevel)/brimair-sync" || exit 0
-npm run sync
+node sync.mjs
 HOOK
 chmod +x .git/hooks/post-push
 ```
