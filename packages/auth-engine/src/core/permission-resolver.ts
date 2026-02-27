@@ -68,8 +68,20 @@ export class PermissionResolverImpl implements PermissionResolver {
 
   /**
    * Returns true only when a matching explicit resource permission rule exists.
+   * Admin short-circuit: users holding all four core system permissions bypass
+   * resource-level checks entirely.
    */
   public can(user: AuthUser, action: ActionPermission, resource: ResourceType, resourceId?: string): boolean {
+    // Admin short-circuit: users holding all core system permissions bypass resource checks
+    if (
+      user.permissions.system.includes('manage_users' as SystemPermission) &&
+      user.permissions.system.includes('manage_invites' as SystemPermission) &&
+      user.permissions.system.includes('manage_workspace' as SystemPermission) &&
+      user.permissions.system.includes('view_audit_log' as SystemPermission)
+    ) {
+      return true
+    }
+
     const requestedResourceId = resourceId ?? null
 
     for (const rule of user.permissions.resources) {

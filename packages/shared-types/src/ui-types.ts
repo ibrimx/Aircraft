@@ -28,6 +28,9 @@ export type PanelPosition = 'sidebar' | 'inspector' | 'float'
 /** Bottom-sheet snap points for mobile-first interactions. */
 export type SheetSnap = 'closed' | 'peek' | 'half' | 'full'
 
+/** Alias for SheetSnap used in snap-point configuration contexts. */
+export type SheetSnapPoint = SheetSnap
+
 /** Sheet configuration and available snap behavior. */
 export type SheetConfig = {
   defaultSnap: SheetSnap
@@ -35,6 +38,17 @@ export type SheetConfig = {
   peekHeight: number
   halfHeight: number
   fullHeight: number
+}
+
+/** Mapping of snap points to their normalized viewport height percentages. */
+export type SheetSnapConfig = Record<SheetSnap, number>
+
+/** Default snap-point percentages for mobile bottom sheet positioning. */
+export const SHEET_SNAP_CONFIG: SheetSnapConfig = {
+  closed: 0,
+  peek: 0.15,
+  half: 0.5,
+  full: 0.92,
 }
 
 /** Available tool identifiers in the editor toolbar. */

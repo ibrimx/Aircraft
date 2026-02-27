@@ -1,4 +1,4 @@
-import type { DocumentId, ElementId, ProjectId, UserId } from './ids'
+import type { ComponentId, DocumentId, ElementId, ProjectId, RevisionNumber, UserId } from './ids'
 import type {
   AssetRef,
   GradientStop,
@@ -8,7 +8,7 @@ import type {
 } from './common'
 
 /** Supported design element kinds used by Studio canvas layers. */
-export type ElementType = 'frame' | 'text' | 'shape' | 'image' | 'group'
+export type ElementType = 'frame' | 'text' | 'shape' | 'image' | 'group' | 'component_instance'
 
 /** Supported layer blend modes for compositing elements. */
 export type BlendMode =
@@ -136,6 +136,16 @@ export type GroupElement = BaseElement & {
   children: ElementId[]
 }
 
+/** Component instance element that references a master component and applies overrides. */
+export type ComponentInstanceElement = BaseElement & {
+  type: 'component_instance'
+  /** ID of the master component this instance derives from. */
+  componentId: ComponentId
+  /** Property overrides applied on top of the master component defaults. */
+  overrides: Record<string, unknown>
+  children: ElementId[]
+}
+
 /** Discriminated union for all supported design element variants. */
 export type DesignElement =
   | FrameElement
@@ -143,6 +153,7 @@ export type DesignElement =
   | ShapeElement
   | ImageElement
   | GroupElement
+  | ComponentInstanceElement
 
 /** Canvas guide used for alignment in either horizontal or vertical axis. */
 export type Guide = {
@@ -160,11 +171,17 @@ export type GridConfig = {
   snapToGrid: boolean
 }
 
-/** Primary Studio document model; the single source of truth for canvas state. */
+/**
+ * Primary Studio document model; the single source of truth for canvas state.
+ * Uses Record<ElementId, DesignElement> for element storage — chosen over Map
+ * for better JSON serialization compatibility and simpler persistence layer.
+ */
 export type DesignDocument = {
   id: DocumentId
   projectId: ProjectId
   schemaVersion: number
+  /** Monotonic revision counter for optimistic concurrency control. */
+  revision: RevisionNumber
   name: string
   width: number
   height: number
@@ -195,6 +212,7 @@ export function createEmptyDocument(
     id,
     projectId,
     schemaVersion: 1,
+    revision: 0 as RevisionNumber,
     name,
     width,
     height,

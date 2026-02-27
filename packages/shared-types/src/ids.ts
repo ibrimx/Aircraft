@@ -1,3 +1,13 @@
+/**
+ * Branded ID system for Brimair.
+ *
+ * Design decision: We use `unique symbol` + `BrandedId<Tag>` pattern instead
+ * of simple string aliases. This provides compile-time safety — you cannot
+ * accidentally assign a UserId to a ProjectId even though both are strings
+ * at runtime. The `unique symbol` approach is the strongest branding
+ * technique available in TypeScript.
+ */
+
 /** @internal Shared unique symbol used to brand all ID types. */
 declare const idBrand: unique symbol
 
@@ -37,6 +47,8 @@ export type InviteId = BrandedId<'invite'>
 export type RoleId = BrandedId<'role'>
 /** Unique identifier for a session. */
 export type SessionId = BrandedId<'session'>
+/** Unique identifier for a workspace member. */
+export type MemberId = BrandedId<'member'>
 
 /** Unique identifier for a CMS source. */
 export type SourceId = BrandedId<'source'>
@@ -51,6 +63,12 @@ export type FieldId = BrandedId<'field'>
 export type AssetId = BrandedId<'asset'>
 /** Unique identifier for a publish target. */
 export type PublishTargetId = BrandedId<'publish-target'>
+
+/**
+ * Monotonic revision counter used for optimistic concurrency control.
+ * Branded to prevent accidental use of raw numbers as revision counters.
+ */
+export type RevisionNumber = number & Brand<'revision-number'>
 
 /**
  * Coerces a raw string into a branded ID.

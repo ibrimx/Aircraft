@@ -10,9 +10,9 @@ import type {
 import type { AssetRef, HexColor, ISODateString } from './common'
 
 /** Supported responsive breakpoints for Builder page rendering. */
-export type Breakpoint = 'mobile' | 'tablet' | 'desktop'
+export type Breakpoint = 'mobile' | 'tablet' | 'desktop' | 'wide'
 
-/** Per-breakpoint value map that always includes mobile, tablet, and desktop keys. */
+/** Per-breakpoint value map that includes mobile, tablet, desktop, and wide keys. */
 export type BreakpointValues<T> = Record<Breakpoint, T>
 
 /** Flex container main-axis direction variants. */

@@ -81,6 +81,7 @@ export class InviteServiceImpl implements InviteService {
     const acceptedBy = randomUUID() as UserId
     await this.repository.update({ ...invite, status: 'accepted', acceptedBy, acceptedAt: new Date().toISOString() })
     const user: AuthUser = { id: acceptedBy, email: invite.email ?? `${acceptedBy}@invite.local`, name: req.name, avatarUrl: null, workspaceId: invite.workspaceId, roleId: invite.roleId, permissions: invite.permissions, locale: 'en', createdAt: new Date().toISOString() }
+    // TODO(P11): Replace inline session creation with SessionManager once session-manager.ts is implemented
     const session: Session = { id: randomUUID() as SessionId, userId: user.id, workspaceId: user.workspaceId, token: this.hashToken(`${acceptedBy}-${Date.now()}`), refreshToken: this.hashToken(`${acceptedBy}-${Date.now()}-refresh`), expiresAt: new Date(Date.now() + 86_400_000).toISOString(), createdAt: new Date().toISOString() }
     return { user, session }
   }

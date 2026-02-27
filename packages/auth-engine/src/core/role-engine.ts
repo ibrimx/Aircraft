@@ -5,6 +5,7 @@ import type {
   RoleName,
   WorkspaceId,
 } from '@brimair/shared-types'
+import { createId } from '@brimair/shared-types'
 import {
   DEFAULT_ADMIN_PERMISSIONS,
   DEFAULT_EDITOR_PERMISSIONS,
@@ -117,7 +118,7 @@ export class RoleEngineImpl implements RoleEngine {
     }
 
     const role: Role = {
-      id: this.createRoleId(),
+      id: createId<RoleId>(),
       workspaceId: input.workspaceId,
       name,
       isSystem: false,
@@ -203,7 +204,7 @@ export class RoleEngineImpl implements RoleEngine {
         continue
       }
       const created: Role = {
-        id: this.createRoleId(),
+        id: createId<RoleId>(),
         workspaceId,
         name: roleName,
         isSystem: true,
@@ -223,10 +224,5 @@ export class RoleEngineImpl implements RoleEngine {
     if (missing.length > 0) {
       throw new RoleEngineError({ code: 'ADMIN_PERMISSIONS_REQUIRED', missingPermissions: [...missing] })
     }
-  }
-
-  /** Generates a local role id without DB coupling. */
-  private createRoleId(): RoleId {
-    return `role_${Date.now()}_${Math.random().toString(36).slice(2, 10)}` as RoleId
   }
 }
