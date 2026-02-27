@@ -12,18 +12,17 @@ import type {
   WorkspaceId,
   RoleId,
   InviteId,
-  ActionPermission,
-  ResourceType,
   Role,
   PermissionSet,
+  SystemPermission,
 } from '@brimair/shared-types';
 import type { BrimairError } from '@brimair/shared-types';
 import { createError, ERROR_CODES } from '@brimair/shared-types';
 import type { InviteService, TokenService } from '@brimair/auth-engine';
 import type { PermissionResolver } from '@brimair/auth-engine';
-import { authenticate, authorize } from '@brimair/auth-engine';
+import { authenticate, authorizeSystem } from '@brimair/auth-engine';
 
-// ─── Types ────────────────────────────────────────────────────────
+// ─── Types ────────────────────────────────────────────────────
 
 type Result<T, E> =
   | { success: true; data: T }
@@ -41,10 +40,10 @@ interface InviteRouteContext {
   readonly inviteService: InviteService;
 }
 
-// ─── POST /api/auth/invite ────────────────────────────────────────
+// ─── POST /api/auth/invite ────────────────────────────────────
 
 /**
- * Create a new workspace invite. Requires manage_invites permission.
+ * Create a new workspace invite. Requires manage_invites system permission.
  */
 export async function handleCreateInvite(
   token: string,
@@ -68,13 +67,11 @@ export async function handleCreateInvite(
 
   const { userId, workspaceId } = authResult.data;
 
-  // 2 — Authorize: must have manage_invites
-  const perm = authorize(
+  // 2 — Authorize: must have manage_invites system permission
+  const perm = authorizeSystem(
     userId,
     workspaceId,
-    'cms_source' as ResourceType,
-    'invite' as ActionPermission,
-    null,
+    'manage_invites' as SystemPermission,
     ctx.resolver,
   );
   if (!perm.success) {
@@ -130,17 +127,17 @@ export async function handleCreateInvite(
   }
 }
 
-// ─── GET /api/auth/invite/:inviteId ───────────────────────────────
+// ─── GET /api/auth/invite/:inviteId ───────────────────────────
 
 /**
- * Get the status of an existing invite. Requires authentication.
+ * Get the status of an existing invite. Requires manage_invites permission.
  */
 export async function handleGetInvite(
   token: string,
   inviteId: string,
   ctx: InviteRouteContext,
 ): Promise<Result<{ inviteId: string; status: string }, BrimairError>> {
-  // Authenticate
+  // 1 — Authenticate
   const authResult = await authenticate(token, ctx.tokenService);
   if (!authResult.success) {
     return {
@@ -155,6 +152,29 @@ export async function handleGetInvite(
     };
   }
 
+  const { userId, workspaceId } = authResult.data;
+
+  // 2 — Authorize: must have manage_invites system permission
+  const perm = authorizeSystem(
+    userId,
+    workspaceId,
+    'manage_invites' as SystemPermission,
+    ctx.resolver,
+  );
+  if (!perm.success) {
+    return {
+      success: false,
+      error: createError(
+        ERROR_CODES.PERMISSION_DENIED,
+        'permission',
+        'recoverable',
+        'manage_invites permission required',
+        { userId, workspaceId },
+      ),
+    };
+  }
+
+  // 3 — Look up invite
   const invite = await ctx.inviteService.getInvite(inviteId as unknown as InviteId);
   if (!invite) {
     return {
@@ -172,17 +192,17 @@ export async function handleGetInvite(
   return { success: true, data: { inviteId, status: invite.status } };
 }
 
-// ─── DELETE /api/auth/invite/:inviteId ────────────────────────────
+// ─── DELETE /api/auth/invite/:inviteId ────────────────────────
 
 /**
- * Revoke an existing invite. Requires authentication.
+ * Revoke an existing invite. Requires manage_invites permission.
  */
 export async function handleRevokeInvite(
   token: string,
   inviteId: string,
   ctx: InviteRouteContext,
 ): Promise<Result<void, BrimairError>> {
-  // Authenticate
+  // 1 — Authenticate
   const authResult = await authenticate(token, ctx.tokenService);
   if (!authResult.success) {
     return {
@@ -197,8 +217,29 @@ export async function handleRevokeInvite(
     };
   }
 
-  const { userId } = authResult.data;
+  const { userId, workspaceId } = authResult.data;
 
+  // 2 — Authorize: must have manage_invites system permission
+  const perm = authorizeSystem(
+    userId,
+    workspaceId,
+    'manage_invites' as SystemPermission,
+    ctx.resolver,
+  );
+  if (!perm.success) {
+    return {
+      success: false,
+      error: createError(
+        ERROR_CODES.PERMISSION_DENIED,
+        'permission',
+        'recoverable',
+        'manage_invites permission required',
+        { userId, workspaceId },
+      ),
+    };
+  }
+
+  // 3 — Revoke
   try {
     await ctx.inviteService.revokeInvite(
       inviteId as unknown as InviteId,

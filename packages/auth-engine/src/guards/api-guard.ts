@@ -9,7 +9,7 @@
  *              permission-types.ts (PermissionCheckRequest, PermissionCheckResult)
  */
 
-import type { UserId, WorkspaceId, ActionPermission, ResourceType } from '@brimair/shared-types'
+import type { UserId, WorkspaceId, ActionPermission, ResourceType, SystemPermission } from '@brimair/shared-types'
 import type { TokenService } from '../session/session-types'
 import type { PermissionResolver } from '../core/permission-resolver'
 import type { PermissionCheckResult } from '../core/permission-types'
@@ -19,7 +19,11 @@ import type { PermissionCheckResult } from '../core/permission-types'
 /** Successful authentication result containing user identity. */
 export type AuthSuccess = {
   readonly success: true
-  readonly data: { readonly userId: string; readonly workspaceId: string }
+  readonly data: {
+    readonly userId: string
+    readonly workspaceId: string
+    readonly sessionId: string
+  }
 }
 
 /** Failed authentication result with error message. */
@@ -50,7 +54,7 @@ export type AuthzResult = AuthzSuccess | AuthzFailure
 
 /**
  * Verifies a bearer token and extracts user identity.
- * Returns userId and workspaceId on success, or an error string on failure.
+ * Returns userId, workspaceId, and sessionId on success, or an error string on failure.
  */
 export async function authenticate(
   token: string,
@@ -71,6 +75,7 @@ export async function authenticate(
     data: {
       userId: result.data.sub,
       workspaceId: result.data.wid,
+      sessionId: result.data.sid,
     },
   }
 }
@@ -96,6 +101,32 @@ export function authorize(
     action,
     resourceId,
   })
+
+  if (!result.allowed) {
+    return { success: false, error: result.reason ?? 'Permission denied' }
+  }
+
+  return { success: true, data: result }
+}
+
+// ─── authorizeSystem ──────────────────────────────────────────
+
+/**
+ * Checks whether a user has the required system-level permission.
+ * System permissions (manage_users, manage_invites, etc.) are separate
+ * from resource-level permissions and use PermissionResolver.checkSystem().
+ */
+export function authorizeSystem(
+  userId: string,
+  workspaceId: string,
+  permission: SystemPermission,
+  resolver: PermissionResolver,
+): AuthzResult {
+  const result = resolver.checkSystem(
+    userId as UserId,
+    workspaceId as WorkspaceId,
+    permission,
+  )
 
   if (!result.allowed) {
     return { success: false, error: result.reason ?? 'Permission denied' }

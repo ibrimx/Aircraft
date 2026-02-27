@@ -5,6 +5,7 @@ import type {
   ResourceType,
   SystemPermission,
   UserId,
+  WorkspaceId,
 } from '@brimair/shared-types'
 import type { PermissionCheckRequest, PermissionCheckResult } from './permission-types'
 
@@ -52,6 +53,8 @@ export interface PermissionResolver {
   filter<T extends { id: string }>(user: AuthUser, resource: ResourceType, items: T[]): T[]
   /** Evaluates one request and returns a full structured result with timestamp. */
   check(request: PermissionCheckRequest): PermissionCheckResult
+  /** Evaluates one system-level permission and returns a full structured result. */
+  checkSystem(userId: UserId, workspaceId: WorkspaceId, permission: SystemPermission): PermissionCheckResult
   /** Returns a debug explanation for why a permission is allowed/denied. */
   explain(user: AuthUser, action: ActionPermission, resource: ResourceType, resourceId?: string): PermissionExplanation
 }
@@ -150,6 +153,31 @@ export class PermissionResolverImpl implements PermissionResolver {
       resource: request.resource,
       action: request.action,
       resourceId: request.resourceId,
+    }
+  }
+
+  /**
+   * Evaluates a single system-level permission check.
+   * Uses internal user lookup, same pattern as check().
+   */
+  public checkSystem(userId: UserId, _workspaceId: WorkspaceId, permission: SystemPermission): PermissionCheckResult {
+    const user = this.getUserById(userId)
+    const allowed = user !== null ? this.canSystem(user, permission) : false
+
+    const reason =
+      user === null
+        ? 'DENY_BY_DEFAULT: user not found for permission check'
+        : allowed
+          ? `ALLOWED: system permission '${String(permission)}' granted`
+          : `DENY_BY_DEFAULT: system permission '${String(permission)}' not granted`
+
+    return {
+      allowed,
+      reason,
+      checkedAt: new Date().toISOString(),
+      resource: 'studio_file',
+      action: 'read',
+      resourceId: null,
     }
   }
 
