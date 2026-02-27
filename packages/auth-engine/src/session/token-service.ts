@@ -111,7 +111,7 @@ export class TokenServiceImpl implements TokenService {
         error: createError(
           ERROR_CODES.AUTH_INVALID_TOKEN,
           'auth',
-          'error',
+          'recoverable',
           'Failed to generate tokens',
           { userId, sessionId },
         ).message,
@@ -143,7 +143,7 @@ export class TokenServiceImpl implements TokenService {
           error: createError(
             ERROR_CODES.AUTH_INVALID_TOKEN,
             'auth',
-            'warning',
+            'recoverable',
             'Invalid token signature',
             {},
           ).message,
@@ -161,7 +161,7 @@ export class TokenServiceImpl implements TokenService {
           error: createError(
             ERROR_CODES.AUTH_EXPIRED,
             'auth',
-            'info',
+            'silent',
             'Token has expired',
             { sid: payload.sid },
           ).message,

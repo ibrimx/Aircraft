@@ -4,11 +4,11 @@
  * Dependencies: ids.ts, common.ts, auth-types.ts, errors.ts, session-types.ts, token-service.ts
  */
 
-import { createId } from '../types/ids';
-import type { SessionId } from '../types/ids';
-import type { ISODateString, Result } from '../types/common';
-import type { Session } from '../types/auth-types';
-import { createError, ERROR_CODES } from '../types/errors';
+import { createId } from '@brimair/shared-types';
+import type { SessionId } from '@brimair/shared-types';
+import type { ISODateString, Result } from '@brimair/shared-types';
+import type { Session } from '@brimair/shared-types';
+import { createError, ERROR_CODES } from '@brimair/shared-types';
 import type {
   SessionManager,
   SessionRepository,
@@ -93,7 +93,7 @@ export class SessionManagerImpl implements SessionManager {
         error: createError(
           ERROR_CODES.AUTH_INVALID_TOKEN,
           'auth',
-          'warning',
+          'recoverable',
           'Session not found',
           { sessionId: input.sessionId },
         ).message,
@@ -107,7 +107,7 @@ export class SessionManagerImpl implements SessionManager {
         error: createError(
           ERROR_CODES.AUTH_INVALID_TOKEN,
           'auth',
-          'warning',
+          'recoverable',
           'Refresh token mismatch',
           { sessionId: input.sessionId },
         ).message,
@@ -174,7 +174,7 @@ export class SessionManagerImpl implements SessionManager {
         error: createError(
           ERROR_CODES.AUTH_EXPIRED,
           'auth',
-          'info',
+          'silent',
           'Session has been revoked',
           { sid: payload.sid },
         ).message,
