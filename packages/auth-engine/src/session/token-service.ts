@@ -5,10 +5,10 @@
  */
 
 import { createHmac, randomUUID } from 'node:crypto';
-import { createId } from '../types/ids';
-import type { SessionId } from '../types/ids';
-import type { ISODateString, Result } from '../types/common';
-import { createError, ERROR_CODES } from '../types/errors';
+import { createId } from '@brimair/shared-types';
+import type { SessionId } from '@brimair/shared-types';
+import type { ISODateString, Result } from '@brimair/shared-types';
+import { createError, ERROR_CODES } from '@brimair/shared-types';
 import type {
   TokenService,
   TokenPair,

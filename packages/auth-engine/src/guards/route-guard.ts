@@ -4,8 +4,7 @@
  * Dependencies: permission-types.ts, permission-resolver.ts
  */
 
-import type { UserId, WorkspaceId } from '@brimair/shared-types';
-import type { ISODateString } from '../types/common';
+import type { UserId, WorkspaceId, ISODateString } from '@brimair/shared-types';
 import type {
   PermissionCheckResult,
   ProtectedRoute,
