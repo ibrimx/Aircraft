@@ -56,7 +56,13 @@ export async function handleCreateInvite(
   if (!authResult.success) {
     return {
       success: false,
-      error: createError(ERROR_CODES.AUTH_UNAUTHORIZED, authResult.error),
+      error: createError(
+        ERROR_CODES.AUTH_INVALID_TOKEN,
+        'auth',
+        'recoverable',
+        authResult.error ?? 'Authentication failed',
+        {},
+      ),
     };
   }
 
@@ -74,7 +80,13 @@ export async function handleCreateInvite(
   if (!perm.success) {
     return {
       success: false,
-      error: createError(ERROR_CODES.AUTH_FORBIDDEN, 'manage_invites permission required'),
+      error: createError(
+        ERROR_CODES.PERMISSION_DENIED,
+        'permission',
+        'recoverable',
+        'manage_invites permission required',
+        { userId, workspaceId },
+      ),
     };
   }
 
@@ -82,7 +94,13 @@ export async function handleCreateInvite(
   if (!body.role) {
     return {
       success: false,
-      error: createError(ERROR_CODES.AUTH_INVITE_INVALID, 'role is required'),
+      error: createError(
+        ERROR_CODES.AUTH_INVALID_TOKEN,
+        'auth',
+        'recoverable',
+        'role is required',
+        {},
+      ),
     };
   }
 
@@ -101,7 +119,13 @@ export async function handleCreateInvite(
   } catch (err) {
     return {
       success: false,
-      error: createError(ERROR_CODES.AUTH_INVITE_INVALID, err instanceof Error ? err.message : 'Invite creation failed'),
+      error: createError(
+        ERROR_CODES.AUTH_INVALID_TOKEN,
+        'auth',
+        'recoverable',
+        err instanceof Error ? err.message : 'Invite creation failed',
+        {},
+      ),
     };
   }
 }
@@ -121,7 +145,13 @@ export async function handleGetInvite(
   if (!authResult.success) {
     return {
       success: false,
-      error: createError(ERROR_CODES.AUTH_UNAUTHORIZED, authResult.error),
+      error: createError(
+        ERROR_CODES.AUTH_INVALID_TOKEN,
+        'auth',
+        'recoverable',
+        authResult.error ?? 'Authentication failed',
+        {},
+      ),
     };
   }
 
@@ -129,7 +159,13 @@ export async function handleGetInvite(
   if (!invite) {
     return {
       success: false,
-      error: createError(ERROR_CODES.AUTH_INVITE_INVALID, 'Invite not found'),
+      error: createError(
+        ERROR_CODES.AUTH_INVALID_TOKEN,
+        'auth',
+        'recoverable',
+        'Invite not found',
+        { inviteId },
+      ),
     };
   }
 
@@ -151,7 +187,13 @@ export async function handleRevokeInvite(
   if (!authResult.success) {
     return {
       success: false,
-      error: createError(ERROR_CODES.AUTH_UNAUTHORIZED, authResult.error),
+      error: createError(
+        ERROR_CODES.AUTH_INVALID_TOKEN,
+        'auth',
+        'recoverable',
+        authResult.error ?? 'Authentication failed',
+        {},
+      ),
     };
   }
 
@@ -166,7 +208,13 @@ export async function handleRevokeInvite(
   } catch (err) {
     return {
       success: false,
-      error: createError(ERROR_CODES.AUTH_INVITE_INVALID, err instanceof Error ? err.message : 'Revoke failed'),
+      error: createError(
+        ERROR_CODES.AUTH_INVALID_TOKEN,
+        'auth',
+        'recoverable',
+        err instanceof Error ? err.message : 'Revoke failed',
+        { inviteId },
+      ),
     };
   }
 }

@@ -8,7 +8,8 @@
 import type {
   UserId,
   ISODateString,
-  WorkspaceMember,
+  AuthUser,
+  PermissionSet,
 } from '@brimair/shared-types';
 import type { BrimairError } from '@brimair/shared-types';
 import { createError, ERROR_CODES } from '@brimair/shared-types';
@@ -32,6 +33,15 @@ interface AcceptInviteBody {
   readonly email: string;
   readonly password: string;
   readonly name: string;
+}
+
+/** Workspace member info returned after accepting an invite */
+interface WorkspaceMemberInfo {
+  readonly userId: string;
+  readonly workspaceId: string;
+  readonly roleId: string;
+  readonly permissions: PermissionSet;
+  readonly joinedAt: string;
 }
 
 /** Abstract user persistence — no direct DB calls. */
@@ -102,15 +112,18 @@ export async function handleAcceptInvite(
   body: AcceptInviteBody,
   ip: string,
   ctx: AcceptRouteContext,
-): Promise<Result<{ tokens: TokenPair; member: WorkspaceMember }, BrimairError>> {
+): Promise<Result<{ tokens: TokenPair; member: WorkspaceMemberInfo }, BrimairError>> {
   // 1 — Rate-limit
   const attemptCount = ctx.rateLimitStore.getAttemptCount(ip, RATE_LIMIT_WINDOW_MS);
   if (attemptCount >= RATE_LIMIT_MAX_ATTEMPTS) {
     return {
       success: false,
       error: createError(
-        ERROR_CODES.AUTH_UNAUTHORIZED,
+        ERROR_CODES.AUTH_INVALID_TOKEN,
+        'auth',
+        'recoverable',
         'Too many attempts. Please try again later.',
+        { ip },
       ),
     };
   }
@@ -121,8 +134,11 @@ export async function handleAcceptInvite(
     return {
       success: false,
       error: createError(
-        ERROR_CODES.AUTH_INVITE_INVALID,
+        ERROR_CODES.AUTH_INVALID_TOKEN,
+        'auth',
+        'recoverable',
         'inviteId, email, password, and name are required',
+        {},
       ),
     };
   }
@@ -134,8 +150,11 @@ export async function handleAcceptInvite(
     return {
       success: false,
       error: createError(
-        ERROR_CODES.AUTH_INVITE_INVALID,
+        ERROR_CODES.AUTH_INVALID_TOKEN,
+        'auth',
+        'recoverable',
         'An account with this email already exists',
+        { email: body.email },
       ),
     };
   }
@@ -150,14 +169,14 @@ export async function handleAcceptInvite(
 
     const { user, session } = acceptResult;
 
-    // Build member from user data
-    const member: WorkspaceMember = {
-      userId: user.id,
-      workspaceId: user.workspaceId,
-      roleId: user.roleId,
+    // Build member info from AuthUser data
+    const member: WorkspaceMemberInfo = {
+      userId: user.id as string,
+      workspaceId: user.workspaceId as string,
+      roleId: user.roleId as string,
       permissions: user.permissions,
-      joinedAt: user.createdAt,
-    } as WorkspaceMember;
+      joinedAt: user.createdAt as string,
+    };
 
     // Build token pair from session
     const tokens: TokenPair = {
@@ -174,8 +193,11 @@ export async function handleAcceptInvite(
     return {
       success: false,
       error: createError(
-        ERROR_CODES.AUTH_INVITE_INVALID,
+        ERROR_CODES.AUTH_INVALID_TOKEN,
+        'auth',
+        'recoverable',
         err instanceof Error ? err.message : 'Accept failed',
+        {},
       ),
     };
   }
