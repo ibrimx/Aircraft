@@ -7,20 +7,20 @@
  * Dependencies: invite-service.ts, api-guard.ts
  */
 
-import type { ISODateString } from '@brimair/shared-types';
 import type {
+  UserId,
+  WorkspaceId,
+  ActionPermission,
+  ResourceType,
   Role,
   PermissionSet,
-  InviteToken,
   InviteStatus,
 } from '@brimair/shared-types';
 import type { BrimairError } from '@brimair/shared-types';
 import { createError, ERROR_CODES } from '@brimair/shared-types';
-import type { InviteStore } from '@brimair/auth-engine';
-import { InviteService } from '@brimair/auth-engine';
+import type { InviteService, TokenService } from '@brimair/auth-engine';
+import type { PermissionResolver } from '@brimair/auth-engine';
 import { authenticate, authorize } from '@brimair/auth-engine';
-import type { TokenService } from '@brimair/auth-engine';
-import type { PermissionResolver, MemberStore } from '@brimair/auth-engine';
 
 // ─── Types ────────────────────────────────────────────────────────
 
@@ -37,8 +37,6 @@ interface CreateInviteBody {
 interface InviteRouteContext {
   readonly tokenService: TokenService;
   readonly resolver: PermissionResolver;
-  readonly memberStore: MemberStore;
-  readonly inviteStore: InviteStore;
   readonly inviteService: InviteService;
 }
 
@@ -47,14 +45,19 @@ interface InviteRouteContext {
 /**
  * Create a new workspace invite. Requires manage_invites permission.
  */
-export function handleCreateInvite(
+export async function handleCreateInvite(
   token: string,
   body: CreateInviteBody,
   ctx: InviteRouteContext,
-): Result<{ invite: InviteToken; inviteLink: string }, BrimairError> {
+): Promise<Result<{ inviteId: string; inviteLink: string }, BrimairError>> {
   // 1 — Authenticate
-  const authResult = authenticate(token, ctx.tokenService);
-  if (!authResult.success) return authResult;
+  const authResult = await authenticate(token, ctx.tokenService);
+  if (!authResult.success) {
+    return {
+      success: false,
+      error: createError(ERROR_CODES.AUTH_UNAUTHORIZED, authResult.error),
+    };
+  }
 
   const { userId, workspaceId } = authResult.data;
 
@@ -62,13 +65,12 @@ export function handleCreateInvite(
   const perm = authorize(
     userId,
     workspaceId,
-    'cms_source' as any,
-    'invite' as any,
+    'cms_source' as ResourceType,
+    'invite' as ActionPermission,
     null,
     ctx.resolver,
-    ctx.memberStore,
   );
-  if (!perm.allowed) {
+  if (!perm.success) {
     return {
       success: false,
       error: createError(ERROR_CODES.AUTH_FORBIDDEN, 'manage_invites permission required'),
@@ -84,56 +86,86 @@ export function handleCreateInvite(
   }
 
   // 4 — Create invite
-  const result = ctx.inviteService.createInvite({
-    createdBy: userId as any,
-    workspaceId: workspaceId as any,
-    email: body.email ?? null,
-    role: body.role,
-    permissions: body.permissions,
-  });
+  try {
+    const output = await ctx.inviteService.createInvite({
+      createdBy: userId as unknown as import('@brimair/shared-types').UserId,
+      workspaceId: workspaceId as unknown as import('@brimair/shared-types').WorkspaceId,
+      email: body.email ?? null,
+      roleId: body.role as unknown as import('@brimair/shared-types').RoleId,
+      permissions: body.permissions ?? { system: [], resources: [] },
+      expiresInDays: 7,
+    });
 
-  if (!result.success) return result;
-
-  const invite = result.data;
-  const inviteLink = `/join/${invite.inviteId}`;
-
-  return { success: true, data: { invite, inviteLink } };
+    return { success: true, data: { inviteId: output.invite.id, inviteLink: output.inviteUrl } };
+  } catch (err) {
+    return {
+      success: false,
+      error: createError(ERROR_CODES.AUTH_INVITE_INVALID, err instanceof Error ? err.message : 'Invite creation failed'),
+    };
+  }
 }
 
 // ─── GET /api/auth/invite/:inviteId ───────────────────────────────
 
 /**
- * Get the status of an existing invite. Requires manage_invites permission.
+ * Get the status of an existing invite. Requires authentication.
  */
-export function handleGetInvite(
+export async function handleGetInvite(
   token: string,
   inviteId: string,
   ctx: InviteRouteContext,
-): Result<{ inviteId: string; status: InviteStatus }, BrimairError> {
+): Promise<Result<{ inviteId: string; status: string }, BrimairError>> {
   // Authenticate
-  const authResult = authenticate(token, ctx.tokenService);
-  if (!authResult.success) return authResult;
+  const authResult = await authenticate(token, ctx.tokenService);
+  if (!authResult.success) {
+    return {
+      success: false,
+      error: createError(ERROR_CODES.AUTH_UNAUTHORIZED, authResult.error),
+    };
+  }
 
-  const status = ctx.inviteService.getInviteStatus(inviteId as any);
+  const invite = await ctx.inviteService.getInvite(inviteId as unknown as import('@brimair/shared-types').InviteId);
+  if (!invite) {
+    return {
+      success: false,
+      error: createError(ERROR_CODES.AUTH_INVITE_INVALID, 'Invite not found'),
+    };
+  }
 
-  return { success: true, data: { inviteId, status } };
+  return { success: true, data: { inviteId, status: invite.status } };
 }
 
 // ─── DELETE /api/auth/invite/:inviteId ────────────────────────────
 
 /**
- * Revoke an existing invite. Requires manage_invites permission.
+ * Revoke an existing invite. Requires authentication.
  */
-export function handleRevokeInvite(
+export async function handleRevokeInvite(
   token: string,
   inviteId: string,
   ctx: InviteRouteContext,
-): Result<void, BrimairError> {
+): Promise<Result<void, BrimairError>> {
   // Authenticate
-  const authResult = authenticate(token, ctx.tokenService);
-  if (!authResult.success) return authResult;
+  const authResult = await authenticate(token, ctx.tokenService);
+  if (!authResult.success) {
+    return {
+      success: false,
+      error: createError(ERROR_CODES.AUTH_UNAUTHORIZED, authResult.error),
+    };
+  }
 
   const { userId } = authResult.data;
 
-  return ctx.inviteService.revokeInvite(inviteId as any, userId as any);
+  try {
+    await ctx.inviteService.revokeInvite(
+      inviteId as unknown as import('@brimair/shared-types').InviteId,
+      userId as unknown as import('@brimair/shared-types').UserId,
+    );
+    return { success: true, data: undefined };
+  } catch (err) {
+    return {
+      success: false,
+      error: createError(ERROR_CODES.AUTH_INVITE_INVALID, err instanceof Error ? err.message : 'Revoke failed'),
+    };
+  }
 }

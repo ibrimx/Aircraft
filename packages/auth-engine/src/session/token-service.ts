@@ -4,6 +4,7 @@
  * Dependencies: ids.ts, common.ts, errors.ts, session-types.ts
  */
 
+import { createHmac, randomUUID } from 'node:crypto';
 import { createId } from '../types/ids';
 import type { SessionId } from '../types/ids';
 import type { ISODateString, Result } from '../types/common';
@@ -91,8 +92,7 @@ export class TokenServiceImpl implements TokenService {
       const header = base64url(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
       const body = base64url(JSON.stringify(payload));
       const signature = base64url(
-        require('crypto')
-          .createHmac('sha256', this.secret)
+        createHmac('sha256', this.secret)
           .update(`${header}.${body}`)
           .digest('base64'),
       );
@@ -100,7 +100,7 @@ export class TokenServiceImpl implements TokenService {
       const accessToken = `${header}.${body}.${signature}` as AccessToken;
 
       // Refresh token is an opaque random string
-      const refreshToken = require('crypto').randomUUID() as RefreshToken;
+      const refreshToken = randomUUID() as RefreshToken;
 
       const expiresAt = epochToISO(accessExp);
 
@@ -132,8 +132,7 @@ export class TokenServiceImpl implements TokenService {
 
       // Recompute signature
       const expectedSig = base64url(
-        require('crypto')
-          .createHmac('sha256', this.secret)
+        createHmac('sha256', this.secret)
           .update(`${header}.${body}`)
           .digest('base64'),
       );

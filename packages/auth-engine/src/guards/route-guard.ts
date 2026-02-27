@@ -4,14 +4,14 @@
  * Dependencies: permission-types.ts, permission-resolver.ts
  */
 
+import type { UserId, WorkspaceId } from '@brimair/shared-types';
 import type { ISODateString } from '../types/common';
 import type {
   PermissionCheckResult,
   ProtectedRoute,
 } from '../core/permission-types';
 import { PROTECTED_ROUTES } from '../core/permission-types';
-import type { MemberStore } from '../core/permission-resolver';
-import { PermissionResolver } from '../core/permission-resolver';
+import type { PermissionResolver } from '../core/permission-resolver';
 
 // ─── Helpers ─────────────────────────────────────────────────
 
@@ -80,11 +80,10 @@ export function extractParams(
  */
 export function canAccessRoute(
   path: string,
-  userId: string,
-  workspaceId: string,
+  userId: UserId,
+  workspaceId: WorkspaceId,
   params: Record<string, string>,
   resolver: PermissionResolver,
-  memberStore: MemberStore,
 ): PermissionCheckResult {
   const route = matchRoute(path);
 
@@ -108,14 +107,11 @@ export function canAccessRoute(
     ? allParams[route.resourceIdParam] ?? null
     : null;
 
-  return resolver.check(
-    {
-      userId: userId as any,
-      action: route.requiredAction,
-      resource: route.requiredResource,
-      resourceId,
-      workspaceId: workspaceId as any,
-    },
-    memberStore,
-  );
+  return resolver.check({
+    userId,
+    action: route.requiredAction,
+    resource: route.requiredResource,
+    resourceId,
+    workspaceId,
+  });
 }

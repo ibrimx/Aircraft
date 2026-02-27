@@ -12,15 +12,8 @@ import type {
 } from '@brimair/shared-types';
 import type { BrimairError } from '@brimair/shared-types';
 import { createError, ERROR_CODES } from '@brimair/shared-types';
-import type { InviteStore, TokenService, SessionStore } from '@brimair/auth-engine';
-import type { InviteService } from '@brimair/auth-engine';
-import { InviteValidator } from '@brimair/auth-engine';
-import { SessionManager } from '@brimair/auth-engine';
-import type { TokenPair } from '@brimair/auth-engine';
-import {
-  RATE_LIMIT_CONFIG,
-  type LoginAttempt,
-} from '@brimair/auth-engine';
+import type { InviteService, TokenService, TokenPair } from '@brimair/auth-engine';
+import type { SessionManager } from '@brimair/auth-engine';
 
 // ─── Types ────────────────────────────────────────────────────────
 
@@ -43,45 +36,52 @@ export interface UserStore {
   findByEmail(email: string): UserId | null;
 }
 
+/** Abstract rate-limit persistence — swap in Redis for production. */
+export interface RateLimitStore {
+  /** Record an attempt and return the current count within the window. */
+  recordAttempt(key: string, windowMs: number): number;
+  /** Check current attempt count within window. */
+  getAttemptCount(key: string, windowMs: number): number;
+  /** Reset attempts for a key (e.g. after successful accept). */
+  reset(key: string): void;
+}
+
 interface AcceptRouteContext {
-  readonly inviteStore: InviteStore;
   readonly inviteService: InviteService;
-  readonly inviteValidator: InviteValidator;
   readonly userStore: UserStore;
   readonly tokenService: TokenService;
-  readonly sessionStore: SessionStore;
   readonly sessionManager: SessionManager;
+  readonly rateLimitStore: RateLimitStore;
 }
 
-// ─── Rate-limit helper ────────────────────────────────────────────
+// ─── Rate-limit constants ─────────────────────────────────────────
 
-const recentAttempts: Map<string, LoginAttempt[]> = new Map();
+const RATE_LIMIT_MAX_ATTEMPTS = 5;
+const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minute
 
-/**
- * Check whether an IP address has exceeded the accept rate limit.
- */
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const windowMs = RATE_LIMIT_CONFIG.windowMinutes * 60_000;
-  const attempts = (recentAttempts.get(ip) ?? []).filter(
-    (a) => now - new Date(a.timestamp).getTime() < windowMs,
-  );
-  return attempts.length >= RATE_LIMIT_CONFIG.maxAttempts;
-}
+// ─── In-memory fallback rate-limit store (dev only) ───────────────
 
-/**
- * Record an accept attempt for rate-limiting.
- */
-function recordAttempt(ip: string, success: boolean): void {
-  const attempt: LoginAttempt = {
-    email: '',
-    timestamp: new Date().toISOString() as ISODateString,
-    success,
-    ip,
-  };
-  const list = recentAttempts.get(ip) ?? [];
-  list.push(attempt);
-  recentAttempts.set(ip, list);
+/** In-memory rate-limit store for local development. Use Redis in production. */
+export class InMemoryRateLimitStore implements RateLimitStore {
+  private readonly attempts = new Map<string, number[]>();
+
+  recordAttempt(key: string, windowMs: number): number {
+    const now = Date.now();
+    const list = (this.attempts.get(key) ?? []).filter((t) => now - t < windowMs);
+    list.push(now);
+    this.attempts.set(key, list);
+    return list.length;
+  }
+
+  getAttemptCount(key: string, windowMs: number): number {
+    const now = Date.now();
+    const list = (this.attempts.get(key) ?? []).filter((t) => now - t < windowMs);
+    return list.length;
+  }
+
+  reset(key: string): void {
+    this.attempts.delete(key);
+  }
 }
 
 // ─── POST /api/auth/accept ────────────────────────────────────────
@@ -91,20 +91,15 @@ function recordAttempt(ip: string, success: boolean): void {
  *
  * This is a **public endpoint** — no auth token required.
  * Rate-limited to 5 attempts per minute per IP.
- *
- * Error codes:
- * - 400  AUTH_INVITE_INVALID  — missing/malformed body
- * - 409  AUTH_INVITE_INVALID  — email already registered
- * - 410  AUTH_INVITE_EXPIRED  — invite expired or revoked
- * - 429  (rate limited)
  */
-export function handleAcceptInvite(
+export async function handleAcceptInvite(
   body: AcceptInviteBody,
   ip: string,
   ctx: AcceptRouteContext,
-): Result<{ tokens: TokenPair; member: WorkspaceMember }, BrimairError> {
+): Promise<Result<{ tokens: TokenPair; member: WorkspaceMember }, BrimairError>> {
   // 1 — Rate-limit
-  if (isRateLimited(ip)) {
+  const attemptCount = ctx.rateLimitStore.getAttemptCount(ip, RATE_LIMIT_WINDOW_MS);
+  if (attemptCount >= RATE_LIMIT_MAX_ATTEMPTS) {
     return {
       success: false,
       error: createError(
@@ -116,7 +111,7 @@ export function handleAcceptInvite(
 
   // 2 — Validate body
   if (!body.inviteId || !body.email || !body.password || !body.name) {
-    recordAttempt(ip, false);
+    ctx.rateLimitStore.recordAttempt(ip, RATE_LIMIT_WINDOW_MS);
     return {
       success: false,
       error: createError(
@@ -126,38 +121,10 @@ export function handleAcceptInvite(
     };
   }
 
-  // 3 — Look up invite
-  const invite = ctx.inviteStore.findById(body.inviteId as any);
-  if (!invite) {
-    recordAttempt(ip, false);
-    return {
-      success: false,
-      error: createError(ERROR_CODES.AUTH_INVITE_INVALID, 'Invite not found'),
-    };
-  }
-
-  // 4 — Validate invite (not expired, not revoked, email matches)
-  const validation = ctx.inviteValidator.validateInvite(invite);
-  if (!validation.success) {
-    recordAttempt(ip, false);
-    return validation as Result<never, BrimairError>;
-  }
-
-  if (!ctx.inviteValidator.canUserAccept(invite, body.email)) {
-    recordAttempt(ip, false);
-    return {
-      success: false,
-      error: createError(
-        ERROR_CODES.AUTH_INVITE_INVALID,
-        'This invite is restricted to a different email address',
-      ),
-    };
-  }
-
-  // 5 — Check if email is already registered
+  // 3 — Check if email is already registered
   const existingUser = ctx.userStore.findByEmail(body.email);
   if (existingUser) {
-    recordAttempt(ip, false);
+    ctx.rateLimitStore.recordAttempt(ip, RATE_LIMIT_WINDOW_MS);
     return {
       success: false,
       error: createError(
@@ -167,40 +134,43 @@ export function handleAcceptInvite(
     };
   }
 
-  // 6 — Create user account
-  const userId = ctx.userStore.create({
-    email: body.email,
-    password: body.password,
-    name: body.name,
-  });
+  // 4 — Accept invite via InviteService
+  try {
+    const acceptResult = await ctx.inviteService.acceptInvite({
+      token: body.inviteId,
+      name: body.name,
+      password: body.password,
+    });
 
-  // 7 — Accept invite → creates WorkspaceMember
-  const acceptResult = ctx.inviteService.acceptInvite({
-    inviteId: invite.inviteId,
-    userId,
-  });
-  if (!acceptResult.success) {
-    recordAttempt(ip, false);
-    return acceptResult as Result<never, BrimairError>;
+    const { user, session } = acceptResult;
+
+    // Build member from user data
+    const member: WorkspaceMember = {
+      userId: user.id,
+      workspaceId: user.workspaceId,
+      roleId: user.roleId,
+      permissions: user.permissions,
+      joinedAt: user.createdAt,
+    } as WorkspaceMember;
+
+    // Build token pair from session
+    const tokens: TokenPair = {
+      accessToken: session.token as unknown as import('@brimair/auth-engine').AccessToken,
+      refreshToken: session.refreshToken as unknown as import('@brimair/auth-engine').RefreshToken,
+      expiresAt: session.expiresAt as ISODateString,
+    };
+
+    ctx.rateLimitStore.reset(ip);
+
+    return { success: true, data: { tokens, member } };
+  } catch (err) {
+    ctx.rateLimitStore.recordAttempt(ip, RATE_LIMIT_WINDOW_MS);
+    return {
+      success: false,
+      error: createError(
+        ERROR_CODES.AUTH_INVITE_INVALID,
+        err instanceof Error ? err.message : 'Accept failed',
+      ),
+    };
   }
-
-  const member = acceptResult.data;
-
-  // 8 — Create session
-  const sessionResult = ctx.sessionManager.createSession(
-    { userId, workspaceId: invite.workspaceId, role: invite.role },
-    ctx.sessionStore,
-    ctx.tokenService,
-  );
-  if (!sessionResult.success) {
-    recordAttempt(ip, false);
-    return sessionResult as Result<never, BrimairError>;
-  }
-
-  recordAttempt(ip, true);
-
-  return {
-    success: true,
-    data: { tokens: sessionResult.data, member },
-  };
 }

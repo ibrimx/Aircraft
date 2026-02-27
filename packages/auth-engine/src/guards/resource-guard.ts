@@ -6,17 +6,23 @@
  */
 
 import type {
+  UserId,
+  WorkspaceId,
+  ActionPermission,
+  ResourceType,
+} from '@brimair/shared-types';
+import type {
   PermissionCheckResult,
+  PermissionCheckRequest,
 } from '../core/permission-types';
-import type { MemberStore } from '../core/permission-resolver';
-import { PermissionResolver } from '../core/permission-resolver';
+import type { PermissionResolver } from '../core/permission-resolver';
 
 // ─── Types ───────────────────────────────────────────────────
 
 /** A single permission check descriptor */
 export interface ResourceCheck {
-  readonly resource: string;
-  readonly action: string;
+  readonly resource: ResourceType;
+  readonly action: ActionPermission;
   readonly resourceId: string | null;
 }
 
@@ -26,46 +32,40 @@ export interface ResourceCheck {
  * Check if a user can perform a specific action on a resource.
  */
 export function canAccess(
-  userId: string,
-  workspaceId: string,
-  resource: string,
-  action: string,
+  userId: UserId,
+  workspaceId: WorkspaceId,
+  resource: ResourceType,
+  action: ActionPermission,
   resourceId: string | null,
   resolver: PermissionResolver,
-  memberStore: MemberStore,
 ): PermissionCheckResult {
-  return resolver.check(
-    {
-      userId: userId as any,
-      action: action as any,
-      resource: resource as any,
-      resourceId,
-      workspaceId: workspaceId as any,
-    },
-    memberStore,
-  );
+  return resolver.check({
+    userId,
+    action,
+    resource,
+    resourceId,
+    workspaceId,
+  });
 }
 
 /**
  * Batch-check multiple permissions for the same user.
- * Optimised: loads the member once via PermissionResolver.checkBatch().
  */
 export function canAccessBatch(
-  userId: string,
-  workspaceId: string,
+  userId: UserId,
+  workspaceId: WorkspaceId,
   checks: readonly ResourceCheck[],
   resolver: PermissionResolver,
-  memberStore: MemberStore,
 ): PermissionCheckResult[] {
-  const requests = checks.map((c) => ({
-    userId: userId as any,
-    action: c.action as any,
-    resource: c.resource as any,
-    resourceId: c.resourceId,
-    workspaceId: workspaceId as any,
-  }));
-
-  return resolver.checkBatch(requests, memberStore);
+  return checks.map((c) =>
+    resolver.check({
+      userId,
+      action: c.action,
+      resource: c.resource,
+      resourceId: c.resourceId,
+      workspaceId,
+    }),
+  );
 }
 
 /**
@@ -77,13 +77,12 @@ export function canAccessBatch(
  */
 export function filterAccessible<T>(
   items: readonly T[],
-  userId: string,
-  workspaceId: string,
-  resource: string,
-  action: string,
+  userId: UserId,
+  workspaceId: WorkspaceId,
+  resource: ResourceType,
+  action: ActionPermission,
   getResourceId: (item: T) => string,
   resolver: PermissionResolver,
-  memberStore: MemberStore,
 ): T[] {
   const checks: ResourceCheck[] = items.map((item) => ({
     resource,
@@ -96,7 +95,6 @@ export function filterAccessible<T>(
     workspaceId,
     checks,
     resolver,
-    memberStore,
   );
 
   return items.filter((_, i) => results[i]?.allowed === true);

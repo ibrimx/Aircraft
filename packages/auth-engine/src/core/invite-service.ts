@@ -1,6 +1,7 @@
 import { createHash, randomUUID } from 'node:crypto'
 import type { AuthUser, Invite, InviteId, PermissionSet, RoleId, Session, SessionId, UserId, WorkspaceId } from '@brimair/shared-types'
 import type { PermissionMergeStrategy } from './permission-types'
+import type { SessionManager, CreateSessionInput } from '../session/session-types'
 
 const DEFAULT_EXPIRES_IN_DAYS = 7
 const MERGE_STRATEGY: PermissionMergeStrategy = 'role_override'
@@ -38,8 +39,11 @@ export interface InviteService {
 
 /** Default invite service implementation. */
 export class InviteServiceImpl implements InviteService {
-  /** Creates service with repository dependency. */
-  public constructor(private readonly repository: InviteRepository) {}
+  /** Creates service with repository and session manager dependencies. */
+  public constructor(
+    private readonly repository: InviteRepository,
+    private readonly sessionManager: SessionManager,
+  ) {}
 
   /** Creates invite by generating token, hashing it, and storing metadata. */
   public async createInvite(req: CreateInviteInput): Promise<CreateInviteOutput> {
@@ -50,7 +54,8 @@ export class InviteServiceImpl implements InviteService {
     const inviteToken = this.createJwtLikeToken(inviteId)
     const invite: PersistableInvite = { id: inviteId, workspaceId: req.workspaceId, createdBy: req.createdBy, email: req.email, roleId: req.roleId, permissions: MERGE_STRATEGY === 'role_override' ? req.permissions : req.permissions, expiresAt: expiresAt.toISOString(), status: 'pending', acceptedBy: null, acceptedAt: null, createdAt: now.toISOString(), tokenHash: this.hashToken(inviteToken) }
     await this.repository.save(invite)
-    return { invite, inviteUrl: `https://brimair.app/join?token=${encodeURIComponent(inviteToken)}`, inviteToken }
+    const inviteUrl = `https://brimair.app/join?token=${encodeURIComponent(inviteToken)}`
+    return { invite, inviteUrl, inviteToken }
   }
 
   /** Reads invite by id. */
@@ -67,7 +72,7 @@ export class InviteServiceImpl implements InviteService {
     await this.repository.update({ ...invite, status: 'revoked' })
   }
 
-  /** Validates token, creates user/session, then invalidates invite (single-use). */
+  /** Validates token, creates user/session via SessionManager, then invalidates invite (single-use). */
   public async acceptInvite(req: AcceptInviteInput): Promise<AcceptInviteOutput> {
     this.assertAccept(req)
     const payload = this.parseToken(req.token)
@@ -81,8 +86,10 @@ export class InviteServiceImpl implements InviteService {
     const acceptedBy = randomUUID() as UserId
     await this.repository.update({ ...invite, status: 'accepted', acceptedBy, acceptedAt: new Date().toISOString() })
     const user: AuthUser = { id: acceptedBy, email: invite.email ?? `${acceptedBy}@invite.local`, name: req.name, avatarUrl: null, workspaceId: invite.workspaceId, roleId: invite.roleId, permissions: invite.permissions, locale: 'en', createdAt: new Date().toISOString() }
-    // TODO(P11): Replace inline session creation with SessionManager once session-manager.ts is implemented
-    const session: Session = { id: randomUUID() as SessionId, userId: user.id, workspaceId: user.workspaceId, token: this.hashToken(`${acceptedBy}-${Date.now()}`), refreshToken: this.hashToken(`${acceptedBy}-${Date.now()}-refresh`), expiresAt: new Date(Date.now() + 86_400_000).toISOString(), createdAt: new Date().toISOString() }
+    const sessionInput: CreateSessionInput = { userId: acceptedBy as string, workspaceId: invite.workspaceId as string }
+    const sessionResult = await this.sessionManager.createSession(sessionInput)
+    if (!sessionResult.ok) throw new Error(`Session creation failed: ${sessionResult.error}`)
+    const session: Session = sessionResult.data.session
     return { user, session }
   }
 
