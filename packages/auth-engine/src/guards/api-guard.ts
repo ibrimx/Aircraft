@@ -1,110 +1,120 @@
 /**
  * P13 — API Guard
- * Provides authenticate, authorize, and authenticateAndAuthorize functions
- * for use in API route handlers.
- * Dependencies: session-types.ts, token-service.ts, permission-resolver.ts, permission-types.ts
+ * Provides authenticate, authorize, and authenticateAndAuthorize helpers
+ * for API routes. Bridges TokenService verification with PermissionResolver checks.
+ *
+ * Dependencies: session-types.ts (TokenService, TokenPayload),
+ *               permission-resolver.ts, permission-types.ts
  */
 
 import type {
-  UserId,
-  WorkspaceId,
   ActionPermission,
   ResourceType,
+  UserId,
+  WorkspaceId,
 } from '@brimair/shared-types';
-import type { TokenPayload, TokenService } from '../session/session-types';
-import type { PermissionCheckResult } from '../core/permission-types';
+import type { TokenService, TokenPayload } from '../session/session-types';
 import type { PermissionResolver } from '../core/permission-resolver';
+import type { PermissionCheckResult } from '../core/permission-types';
 
 // ─── Types ───────────────────────────────────────────────────
 
-/** Result of an authentication attempt. */
-export type AuthResult =
-  | { success: true; data: { userId: UserId; workspaceId: WorkspaceId; payload: TokenPayload } }
+/** Authenticated identity extracted from a valid access token. */
+export interface AuthIdentity {
+  readonly userId: string;
+  readonly workspaceId: string;
+  readonly sessionId: string;
+}
+
+/** Success / failure result for API guard operations. */
+export type GuardResult<T> =
+  | { success: true; data: T }
   | { success: false; error: string };
 
-/** Result of an authorization attempt. */
-export type AuthzResult =
-  | { success: true; check: PermissionCheckResult }
-  | { success: false; error: string; check: PermissionCheckResult };
-
-/** Combined auth result. */
-export type FullAuthResult =
-  | { success: true; data: { userId: UserId; workspaceId: WorkspaceId; payload: TokenPayload; check: PermissionCheckResult } }
-  | { success: false; error: string };
-
-// ─── authenticate ────────────────────────────────────────────
+// ─── Authenticate ────────────────────────────────────────────
 
 /**
- * Verify a Bearer token and extract user identity.
- * Returns userId, workspaceId, and the full token payload.
+ * Verify an access token and extract the caller's identity.
+ *
+ * @param token        - Bearer access token from the Authorization header.
+ * @param tokenService - Service that verifies JWT signatures and expiry.
+ * @returns Identity on success, error message on failure.
  */
 export async function authenticate(
   token: string,
   tokenService: TokenService,
-): Promise<AuthResult> {
+): Promise<GuardResult<AuthIdentity>> {
   if (!token || token.trim().length === 0) {
-    return { success: false, error: 'Missing or empty authorization token' };
+    return { success: false, error: 'Missing access token' };
   }
 
-  // Strip "Bearer " prefix if present
-  const rawToken = token.startsWith('Bearer ') ? token.slice(7) : token;
-
-  const result = await tokenService.verify(rawToken);
+  const result = await tokenService.verify(token);
 
   if (!result.ok) {
-    return { success: false, error: typeof result.error === 'string' ? result.error : 'Token verification failed' };
+    return { success: false, error: result.error };
   }
 
-  const payload = result.data;
+  const payload: TokenPayload = result.data;
 
   return {
     success: true,
     data: {
-      userId: payload.sub as UserId,
-      workspaceId: payload.wid as WorkspaceId,
-      payload,
+      userId: payload.sub,
+      workspaceId: payload.wid,
+      sessionId: payload.sid,
     },
   };
 }
 
-// ─── authorize ───────────────────────────────────────────────
+// ─── Authorize ───────────────────────────────────────────────
 
 /**
- * Check if a user has permission to perform an action on a resource.
- * Delegates to PermissionResolver.check().
+ * Check whether a user holds a specific permission on a resource.
+ *
+ * @param userId      - User performing the action.
+ * @param workspaceId - Workspace context.
+ * @param resource    - Target resource type.
+ * @param action      - Required action permission.
+ * @param resourceId  - Optional specific resource instance.
+ * @param resolver    - Permission resolver that evaluates RBAC rules.
+ * @returns Success when allowed, error with denial reason when not.
  */
 export function authorize(
-  userId: UserId,
-  workspaceId: WorkspaceId,
+  userId: string,
+  workspaceId: string,
   resource: ResourceType,
   action: ActionPermission,
   resourceId: string | null,
   resolver: PermissionResolver,
-): AuthzResult {
-  const check = resolver.check({
-    userId,
+): GuardResult<PermissionCheckResult> {
+  const result = resolver.check({
+    userId: userId as UserId,
+    workspaceId: workspaceId as WorkspaceId,
     action,
     resource,
     resourceId,
-    workspaceId,
   });
 
-  if (check.allowed) {
-    return { success: true, check };
+  if (result.allowed) {
+    return { success: true, data: result };
   }
 
-  return {
-    success: false,
-    error: `Permission denied: ${action} on ${resource}${resourceId ? ` (${resourceId})` : ''}`,
-    check,
-  };
+  return { success: false, error: result.reason };
 }
 
-// ─── authenticateAndAuthorize ────────────────────────────────
+// ─── Authenticate & Authorize (combined) ─────────────────────
 
 /**
- * Combined: verify token + check permission in a single call.
- * Useful for protected API endpoints that need both auth and authz.
+ * Convenience helper that authenticates the token AND authorises the
+ * action in a single call. Returns the caller identity on success.
+ *
+ * @param token        - Bearer access token.
+ * @param resource     - Target resource type.
+ * @param action       - Required action permission.
+ * @param resourceId   - Optional specific resource instance.
+ * @param tokenService - Token verification service.
+ * @param resolver     - Permission resolver.
+ * @returns Authenticated identity when both checks pass, error otherwise.
  */
 export async function authenticateAndAuthorize(
   token: string,
@@ -113,17 +123,15 @@ export async function authenticateAndAuthorize(
   resourceId: string | null,
   tokenService: TokenService,
   resolver: PermissionResolver,
-): Promise<FullAuthResult> {
-  // 1. Authenticate
+): Promise<GuardResult<AuthIdentity>> {
   const authResult = await authenticate(token, tokenService);
   if (!authResult.success) {
     return authResult;
   }
 
-  const { userId, workspaceId, payload } = authResult.data;
+  const { userId, workspaceId } = authResult.data;
 
-  // 2. Authorize
-  const authzResult = authorize(
+  const permResult = authorize(
     userId,
     workspaceId,
     resource,
@@ -132,12 +140,9 @@ export async function authenticateAndAuthorize(
     resolver,
   );
 
-  if (!authzResult.success) {
-    return { success: false, error: authzResult.error };
+  if (!permResult.success) {
+    return { success: false, error: permResult.error };
   }
 
-  return {
-    success: true,
-    data: { userId, workspaceId, payload, check: authzResult.check },
-  };
+  return authResult;
 }

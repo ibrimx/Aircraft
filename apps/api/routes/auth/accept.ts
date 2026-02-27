@@ -12,7 +12,13 @@ import type {
 } from '@brimair/shared-types';
 import type { BrimairError } from '@brimair/shared-types';
 import { createError, ERROR_CODES } from '@brimair/shared-types';
-import type { InviteService, TokenService, TokenPair } from '@brimair/auth-engine';
+import type {
+  InviteService,
+  TokenService,
+  TokenPair,
+  AccessToken,
+  RefreshToken,
+} from '@brimair/auth-engine';
 import type { SessionManager } from '@brimair/auth-engine';
 
 // ─── Types ────────────────────────────────────────────────────────
@@ -155,8 +161,8 @@ export async function handleAcceptInvite(
 
     // Build token pair from session
     const tokens: TokenPair = {
-      accessToken: session.token as unknown as import('@brimair/auth-engine').AccessToken,
-      refreshToken: session.refreshToken as unknown as import('@brimair/auth-engine').RefreshToken,
+      accessToken: session.token as unknown as AccessToken,
+      refreshToken: session.refreshToken as unknown as RefreshToken,
       expiresAt: session.expiresAt as ISODateString,
     };
 

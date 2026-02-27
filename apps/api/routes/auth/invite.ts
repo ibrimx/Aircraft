@@ -10,11 +10,12 @@
 import type {
   UserId,
   WorkspaceId,
+  RoleId,
+  InviteId,
   ActionPermission,
   ResourceType,
   Role,
   PermissionSet,
-  InviteStatus,
 } from '@brimair/shared-types';
 import type { BrimairError } from '@brimair/shared-types';
 import { createError, ERROR_CODES } from '@brimair/shared-types';
@@ -88,10 +89,10 @@ export async function handleCreateInvite(
   // 4 — Create invite
   try {
     const output = await ctx.inviteService.createInvite({
-      createdBy: userId as unknown as import('@brimair/shared-types').UserId,
-      workspaceId: workspaceId as unknown as import('@brimair/shared-types').WorkspaceId,
+      createdBy: userId as unknown as UserId,
+      workspaceId: workspaceId as unknown as WorkspaceId,
       email: body.email ?? null,
-      roleId: body.role as unknown as import('@brimair/shared-types').RoleId,
+      roleId: body.role as unknown as RoleId,
       permissions: body.permissions ?? { system: [], resources: [] },
       expiresInDays: 7,
     });
@@ -124,7 +125,7 @@ export async function handleGetInvite(
     };
   }
 
-  const invite = await ctx.inviteService.getInvite(inviteId as unknown as import('@brimair/shared-types').InviteId);
+  const invite = await ctx.inviteService.getInvite(inviteId as unknown as InviteId);
   if (!invite) {
     return {
       success: false,
@@ -158,8 +159,8 @@ export async function handleRevokeInvite(
 
   try {
     await ctx.inviteService.revokeInvite(
-      inviteId as unknown as import('@brimair/shared-types').InviteId,
-      userId as unknown as import('@brimair/shared-types').UserId,
+      inviteId as unknown as InviteId,
+      userId as unknown as UserId,
     );
     return { success: true, data: undefined };
   } catch (err) {
