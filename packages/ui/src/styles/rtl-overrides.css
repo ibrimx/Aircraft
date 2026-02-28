@@ -1,0 +1,62 @@
+/* P23 — rtl-overrides.css · RTL layout overrides
+ * @package @brimair/ui
+ * [dir='rtl'] rules — logical properties, panel flips, icon mirroring
+ * 📖 DSG §11 RTL Support · PBG §10 RTL · STUDIO §1 RTL Native */
+
+/* ── Text alignment ── */
+[dir='rtl'] .text-start { text-align: right; }
+[dir='rtl'] .text-end { text-align: left; }
+
+/* ── Sidebar: slides from inline-end (right) in RTL ── */
+[dir='rtl'] .sidebar {
+  inset-inline-start: auto;
+  inset-inline-end: 0;
+}
+
+/* ── Inspector: slides from inline-start (left) in RTL ── */
+[dir='rtl'] .inspector {
+  inset-inline-start: 0;
+  inset-inline-end: auto;
+}
+
+/* ── Flex row reversal for layout containers ── */
+[dir='rtl'] .flex-row-directional { flex-direction: row-reverse; }
+
+/* ── Transform flips: negate horizontal translations ── */
+[dir='rtl'] .translate-x { --_dir: -1; }
+[dir='rtl'] .slide-in-start { transform: translateX(100%); }
+[dir='rtl'] .slide-in-end { transform: translateX(-100%); }
+
+/* ── Panel slide animations ── */
+[dir='rtl'] .panel-slide-enter {
+  transform: translateX(-100%);
+}
+[dir='rtl'] .panel-slide-exit {
+  transform: translateX(100%);
+}
+
+/* ── Directional icon mirroring (arrows, chevrons ONLY) ── */
+[dir='rtl'] .icon-directional {
+  transform: scaleX(-1);
+}
+
+/* ── Ordered list / breadcrumb separators ── */
+[dir='rtl'] .separator-directional {
+  transform: scaleX(-1);
+}
+
+/* ── Logical property helpers (ensure no physical fallbacks) ── */
+[dir='rtl'] .scroll-container {
+  direction: rtl;
+}
+
+/* ── Toast & notification stack (inline-end → inline-start) ── */
+[dir='rtl'] .toast-stack {
+  inset-inline-start: var(--spacing-md);
+  inset-inline-end: auto;
+}
+
+/* ── Progress bar fill direction ── */
+[dir='rtl'] .progress-bar-fill {
+  transform-origin: right center;
+}

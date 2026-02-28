@@ -1,0 +1,86 @@
+/* P23 — mobile-overrides.css · Mobile-first overrides
+ * @package @brimair/ui
+ * @media (max-width: 767px) = BREAKPOINT_VALUES.tablet - 1
+ * 📖 DSG §14 Mobile · PBG §6.3 Touch Targets · FRAMER §15 Reduced Motion
+ * 📖 STUDIO §5 Mobile Studio · mobile-overrides.ts parity */
+
+@media (max-width: 767px) {
+  /* ── Touch targets: min 44px (Apple HIG) ── */
+  button,
+  [role='button'],
+  a,
+  input,
+  select,
+  textarea,
+  summary {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* ── Increase interactive padding (MOBILE_TOUCH_TARGET.padding = 12px) ── */
+  button,
+  [role='button'] {
+    padding: 12px var(--spacing-md);
+  }
+
+  /* ── Full-width buttons and inputs ── */
+  .btn,
+  input:not([type='checkbox']):not([type='radio']),
+  select,
+  textarea {
+    width: 100%;
+  }
+
+  /* ── Font sizes: body min 16px, inputs 16px (prevents iOS zoom) ── */
+  body { font-size: 16px; }
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+
+  /* ── Reduce shadows (match MOBILE_SHADOWS: xl→lg, 2xl→lg, inner→none) ── */
+  :root {
+    --shadow-xl: var(--shadow-lg);
+    --shadow-2xl: var(--shadow-lg);
+    --shadow-inner: none;
+  }
+
+  /* ── Reduce blur (match MOBILE_BLUR: xl/2xl/3xl→lg=16px) ── */
+  :root {
+    --blur-xl: 16px;
+    --blur-2xl: 16px;
+    --blur-3xl: 16px;
+  }
+
+  /* ── Disable hover effects (touch devices) ── */
+  @media (hover: none) {
+    *:hover {
+      background-color: unset;
+      color: unset;
+      border-color: unset;
+      box-shadow: unset;
+      opacity: unset;
+      transform: unset;
+    }
+  }
+
+  /* ── Stack horizontal layouts vertically ── */
+  .flex-row-stack,
+  .row-to-col {
+    flex-direction: column;
+  }
+
+  /* ── Reduced motion: disable ALL transitions & transforms ── */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0ms !important;
+      animation-delay: 0ms !important;
+      transition-duration: 0ms !important;
+      transition-delay: 0ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
