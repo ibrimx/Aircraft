@@ -19,24 +19,15 @@ export function SidebarRail({ onExpand, className, style }: SidebarRailProps) {
   const theme = useThemeTokens()
   return (
     <div className={className} style=
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      paddingBlock: theme.spacing[2],
-      gap: theme.spacing[1],
-      height: '100%',
+      display: 'flex', flexDirection: 'column',
+      alignItems: 'center', paddingBlock: theme.spacing[2],
+      gap: theme.spacing[1], height: '100%',
       ...style,
     >
       <button onClick={onExpand} aria-label="Expand sidebar" style=
-        width: '36px',
-        height: '36px',
-        display: 'grid',
-        placeItems: 'center',
-        background: 'transparent',
-        border: 'none',
-        cursor: 'pointer',
-        color: theme.colors.text.secondary,
-        borderRadius: '6px',
+        width: '36px', height: '36px', display: 'grid', placeItems: 'center',
+        background: 'transparent', border: 'none', cursor: 'pointer',
+        color: theme.colors.text.secondary, borderRadius: '6px',
       >
         ☰
       </button>
