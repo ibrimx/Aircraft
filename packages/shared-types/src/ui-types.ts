@@ -4,6 +4,9 @@ export type Breakpoint = 'mobile' | 'tablet' | 'desktop' | 'wide'
 /** Supported theme selection modes. */
 export type Theme = 'dark' | 'light' | 'system'
 
+/** Resolved theme mode without system — used by design-token consumers. */
+export type ThemeMode = 'dark' | 'light'
+
 /** Interface text/layout direction. */
 export type Direction = 'ltr' | 'rtl'
 
