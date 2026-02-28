@@ -1,6 +1,16 @@
 /** UI breakpoint buckets used by responsive app layouts. */
 export type Breakpoint = 'mobile' | 'tablet' | 'desktop' | 'wide'
 
+/** UI breakpoint name alias used by design-token consumers. */
+export type BreakpointName = Breakpoint
+
+/** Configuration for a single breakpoint range. */
+export type BreakpointConfig = {
+  name: BreakpointName
+  minWidth: number
+  maxWidth: number | null
+}
+
 /** Supported theme selection modes. */
 export type Theme = 'dark' | 'light' | 'system'
 
