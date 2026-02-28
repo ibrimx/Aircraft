@@ -38,8 +38,6 @@ export function CommandPalette({
     [commands, query],
   )
 
-  useEffect(() => { setActiveIndex(0) }, [query])
-
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'ArrowDown') { e.preventDefault(); setActiveIndex(i => Math.min(i + 1, filtered.length - 1)) }
     if (e.key === 'ArrowUp') { e.preventDefault(); setActiveIndex(i => Math.max(i - 1, 0)) }
@@ -59,13 +57,11 @@ export function CommandPalette({
       <div className={className} style={{
         position: 'relative', width: '100%', maxWidth: '560px',
         background: 'rgba(28,28,28,0.85)', backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
         borderRadius: '12px', border: `1px solid ${theme.colors.border.subtle}`,
         boxShadow: theme.shadows.xl, overflow: 'hidden',
         ...style,
       }} onKeyDown={handleKeyDown}>
-        <div style={{
-          paddingInline: theme.spacing[4], paddingBlock: theme.spacing[3],
+        <div style={{ paddingInline: theme.spacing[4], paddingBlock: theme.spacing[3],
           borderBlockEnd: `1px solid ${theme.colors.border.subtle}`,
         }}>
           <input ref={inputRef} value={query} onChange={e => setQuery(e.target.value)}
@@ -73,7 +69,6 @@ export function CommandPalette({
             style=
               width: '100%', background: 'transparent', border: 'none', outline: 'none',
               fontSize: theme.textStyles.body.fontSize, color: theme.colors.text.primary,
-              fontFamily: theme.fontFamily.sans,
              />
         </div>
         <div style= maxHeight: '320px', overflow: 'auto', paddingBlock: theme.spacing[1] >
@@ -86,7 +81,6 @@ export function CommandPalette({
                 cursor: 'pointer',
                 background: i === activeIndex ? theme.colors.accent.subtle : 'transparent',
                 color: theme.colors.text.primary,
-                transition: cssTransition('background', 'fast', 'easeOut'),
               >
               {cmd.icon && <span>{cmd.icon}</span>}
               <span style= flex: 1 >{cmd.label}</span>
