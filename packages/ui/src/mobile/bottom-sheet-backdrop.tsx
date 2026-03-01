@@ -1,7 +1,7 @@
 // P49
 import { useCallback, type CSSProperties } from 'react';
-import { cssTransition, DURATION, EASING, MOBILE_REDUCED_MOTION } from '@brimair/design-tokens';
-import { Z_INDEX } from '@brimair/design-tokens';
+import { cssTransition, DURATION, EASING, MOBILE_REDUCED_MOTION } from '@aircraft/design-tokens';
+import { Z_INDEX } from '@aircraft/design-tokens';
 
 export interface BottomSheetBackdropProps {
   readonly visible: boolean;

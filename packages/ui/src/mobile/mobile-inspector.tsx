@@ -1,9 +1,9 @@
 // P53 — mobile-inspector.tsx
 import { type ReactNode, type CSSProperties, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useThemeTokens } from '@brimair/design-tokens';
-import { EASING, DURATION } from '@brimair/design-tokens';
-import { BottomSheet } from '@brimair/ui';
+import { useThemeTokens } from '@aircraft/design-tokens';
+import { EASING, DURATION } from '@aircraft/design-tokens';
+import { BottomSheet } from '@aircraft/ui';
 
 /* ── Types ─────────────────────────────────────────────── */
 

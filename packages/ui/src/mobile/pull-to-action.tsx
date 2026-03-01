@@ -8,8 +8,8 @@ import {
   useMemo,
 } from 'react';
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
-import { useThemeTokens } from '@brimair/design-tokens';
-import { EASING, DURATION } from '@brimair/design-tokens';
+import { useThemeTokens } from '@aircraft/design-tokens';
+import { EASING, DURATION } from '@aircraft/design-tokens';
 import { PullToActionIndicator } from './pull-to-action-indicator';
 
 /* ── Types ─────────────────────────────────────────────── */
