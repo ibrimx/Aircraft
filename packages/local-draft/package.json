@@ -1,5 +1,5 @@
 {
-  "name": "@brimair/local-draft",
+  "name": "@aircraft/local-draft",
   "version": "0.0.1",
   "private": true,
   "main": "./src/index.ts",

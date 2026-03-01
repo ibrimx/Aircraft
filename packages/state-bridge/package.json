@@ -1,5 +1,5 @@
 {
-  "name": "@brimair/state-bridge",
+  "name": "@aircraft/state-bridge",
   "version": "0.0.1",
   "private": true,
   "main": "./src/index.ts",

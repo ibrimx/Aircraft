@@ -1,5 +1,5 @@
 {
-  "name": "@brimair/fabric-adapter",
+  "name": "@aircraft/fabric-adapter",
   "version": "0.0.1",
   "private": true,
   "main": "./src/index.ts",
