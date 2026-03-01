@@ -50,7 +50,7 @@ export function DropdownMenu({
   }, [open])
 
   return (
-    <div ref={ref} className={className} style= position: 'relative', ...style >
+    <div ref={ref} className={className} style={{ position: 'relative', ...style }}>
       <div onClick={() => setOpen((p) => !p)}>{trigger}</div>
       {open && (
         <div role="menu" style={{
@@ -68,11 +68,11 @@ export function DropdownMenu({
         }}>
           {items.map((entry) =>
             isSeparator(entry)
-              ? <div key={entry.id} style=
+              ? <div key={entry.id} style={{
                   height: '1px',
                   background: theme.colors.border.subtle,
                   marginBlock: '4px',
-                 />
+                }} />
               : <MenuItemRow key={entry.id} item={entry} theme={theme}
                   onSelect={() => { entry.onClick(); setOpen(false) }} />
           )}
@@ -91,7 +91,7 @@ export function MenuItemRow({ item, theme, onSelect }: {
       role="menuitem" tabIndex={item.disabled ? -1 : 0}
       onClick={() => { if (!item.disabled) onSelect() }}
       onKeyDown={(e) => { if (e.key === 'Enter' && !item.disabled) onSelect() }}
-      style=
+      style={{
         display: 'flex', alignItems: 'center', gap: theme.spacing[2],
         paddingBlock: '8px', paddingInline: '12px',
         fontSize: theme.textStyles.body.fontSize,
@@ -101,16 +101,16 @@ export function MenuItemRow({ item, theme, onSelect }: {
           : isDestructive ? theme.colors.destructive.default : theme.colors.text.primary,
         cursor: item.disabled ? 'not-allowed' : 'pointer',
         transition: cssTransition('background', 'fast', 'easeOut'),
-      
+      }}
     >
-      {item.icon && <span style= flexShrink: 0 >{item.icon}</span>}
-      <span style= flex: 1 >{item.label}</span>
+      {item.icon && <span style={{ flexShrink: 0 }}>{item.icon}</span>}
+      <span style={{ flex: 1 }}>{item.label}</span>
       {item.shortcut && (
-        <span style=
+        <span style={{
           fontSize: theme.textStyles.caption.fontSize,
           color: theme.colors.text.tertiary,
           marginInlineStart: '16px',
-        >{item.shortcut}</span>
+        }}>{item.shortcut}</span>
       )}
     </div>
   )
