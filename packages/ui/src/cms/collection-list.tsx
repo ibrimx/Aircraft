@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react'
-import { useThemeTokens } from '@brimair/design-tokens'
-import { cssTransition } from '@brimair/design-tokens'
-import type { CmsCollection } from '@brimair/shared-types'
+import { useThemeTokens } from '@aircraft/design-tokens'
+import { cssTransition } from '@aircraft/design-tokens'
+import type { CmsCollection } from '@aircraft/shared-types'
 
 export type CollectionListProps = {
   collections: CmsCollection[]

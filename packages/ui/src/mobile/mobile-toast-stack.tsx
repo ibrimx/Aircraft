@@ -1,7 +1,7 @@
 // P61 — mobile-toast-stack.tsx
 import { type CSSProperties, useState, useCallback } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import { Z_INDEX } from '@brimair/design-tokens';
+import { Z_INDEX } from '@aircraft/design-tokens';
 import { MobileToast, type MobileToastProps } from './mobile-toast';
 
 /* ── Types ─────────────────────────────────────────────── */
