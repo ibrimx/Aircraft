@@ -1,10 +1,6 @@
 /**
  * P26 — button.tsx · Theme-aware button with 4 variants × 3 sizes
  * @package @aircraft/ui
- * 📖 DSG §10.2 Button Variants · §10.1 Interactive States
- * 📖 FRAMER §5 Micro-interactions · §3 Duration/Easing tokens
- * 📖 PAGE BUILDER §6.3 Touch targets (md≥44, lg≥48)
- * 📖 STUDIO §3.1 Toolbar icon buttons 32px
  */
 
 import { forwardRef } from 'react'
@@ -47,7 +43,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={disabled || loading}
         className={className}
-        style=
+        style={{
           display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
           gap: theme.spacing[2],
           height: s.height,
@@ -64,7 +60,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           outline: 'none',
           ...variantStyle,
           ...style,
-        
+        }}
         {...rest}
       >
         {loading ? '\u2026' : children}
