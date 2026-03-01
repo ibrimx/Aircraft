@@ -1,12 +1,12 @@
 import { type CSSProperties, type FormEvent, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { useAuth, useI18n, Button, Input } from '@aircraft/ui';
 import { useThemeTokens } from '@aircraft/design-tokens';
 
 const css = (s: CSSProperties): CSSProperties => s;
 
 export function LoginPage(): React.JSX.Element {
-  const navigate = useNavigate();
+  const router = useRouter();
   const { isAuthenticated } = useAuth();
   const { t } = useI18n();
   const tk = useThemeTokens();
@@ -15,7 +15,7 @@ export function LoginPage(): React.JSX.Element {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  useEffect(() => { if (isAuthenticated) navigate('/dashboard'); }, [isAuthenticated, navigate]);
+  useEffect(() => { if (isAuthenticated) router.replace('/dashboard'); }, [isAuthenticated, router]);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
