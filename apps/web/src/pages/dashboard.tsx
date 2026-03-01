@@ -1,7 +1,7 @@
 import { type JSX, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, useAuth, useBreakpoint, useI18n } from '@brimair/ui';
-import { useThemeTokens } from '@brimair/design-tokens';
+import { Button, useAuth, useBreakpoint, useI18n } from '@aircraft/ui';
+import { useThemeTokens } from '@aircraft/design-tokens';
 
 type Project = {
   id: string;
