@@ -102,7 +102,7 @@ export function GestureWrapper({
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
-      style= touchAction: 'none', ...style 
+      style={{ touchAction: 'none', ...style }}
     >
       {children}
     </div>
