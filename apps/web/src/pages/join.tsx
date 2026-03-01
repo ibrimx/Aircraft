@@ -1,7 +1,7 @@
 import { type JSX } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { InviteGate, useI18n } from '@brimair/ui';
-import { useThemeTokens } from '@brimair/design-tokens';
+import { InviteGate, useI18n } from '@aircraft/ui';
+import { useThemeTokens } from '@aircraft/design-tokens';
 
 export function JoinPage(): JSX.Element {
   const [params] = useSearchParams();
