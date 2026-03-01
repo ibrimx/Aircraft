@@ -1,4 +1,4 @@
-# Brimair — Product Roadmap
+# Aircraft — Product Roadmap
 
 > **هذا الملف يوضع في:** `docs/ROADMAP.md`
 >
@@ -252,28 +252,6 @@ Each component: type definition + renderer. Registers in component-registry.
 | Impact | sync-engine rewrite + state-bridge modification |
 | Files | ~35 |
 
-```
-packages/sync-engine/          ← rewrite
-├── crdt-engine.ts             ← replaces simple merge
-├── awareness-manager.ts       ← who is where
-├── presence-channel.ts        ← Supabase Realtime
-├── cursor-sync.ts             ← remote cursors
-├── operation-transform.ts     ← conflict resolution
-├── sync-protocol-v2.ts       ← new protocol
-└── sync-recovery.ts          ← handling disconnects
-
-packages/state-bridge/         ← additions
-├── presence-store.ts          ← new
-├── remote-cursors-store.ts    ← new
-
-apps/web/src/components/collaboration/
-├── remote-cursor.tsx
-├── presence-avatars.tsx
-├── collaboration-indicator.tsx
-├── conflict-toast.tsx
-└── mobile-presence-bar.tsx
-```
-
 **Why it works:**
 - A1 (Patch Envelope) already has actorId and logicalTimestamp
 - A2 (Idempotency) ensures replay safety
@@ -304,89 +282,20 @@ apps/web/src/components/collaboration/
 | Location | `packages/forms-engine/` |
 | Files | ~20 |
 
-```
-packages/forms-engine/
-├── form-types.ts
-├── field-registry.ts
-├── validation-engine.ts
-├── submission-handler.ts
-├── form-renderer.ts
-└── integrations/
-    ├── email-integration.ts
-    ├── webhook-integration.ts
-    ├── sheets-integration.ts
-    ├── notion-integration.ts
-    └── supabase-integration.ts
-
-apps/web/src/components/forms/
-├── form-builder-panel.tsx
-├── field-picker.tsx
-├── field-editor.tsx
-├── validation-editor.tsx
-├── submission-list.tsx
-├── integration-picker.tsx
-├── mobile-form-builder.tsx
-├── mobile-field-editor.tsx
-└── mobile-submission-list.tsx
-```
-
-**Field Types:** text, email, phone, number, textarea, select, multi-select, checkbox, radio, date, file-upload, rating, signature
-
-**Validations:** required, min/max length, pattern, custom
-
-**Integrations:** send email, call webhook, add to Google Sheet, add to Notion, insert into Supabase table
-
 ---
 
 #### Analytics (Phase 11)
-
-```
-packages/analytics-engine/
-├── tracker-types.ts
-├── event-tracker.ts
-├── dashboard-data.ts
-└── integrations/
-    ├── google-analytics.ts
-    ├── plausible.ts
-    └── umami.ts
-
-apps/web/src/components/analytics/
-├── analytics-panel.tsx
-├── page-views-chart.tsx
-├── top-pages.tsx
-├── mobile-analytics.tsx
-└── analytics-settings.tsx
-```
 
 **Features:**
 - Page views per published page
 - Top pages by views
 - Traffic sources
 - Integration with GA, Plausible, or Umami
-- Simple dashboard inside Brimair
+- Simple dashboard inside Aircraft
 
 ---
 
 #### Template Marketplace (Phase 12)
-
-```
-packages/template-engine/
-├── template-types.ts
-├── template-registry.ts
-├── template-installer.ts
-├── template-exporter.ts
-├── template-validator.ts
-├── template-preview.ts
-└── template-search.ts
-
-apps/web/src/components/templates/
-├── template-gallery.tsx
-├── template-card.tsx
-├── template-preview-modal.tsx
-├── template-install-flow.tsx
-├── mobile-template-gallery.tsx
-└── mobile-template-preview.tsx
-```
 
 **Features:**
 - Browse templates by category
@@ -422,27 +331,6 @@ apps/web/src/components/templates/
 
 #### Plugin System (Phase 14)
 
-```
-packages/plugin-system/
-├── plugin-types.ts
-├── plugin-registry.ts
-├── plugin-sandbox.ts
-├── plugin-api.ts
-├── plugin-lifecycle.ts
-├── plugin-validator.ts
-├── plugin-permissions.ts
-└── plugin-store.ts
-
-apps/web/src/components/plugins/
-├── plugin-marketplace.tsx
-├── plugin-card.tsx
-├── plugin-detail.tsx
-├── plugin-settings.tsx
-├── installed-plugins.tsx
-├── mobile-plugin-marketplace.tsx
-└── mobile-plugin-settings.tsx
-```
-
 **Plugin Types:**
 
 | Type | What it adds | Example |
@@ -464,31 +352,6 @@ apps/web/src/components/plugins/
 
 #### Hosting + Custom Domains (Phase 15)
 
-```
-infrastructure/
-├── hosting-service/
-│   ├── deploy-manager.ts
-│   ├── domain-manager.ts
-│   ├── ssl-manager.ts
-│   ├── cdn-config.ts
-│   ├── edge-functions/
-│   │   ├── redirect-handler.ts
-│   │   ├── header-handler.ts
-│   │   └── middleware.ts
-│   └── monitoring/
-│       ├── uptime-checker.ts
-│       └── performance-monitor.ts
-
-apps/web/src/components/hosting/
-├── domain-settings.tsx
-├── deploy-history.tsx
-├── deploy-status.tsx
-├── domain-dns-guide.tsx
-├── ssl-status.tsx
-├── mobile-domain-settings.tsx
-└── mobile-deploy-status.tsx
-```
-
 **Features:**
 - One-click deploy from Builder
 - Custom domain connection
@@ -497,39 +360,9 @@ apps/web/src/components/hosting/
 - Deploy history with rollback
 - Edge functions for redirects and headers
 
-**Infrastructure:**
-- Cloudflare Workers for edge
-- Cloudflare Pages for static hosting
-- Cloudflare DNS for domain management
-- Or equivalent: Vercel / AWS CloudFront
-
 ---
 
 #### Billing System (Phase 16)
-
-```
-packages/billing-engine/
-├── plan-types.ts
-├── plan-manager.ts
-├── usage-tracker.ts
-├── quota-enforcer.ts
-└── payment-integration.ts
-
-apps/api/routes/billing/
-├── plans.ts
-├── subscription.ts
-├── usage.ts
-└── webhooks.ts
-
-apps/web/src/components/billing/
-├── plan-picker.tsx
-├── current-plan.tsx
-├── usage-dashboard.tsx
-├── payment-method.tsx
-├── invoice-list.tsx
-├── mobile-plan-picker.tsx
-└── mobile-usage.tsx
-```
 
 **Plans (example):**
 
@@ -585,7 +418,7 @@ apps/web/src/components/billing/
 
 | Feature | Description |
 |---------|-------------|
-| Custom branding | Replace Brimair logo and colors |
+| Custom branding | Replace Aircraft logo and colors |
 | Custom domain for app | client.yourdomain.com |
 | Custom email templates | Branded invite emails |
 | Isolated data | Per-tenant data isolation |
@@ -593,14 +426,6 @@ apps/web/src/components/billing/
 ---
 
 #### E-commerce
-
-| Feature | Description |
-|---------|-------------|
-| Product catalog | Manage products in CMS or built-in |
-| Cart | Shopping cart component |
-| Checkout | Payment flow |
-| Inventory | Stock management |
-| Shipping | Shipping rules |
 
 **Note:** This is a separate product. Only pursue if market demands.
 
@@ -660,7 +485,7 @@ apps/web/src/components/billing/
 
 ---
 
-**END — Brimair Product Roadmap**
+**END — Aircraft Product Roadmap**
 
 **v4.5 → v5.0 → v6.0 → v7.0 → v8.0**
 
