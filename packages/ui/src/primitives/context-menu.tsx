@@ -35,6 +35,18 @@ export function ContextMenu({
     return () => document.removeEventListener('keydown', esc)
   }, [state.open, close])
 
+  const overlayStyle: CSSProperties = {
+    position: 'fixed',
+    inset: 0,
+    zIndex: Z_INDEX.popover - 1,
+  }
+
+  const separatorStyle: CSSProperties = {
+    height: '1px',
+    background: theme.colors.border.subtle,
+    marginBlock: '4px',
+  }
+
   return (
     <>
       <div onContextMenu={handleContext} className={className} style={style}>
@@ -43,11 +55,7 @@ export function ContextMenu({
       {state.open && createPortal(
         <>
           <div
-            style={{
-              position: 'fixed',
-              inset: 0,
-              zIndex: Z_INDEX.popover - 1,
-            }}
+            style={overlayStyle}
             onClick={close}
             onContextMenu={(e) => { e.preventDefault(); close() }}
           />
@@ -62,11 +70,7 @@ export function ContextMenu({
           }}>
             {items.map((entry) =>
               isSeparator(entry)
-                ? <div key={entry.id} style={{
-                    height: '1px',
-                    background: theme.colors.border.subtle,
-                    marginBlock: '4px',
-                  }} />
+                ? <div key={entry.id} style={separatorStyle} />
                 : <MenuItemRow key={entry.id} item={entry} theme={theme}
                     onSelect={() => { entry.onClick(); close() }} />
             )}

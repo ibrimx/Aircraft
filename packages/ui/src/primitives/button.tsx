@@ -38,28 +38,33 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const s = SIZE_MAP[size]
     const variantStyle = getVariantStyle(variant, theme)
 
+    const computedStyle: CSSProperties = {
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: theme.spacing[2],
+      height: s.height,
+      paddingInline: s.paddingInline,
+      borderRadius: theme.radius.md,
+      fontFamily: theme.fontFamily.sans,
+      fontSize: theme.textStyles[s.textStyle].fontSize,
+      fontWeight: theme.textStyles[s.textStyle].fontWeight,
+      cursor: disabled ? 'not-allowed' : 'pointer',
+      opacity: disabled ? 0.4 : 1,
+      width: fullWidth ? '100%' : 'auto',
+      border: 'none',
+      outline: 'none',
+      transition: cssTransition('background', 'normal', 'easeInOut'),
+      ...variantStyle,
+      ...style,
+    }
+
     return (
       <button
         ref={ref}
         disabled={disabled || loading}
         className={className}
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: s.height,
-          paddingInline: s.paddingInline,
-          borderRadius: theme.radius.md,
-          fontFamily: theme.fontFamily.sans,
-          cursor: disabled ? 'not-allowed' : 'pointer',
-          opacity: disabled ? 0.4 : 1,
-          width: fullWidth ? '100%' : 'auto',
-          border: 'none',
-          outline: 'none',
-          transition: cssTransition('background', 'normal', 'easeInOut'),
-          ...variantStyle,
-          ...style,
-        }}
+        style={computedStyle}
         {...rest}
       >
         {loading ? '\u2026' : children}

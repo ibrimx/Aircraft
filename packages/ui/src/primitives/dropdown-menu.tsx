@@ -47,8 +47,16 @@ export function DropdownMenu({
     }
   }, [open])
 
+  const wrapperStyle: CSSProperties = { position: 'relative', ...style }
+
+  const separatorStyle: CSSProperties = {
+    height: '1px',
+    background: theme.colors.border.subtle,
+    marginBlock: '4px',
+  }
+
   return (
-    <div ref={ref} className={className} style={{ position: 'relative', ...style }}>
+    <div ref={ref} className={className} style={wrapperStyle}>
       <div onClick={() => setOpen((p) => !p)}>{trigger}</div>
       {open && (
         <div role="menu" style={{
@@ -66,11 +74,7 @@ export function DropdownMenu({
         }}>
           {items.map((entry) =>
             isSeparator(entry)
-              ? <div key={entry.id} style={{
-                  height: '1px',
-                  background: theme.colors.border.subtle,
-                  marginBlock: '4px',
-                }} />
+              ? <div key={entry.id} style={separatorStyle} />
               : <MenuItemRow key={entry.id} item={entry} theme={theme}
                   onSelect={() => { entry.onClick(); setOpen(false) }} />
           )}
@@ -84,39 +88,49 @@ export function MenuItemRow({ item, theme, onSelect }: {
   item: MenuItem; theme: ReturnType<typeof useThemeTokens>; onSelect: () => void
 }) {
   const isDestructive = item.type === 'destructive'
+
+  const rowStyle: CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    paddingBlock: '6px',
+    paddingInline: '12px',
+    cursor: item.disabled ? 'not-allowed' : 'pointer',
+    opacity: item.disabled ? 0.4 : 1,
+    color: isDestructive ? theme.colors.destructive.default : theme.colors.text.primary,
+    fontSize: theme.textStyles.body.fontSize,
+    fontFamily: theme.fontFamily.sans,
+    minHeight: '36px',
+    transition: cssTransition('background', 'fast', 'easeInOut'),
+  }
+
+  const iconStyle: CSSProperties = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    flexShrink: 0,
+    width: '16px',
+    height: '16px',
+  }
+
+  const labelStyle: CSSProperties = { flex: 1 }
+
+  const shortcutStyle: CSSProperties = {
+    marginInlineStart: 'auto',
+    fontSize: '11px',
+    color: theme.colors.text.tertiary,
+    fontFamily: theme.fontFamily.mono,
+  }
+
   return (
     <div
       role="menuitem" tabIndex={item.disabled ? -1 : 0}
       onClick={() => { if (!item.disabled) onSelect() }}
       onKeyDown={(e) => { if (e.key === 'Enter' && !item.disabled) onSelect() }}
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px',
-        paddingBlock: '8px',
-        paddingInline: '12px',
-        cursor: item.disabled ? 'not-allowed' : 'pointer',
-        opacity: item.disabled ? 0.4 : 1,
-        color: isDestructive ? theme.colors.destructive.default : theme.colors.text.primary,
-        fontSize: theme.textStyles.body.fontSize,
-        fontFamily: theme.fontFamily.sans,
-      }}
+      style={rowStyle}
     >
-      {item.icon && (
-        <span style={{ display: 'inline-flex', alignItems: 'center', flexShrink: 0 }}>
-          {item.icon}
-        </span>
-      )}
-      <span style={{ flex: 1, textAlign: 'start' }}>{item.label}</span>
-      {item.shortcut && (
-        <span style={{
-          fontSize: theme.textStyles.caption.fontSize,
-          color: theme.colors.text.secondary,
-          marginInlineStart: 'auto',
-        }}>
-          {item.shortcut}
-        </span>
-      )}
+      {item.icon && <span style={iconStyle}>{item.icon}</span>}
+      <span style={labelStyle}>{item.label}</span>
+      {item.shortcut && <span style={shortcutStyle}>{item.shortcut}</span>}
     </div>
   )
 }

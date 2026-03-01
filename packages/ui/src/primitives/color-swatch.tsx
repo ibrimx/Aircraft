@@ -27,6 +27,13 @@ export function ColorSwatch({
   const theme = useThemeTokens()
   const dim = SWATCH_SIZE[size]
 
+  const spanStyle: CSSProperties = {
+    position: 'absolute',
+    inset: 0,
+    background: color,
+    borderRadius: 'inherit',
+  }
+
   return (
     <button
       type="button"
@@ -49,12 +56,7 @@ export function ColorSwatch({
         ...style,
       }}
     >
-      <span style={{
-        position: 'absolute',
-        inset: 0,
-        background: color,
-        borderRadius: 'inherit',
-      }} />
+      <span style={spanStyle} />
     </button>
   )
 }
