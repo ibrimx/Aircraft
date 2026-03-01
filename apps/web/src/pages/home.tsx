@@ -1,7 +1,7 @@
 import { type JSX, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, useBreakpoint, useAuth, useI18n } from '@brimair/ui';
-import { useThemeTokens } from '@brimair/design-tokens';
+import { Button, useBreakpoint, useAuth, useI18n } from '@aircraft/ui';
+import { useThemeTokens } from '@aircraft/design-tokens';
 import { MarketingLayout } from '../layouts/marketing-layout';
 
 const FEATURES = [
