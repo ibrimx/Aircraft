@@ -44,20 +44,19 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={disabled || loading}
         className={className}
         style={{
-          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-          gap: theme.spacing[2],
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
           height: s.height,
           paddingInline: s.paddingInline,
           borderRadius: theme.radius.md,
           fontFamily: theme.fontFamily.sans,
-          fontSize: theme.textStyles[s.textStyle].fontSize,
-          fontWeight: theme.textStyles[s.textStyle].fontWeight,
-          cursor: disabled || loading ? 'not-allowed' : 'pointer',
-          opacity: disabled || loading ? 0.4 : 1,
+          cursor: disabled ? 'not-allowed' : 'pointer',
+          opacity: disabled ? 0.4 : 1,
           width: fullWidth ? '100%' : 'auto',
-          transition: cssTransition('background', 'normal', 'easeInOut'),
           border: 'none',
           outline: 'none',
+          transition: cssTransition('background', 'normal', 'easeInOut'),
           ...variantStyle,
           ...style,
         }}
