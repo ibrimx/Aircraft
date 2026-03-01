@@ -32,6 +32,18 @@ export * from './hooks/use-safe-area'
 export * from './hooks/use-orientation'
 export * from './hooks/use-thumb-zone'
 
+// ─── I18n ─────────────────────────────────────────────────────────────────────
+export * from './i18n/i18n-provider'
+
+// ─── Panels ───────────────────────────────────────────────────────────────────
+export * from './panels/index'
+
+// ─── CMS ──────────────────────────────────────────────────────────────────────
+export * from './cms/index'
+
+// ─── Auth ─────────────────────────────────────────────────────────────────────
+export * from './auth/index'
+
 // ─── System ───────────────────────────────────────────────────────────────────
 export * from './system/offline-indicator'
 export * from './system/error-fallback'
