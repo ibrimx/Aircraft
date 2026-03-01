@@ -1,5 +1,5 @@
 {
-  "name": "@brimair/brand-kit",
+  "name": "@aircraft/brand-kit",
   "version": "0.0.1",
   "private": true,
   "main": "./src/index.ts",

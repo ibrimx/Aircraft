@@ -3,7 +3,7 @@ import type { ISODateString } from './common'
 /** Error severity indicating expected impact and handling strategy. */
 export type ErrorSeverity = 'recoverable' | 'fatal' | 'silent'
 
-/** Top-level category for grouping Brimair system errors. */
+/** Top-level category for grouping Aircraft system errors. */
 export type ErrorCategory =
   | 'patch'
   | 'document'
@@ -27,9 +27,9 @@ export type RecoveryAction =
   | 'contact-support'
 
 /**
- * Canonical error object used across Brimair packages and applications.
+ * Canonical error object used across Aircraft packages and applications.
  */
-export type BrimairError = {
+export type AircraftError = {
   code: string
   category: ErrorCategory
   severity: ErrorSeverity
@@ -64,7 +64,7 @@ export const ERROR_CODES = {
 } as const
 
 /**
- * Creates a normalized BrimairError with defaults derived from severity/category.
+ * Creates a normalized AircraftError with defaults derived from severity/category.
  */
 export function createError(
   code: string,
@@ -72,7 +72,7 @@ export function createError(
   severity: ErrorSeverity,
   message: string,
   context: Record<string, unknown> = {}
-): BrimairError {
+): AircraftError {
   const recoveryAction: RecoveryAction | null =
     severity === 'silent'
       ? 'ignore'

@@ -1,5 +1,5 @@
 {
-  "name": "@brimair/auth-engine",
+  "name": "@aircraft/auth-engine",
   "version": "0.0.1",
   "private": true,
   "main": "./src/index.ts",

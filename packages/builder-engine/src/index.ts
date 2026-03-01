@@ -1,3 +1,3 @@
-// @brimair/builder-engine
+// @aircraft/builder-engine
 // Barrel export — will be populated as files are added.
 export {}

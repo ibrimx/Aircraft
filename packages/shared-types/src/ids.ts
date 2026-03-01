@@ -1,5 +1,5 @@
 /**
- * Branded ID system for Brimair.
+ * Branded ID system for Aircraft.
  *
  * Design decision: We use `unique symbol` + `BrandedId<Tag>` pattern instead
  * of simple string aliases. This provides compile-time safety — you cannot
