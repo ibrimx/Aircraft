@@ -8,7 +8,7 @@ import {
   StatusBar,
   Inspector,
   useBreakpoint,
-} from '@brimair/ui';
+} from '@aircraft/ui';
 
 export type BuilderLayoutProps = {
   children: ReactNode;

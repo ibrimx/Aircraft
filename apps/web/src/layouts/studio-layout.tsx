@@ -9,7 +9,7 @@ import {
   Inspector,
   Workspace,
   useBreakpoint,
-} from '@brimair/ui';
+} from '@aircraft/ui';
 
 export type StudioLayoutProps = {
   children: ReactNode;

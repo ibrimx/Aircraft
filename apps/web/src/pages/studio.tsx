@@ -1,6 +1,6 @@
 import { type CSSProperties, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useAuth, useI18n, CommandPalette, ErrorFallback, Workspace } from '@brimair/ui';
+import { useAuth, useI18n, CommandPalette, ErrorFallback, Workspace } from '@aircraft/ui';
 import { useThemeTokens } from '@aircraft/design-tokens';
 import { StudioLayout } from '../layouts/studio-layout';
 
