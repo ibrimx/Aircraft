@@ -1,5 +1,5 @@
 import { type CSSProperties, useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { useI18n, useBreakpoint, Button } from '@aircraft/ui';
 import { useThemeTokens, Z_INDEX } from '@aircraft/design-tokens';
 
@@ -34,15 +34,15 @@ export function HomePage(): React.JSX.Element {
     <div style={css({ color: tk.text.primary, background: tk.bg.canvas })}>
       {/* Navbar */}
       <nav style={css({ position: 'fixed', insetBlockStart: 0, insetInline: 0, zIndex: Z_INDEX.sticky, display: 'flex', alignItems: 'center', justifyContent: 'space-between', blockSize: 64, paddingInline: 24, background: `${tk.bg.canvas}cc`, backdropFilter: 'blur(12px)' })}>
-        <Link to="/" style={css({ color: tk.text.primary, textDecoration: 'none', fontWeight: 700, fontSize: 20 })}>{t('home.brand')}</Link>
+        <Link href="/" style={css({ color: tk.text.primary, textDecoration: 'none', fontWeight: 700, fontSize: 20 })}>{t('home.brand')}</Link>
         <div style={css({ display: 'flex', gap: 24, alignItems: 'center' })}>
           {!bp.isMobile && (
             <>
-              <Link to="/features" style={css({ color: tk.text.secondary, textDecoration: 'none' })}>{t('home.nav.features')}</Link>
-              <Link to="/pricing" style={css({ color: tk.text.secondary, textDecoration: 'none' })}>{t('home.nav.pricing')}</Link>
+              <Link href="/features" style={css({ color: tk.text.secondary, textDecoration: 'none' })}>{t('home.nav.features')}</Link>
+              <Link href="/pricing" style={css({ color: tk.text.secondary, textDecoration: 'none' })}>{t('home.nav.pricing')}</Link>
             </>
           )}
-          <Link to="/login">
+          <Link href="/login">
             <Button style={css({ background: tk.accent.default, color: tk.bg.canvas, minBlockSize: 44, paddingInline: 20, borderRadius: 8, border: 'none', cursor: 'pointer' })}>{t('home.nav.cta')}</Button>
           </Link>
         </div>
@@ -54,10 +54,10 @@ export function HomePage(): React.JSX.Element {
           <h1 style={css({ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 800, lineHeight: 1.1, maxInlineSize: 800, marginBlockEnd: 16 })}>{t('home.hero.title')}</h1>
           <p style={css({ fontSize: 18, color: tk.text.secondary, maxInlineSize: 600, marginBlockEnd: 32 })}>{t('home.hero.subtitle')}</p>
           <div style={css({ display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center' })}>
-            <Link to="/login">
+            <Link href="/login">
               <Button style={css({ background: tk.accent.default, color: tk.bg.canvas, minBlockSize: 48, paddingInline: 32, borderRadius: 12, border: 'none', fontSize: 16, cursor: 'pointer' })}>{t('home.hero.cta1')}</Button>
             </Link>
-            <Link to="/features">
+            <Link href="/features">
               <Button style={css({ background: 'transparent', color: tk.text.primary, minBlockSize: 48, paddingInline: 32, borderRadius: 12, border: `1px solid ${tk.border.default}`, fontSize: 16, cursor: 'pointer' })}>{t('home.hero.cta2')}</Button>
             </Link>
           </div>
@@ -125,7 +125,7 @@ export function HomePage(): React.JSX.Element {
         <section style={css({ paddingBlock: 80, paddingInline: 24, textAlign: 'center', background: `linear-gradient(180deg, transparent, ${tk.accent.subtle})` })}>
           <h2 style={css({ fontSize: 32, fontWeight: 800, marginBlockEnd: 16 })}>{t('home.finalCta.title')}</h2>
           <p style={css({ color: tk.text.secondary, marginBlockEnd: 32, maxInlineSize: 500, marginInline: 'auto' })}>{t('home.finalCta.desc')}</p>
-          <Link to="/login">
+          <Link href="/login">
             <Button style={css({ background: tk.accent.default, color: tk.bg.canvas, minBlockSize: 48, paddingInline: 32, borderRadius: 12, border: 'none', fontSize: 16, cursor: 'pointer' })}>{t('home.finalCta.cta')}</Button>
           </Link>
         </section>
