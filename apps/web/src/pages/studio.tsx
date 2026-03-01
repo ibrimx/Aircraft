@@ -1,7 +1,7 @@
 import { type CSSProperties, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth, useI18n, CommandPalette, ErrorFallback, Workspace } from '@brimair/ui';
-import { useThemeTokens } from '@brimair/design-tokens';
+import { useThemeTokens } from '@aircraft/design-tokens';
 import { StudioLayout } from '../layouts/studio-layout';
 
 const css = (s: CSSProperties): CSSProperties => s;
