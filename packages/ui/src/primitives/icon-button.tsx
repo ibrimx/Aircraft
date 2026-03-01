@@ -1,12 +1,10 @@
 /**
  * P26 — icon-button.tsx · Square icon button with required aria-label
  * @package @aircraft/ui
- * 📖 DSG §10.2 Variants · STUDIO §3.1 Toolbar 32px icons
- * 📖 PAGE BUILDER §6.3 Touch targets
  */
 
 import { forwardRef } from 'react'
-import type { ReactNode } from 'react'
+import type { ReactNode, CSSProperties } from 'react'
 import { Button } from './button'
 import type { ButtonProps, ButtonSize } from './button'
 
@@ -21,15 +19,17 @@ const ICON_SIZE: Record<ButtonSize, string> = {
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   function IconButton({ icon, size = 'md', style, ...rest }, ref) {
+    const iconStyle: CSSProperties = {
+      width: ICON_SIZE[size],
+      paddingInline: '0px',
+      ...style,
+    }
+
     return (
       <Button
         ref={ref}
         size={size}
-        style=
-          width: ICON_SIZE[size],
-          paddingInline: '0px',
-          ...style,
-        
+        style={iconStyle}
         {...rest}
       >
         {icon}

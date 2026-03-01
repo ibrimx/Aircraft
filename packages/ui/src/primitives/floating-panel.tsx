@@ -1,10 +1,6 @@
 /**
  * P25 — floating-panel.tsx · Floating panel with RTL-safe placement
  * @package @aircraft/ui
- * Absolute-positioned GlassPanel using Z_INDEX tokens + logical properties.
- * 📖 DSG §6.2 Glass · §7 Z-Index · §11 RTL
- * 📖 PAGE BUILDER §6 RTL logical properties
- * 📖 STUDIO §11 z-index tokens only
  */
 
 import type { ReactNode, CSSProperties } from 'react'
@@ -39,10 +35,18 @@ export function FloatingPanel({
   className,
   style,
 }: FloatingPanelProps): JSX.Element {
+  const panelStyle: CSSProperties = {
+    position: 'absolute',
+    width,
+    zIndex,
+    ...PLACEMENT_STYLES[placement](offset),
+    ...style,
+  }
+
   return (
     <GlassPanel
       className={className}
-      style=466
+      style={panelStyle}
     >
       {children}
     </GlassPanel>

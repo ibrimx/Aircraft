@@ -34,8 +34,34 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       ? theme.colors.destructive.default
       : theme.colors.border.default
 
+    const wrapperStyle: CSSProperties = {
+      display: 'inline-flex',
+      flexDirection: 'column',
+      width: fullWidth ? '100%' : 'auto',
+    }
+
+    const inputNativeStyle: CSSProperties = {
+      flex: 1,
+      border: 'none',
+      outline: 'none',
+      background: 'transparent',
+      color: theme.colors.text.primary,
+      fontSize: s.fontSize,
+      fontFamily: theme.fontFamily.sans,
+      lineHeight: String(theme.textStyles.body.lineHeight),
+      textAlign: 'start',
+      width: '100%',
+    }
+
+    const helperStyle: CSSProperties = {
+      fontSize: '12px',
+      color: error ? theme.colors.destructive.default : theme.colors.text.secondary,
+      marginBlockStart: theme.spacing[1],
+      paddingInlineStart: s.paddingInline,
+    }
+
     return (
-      <div style=463>
+      <div style={wrapperStyle}>
         <div
           className={className}
           style={{
@@ -55,13 +81,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           <input
             ref={ref}
             disabled={disabled}
-            style=464
+            style={inputNativeStyle}
             {...rest}
           />
           {endIcon}
         </div>
         {helperText && (
-          <span style=465>
+          <span style={helperStyle}>
             {helperText}
           </span>
         )}

@@ -49,8 +49,18 @@ export function Select({
     ? theme.colors.destructive.default
     : theme.colors.border.default
 
+  const wrapperStyle: CSSProperties = {
+    position: 'relative',
+    ...style,
+  }
+
+  const chevronStyle: CSSProperties = {
+    fontSize: '10px',
+    marginInlineStart: '8px',
+  }
+
   return (
-    <div ref={ref} className={className} style= position: 'relative', ...style >
+    <div ref={ref} className={className} style={wrapperStyle}>
       {/* Trigger */}
       <button
         type="button" disabled={disabled}
@@ -69,7 +79,7 @@ export function Select({
         }}
       >
         <span>{selected ? selected.label : placeholder}</span>
-        <span style= fontSize: '10px', marginInlineStart: '8px' >{"\u25BC"}</span>
+        <span style={chevronStyle}>{"\u25BC"}</span>
       </button>
 
       {/* Dropdown */}
@@ -84,21 +94,26 @@ export function Select({
           zIndex: Z_INDEX.dropdown,
           maxHeight: '200px', overflowY: 'auto' as const,
         }}>
-          {options.map((opt) => (
-            <div
-              key={opt.value} role="option" aria-selected={opt.value === value}
-              onClick={() => { if (!opt.disabled) { onChange(opt.value); setOpen(false) } }}
-              style=
-                paddingBlock: '8px', paddingInline: s.paddingInline,
-                fontSize: s.fontSize, fontFamily: theme.fontFamily.sans,
-                color: opt.disabled ? theme.colors.text.disabled : theme.colors.text.primary,
-                cursor: opt.disabled ? 'not-allowed' : 'pointer',
-                background: opt.value === value ? theme.colors.accent.subtle : 'transparent',
-              
-            >
-              {opt.label}
-            </div>
-          ))}
+          {options.map((opt) => {
+            const optStyle: CSSProperties = {
+              paddingBlock: '8px',
+              paddingInline: s.paddingInline,
+              fontSize: s.fontSize,
+              fontFamily: theme.fontFamily.sans,
+              color: opt.disabled ? theme.colors.text.disabled : theme.colors.text.primary,
+              cursor: opt.disabled ? 'not-allowed' : 'pointer',
+              background: opt.value === value ? theme.colors.accent.subtle : 'transparent',
+            }
+            return (
+              <div
+                key={opt.value} role="option" aria-selected={opt.value === value}
+                onClick={() => { if (!opt.disabled) { onChange(opt.value); setOpen(false) } }}
+                style={optStyle}
+              >
+                {opt.label}
+              </div>
+            )
+          })}
         </div>
       )}
     </div>
