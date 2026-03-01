@@ -18,3 +18,16 @@ export const SPACING = {
 } as const
 
 export type SpacingKey = keyof typeof SPACING
+
+export const SPACING_ALIAS = {
+  none: SPACING[0.5],
+  xs: SPACING[1],
+  sm: SPACING[2],
+  md: SPACING[4],
+  lg: SPACING[6],
+  xl: SPACING[8],
+  '2xl': SPACING[10],
+  '3xl': SPACING[12],
+} as const
+
+export type SpacingAlias = keyof typeof SPACING_ALIAS
