@@ -1,0 +1,106 @@
+{
+  "common": {
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "create": "إنشاء",
+    "close": "إغلاق",
+    "open": "فتح",
+    "loading": "جاري التحميل...",
+    "error": "حدث خطأ",
+    "retry": "إعادة المحاولة",
+    "confirm": "تأكيد",
+    "search": "بحث",
+    "noResults": "لا توجد نتائج",
+    "back": "رجوع",
+    "next": "التالي",
+    "previous": "السابق",
+    "done": "تم",
+    "yes": "نعم",
+    "no": "لا",
+    "ok": "حسنًا"
+  },
+  "auth": {
+    "login": "تسجيل الدخول",
+    "logout": "تسجيل الخروج",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "invalidCredentials": "بيانات الدخول غير صحيحة",
+    "sessionExpired": "انتهت الجلسة، يرجى تسجيل الدخول مرة أخرى",
+    "accessDenied": "ليس لديك صلاحية الوصول",
+    "inviteAccepted": "تم قبول الدعوة بنجاح",
+    "inviteExpired": "انتهت صلاحية الدعوة",
+    "inviteInvalid": "الدعوة غير صالحة"
+  },
+  "roles": {
+    "admin": "مدير",
+    "editor": "محرر",
+    "viewer": "مشاهد",
+    "owner": "مالك"
+  },
+  "studio": {
+    "layers": "الطبقات",
+    "inspector": "المفتش",
+    "assets": "الأصول",
+    "components": "المكونات",
+    "history": "السجل",
+    "undo": "تراجع",
+    "redo": "إعادة",
+    "zoom": "تكبير",
+    "zoomIn": "تكبير",
+    "zoomOut": "تصغير",
+    "fitToScreen": "ملائمة الشاشة",
+    "duplicate": "تكرار",
+    "group": "تجميع",
+    "ungroup": "فك التجميع",
+    "lock": "قفل",
+    "unlock": "فك القفل",
+    "hide": "إخفاء",
+    "show": "إظهار"
+  },
+  "builder": {
+    "pages": "الصفحات",
+    "addPage": "إضافة صفحة",
+    "publish": "نشر",
+    "preview": "معاينة",
+    "settings": "الإعدادات",
+    "seo": "تحسين محركات البحث",
+    "sections": "الأقسام",
+    "addSection": "إضافة قسم"
+  },
+  "cms": {
+    "sources": "المصادر",
+    "collections": "المجموعات",
+    "records": "السجلات",
+    "fields": "الحقول",
+    "connected": "متصل",
+    "disconnected": "غير متصل",
+    "syncNow": "مزامنة الآن",
+    "lastSync": "آخر مزامنة",
+    "noSources": "لا توجد مصادر متصلة"
+  },
+  "errors": {
+    "networkError": "خطأ في الاتصال بالشبكة",
+    "serverError": "خطأ في الخادم",
+    "notFound": "غير موجود",
+    "unauthorized": "غير مصرّح",
+    "forbidden": "ممنوع الوصول",
+    "validationError": "خطأ في البيانات المدخلة",
+    "fileTooLarge": "الملف كبير جدًا",
+    "unsupportedFormat": "صيغة غير مدعومة"
+  },
+  "offline": {
+    "youAreOffline": "أنت غير متصل بالإنترنت",
+    "changesQueued": "التغييرات محفوظة وسيتم مزامنتها عند الاتصال",
+    "backOnline": "تم استعادة الاتصال",
+    "syncingChanges": "جاري مزامنة التغييرات..."
+  },
+  "mobile": {
+    "tapToEdit": "انقر للتعديل",
+    "swipeToDelete": "اسحب للحذف",
+    "pullToRefresh": "اسحب للتحديث",
+    "pinchToZoom": "قارب للتكبير"
+  }
+}
