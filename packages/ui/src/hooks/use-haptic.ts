@@ -1,6 +1,6 @@
 // packages/ui/src/hooks/use-haptic.ts
 import { useCallback, useMemo } from 'react';
-import type { HapticPattern } from '@brimair/shared-types';
+import type { HapticPattern } from '@aircraft/shared-types';
 import { triggerHaptic } from '../mobile/haptic-feedback';
 import { useReducedMotion } from './use-reduced-motion';
 

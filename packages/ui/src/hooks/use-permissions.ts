@@ -4,7 +4,7 @@ import type {
   ActionPermission,
   ResourceType,
   SystemPermission,
-} from '@brimair/auth-engine';
+} from '@aircraft/auth-engine';
 import { useAuth } from './use-auth';
 
 // ── Types ────────────────────────────────────────────────

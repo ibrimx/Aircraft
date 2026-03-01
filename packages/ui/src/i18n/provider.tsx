@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import type { Direction } from '@brimair/shared-types';
+import type { Direction } from '@aircraft/shared-types';
 import { useDirection } from '../hooks/use-direction';
 
 export type Locale = 'ar' | 'en';
@@ -11,7 +11,7 @@ export type I18nContextValue = {
   setLocale: (locale: Locale) => void;
 };
 
-const STORAGE_KEY = 'brimair-locale';
+const STORAGE_KEY = 'aircraft-locale';
 const IS_SSR = typeof window === 'undefined';
 
 const readStoredLocale = (): Locale | null => {
