@@ -8,7 +8,7 @@ import {
   useRef,
   Children,
 } from 'react';
-import { motion, useMotionValue, useTransform, animate, type PanInfo } from 'framer-motion';
+import { motion, useMotionValue, animate, type PanInfo } from 'framer-motion';
 import { useThemeTokens } from '@brimair/design-tokens';
 import { EASING, DURATION } from '@brimair/design-tokens';
 
@@ -42,7 +42,7 @@ const wrapCSS: CSSProperties = {
   touchAction: 'pan-y',
 };
 
-const trackCSS: CSSProperties = {
+const trackBaseCSS: CSSProperties = {
   display: 'flex',
   willChange: 'transform',
 };
@@ -65,34 +65,31 @@ function clamp(val: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, val));
 }
 
-function rubberBand(offset: number, limit: number, factor: number): number {
-  const sign = offset < 0 ? -1 : 1;
-  const abs = Math.abs(offset);
-  if (abs <= limit) return offset;
-  const over = abs - limit;
-  return sign * (limit + over * factor);
+function rubberBand(raw: number, boundary: number, factor: number): number {
+  if (Math.abs(raw) <= Math.abs(boundary)) return raw;
+  const over = raw - boundary;
+  return boundary + over * factor;
 }
 
 /* ── Component ─────────────────────────────────────────── */
 
-export function SwipePanel({
-  children,
-  activeIndex: controlledIndex,
-  onIndexChange,
-  snapVelocity = DEFAULT_SNAP_VELOCITY,
-  rubberBandFactor = DEFAULT_RUBBER,
-  showIndicator = true,
-  gap = 0,
-}: SwipePanelProps) {
+export function SwipePanel(props: SwipePanelProps) {
+  const {
+    children,
+    activeIndex: controlledIndex,
+    onIndexChange,
+    snapVelocity = DEFAULT_SNAP_VELOCITY,
+    rubberBandFactor = DEFAULT_RUBBER,
+    showIndicator = true,
+    gap = 0,
+  } = props;
+
   const tokens = useThemeTokens();
   const count = Children.count(children);
   const containerRef = useRef<HTMLDivElement>(null);
-
   const [internalIndex, setInternalIndex] = useState(0);
   const index = controlledIndex ?? internalIndex;
-
   const x = useMotionValue(0);
-  const dragStartX = useRef(0);
 
   const getWidth = useCallback((): number => {
     return containerRef.current?.offsetWidth ?? 0;
@@ -109,17 +106,12 @@ export function SwipePanel({
     [count, gap, getWidth, onIndexChange, x],
   );
 
-  const handleDragStart = useCallback(() => {
-    dragStartX.current = x.get();
-  }, [x]);
-
   const handleDragEnd = useCallback(
     (_: unknown, info: PanInfo) => {
       const w = getWidth();
       if (w === 0) return;
       const offset = info.offset.x;
       const velocity = info.velocity.x;
-
       let next = index;
       if (Math.abs(velocity) > snapVelocity) {
         next = velocity < 0 ? index + 1 : index - 1;
@@ -138,11 +130,10 @@ export function SwipePanel({
       const base = -(index * (w + gap));
       const raw = base + info.offset.x;
       const minX = -((count - 1) * (w + gap));
-      const clamped = rubberBand(raw, Math.abs(minX), rubberBandFactor);
       if (raw > 0) {
-        x.set(rubberBand(raw, 0, rubberBandFactor));
+        x.set(raw * rubberBandFactor);
       } else if (raw < minX) {
-        x.set(minX - Math.abs(rubberBand(raw - minX, 0, rubberBandFactor)));
+        x.set(minX + (raw - minX) * rubberBandFactor);
       } else {
         x.set(raw);
       }
@@ -151,11 +142,14 @@ export function SwipePanel({
   );
 
   const trackStyle: CSSProperties = useMemo(
-    () => ({ ...trackCSS, gap }),
+    () => ({ ...trackBaseCSS, gap }),
     [gap],
   );
 
-  const activeIndicatorCSS: CSSProperties = useMemo(
+  // Merge motion value with track style — extracted to avoid inline double-brace
+  const motionStyle = { ...trackStyle, x };
+
+  const dotActiveCSS: CSSProperties = useMemo(
     () => ({
       inlineSize: INDICATOR_SIZE,
       blockSize: INDICATOR_SIZE,
@@ -166,7 +160,7 @@ export function SwipePanel({
     [tokens.accentPrimary],
   );
 
-  const inactiveIndicatorCSS: CSSProperties = useMemo(
+  const dotInactiveCSS: CSSProperties = useMemo(
     () => ({
       inlineSize: INDICATOR_SIZE,
       blockSize: INDICATOR_SIZE,
@@ -180,11 +174,10 @@ export function SwipePanel({
   return (
     <div ref={containerRef} style={wrapCSS}>
       <motion.div
-        style= ...trackStyle, x 
+        style={motionStyle}
         drag="x"
         dragElastic={0}
         dragMomentum={false}
-        onDragStart={handleDragStart}
         onDrag={handleDrag}
         onDragEnd={handleDragEnd}
       >
@@ -197,10 +190,7 @@ export function SwipePanel({
       {showIndicator && count > 1 && (
         <div style={indicatorBarCSS}>
           {Array.from({ length: count }, (_, i) => (
-            <div
-              key={i}
-              style={i === index ? activeIndicatorCSS : inactiveIndicatorCSS}
-            />
+            <div key={i} style={i === index ? dotActiveCSS : dotInactiveCSS} />
           ))}
         </div>
       )}
