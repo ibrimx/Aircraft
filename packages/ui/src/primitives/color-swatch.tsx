@@ -50,11 +50,11 @@ export function ColorSwatch({
         ...style,
       }}
     >
-      <span style=
+      <span style={{
         position: 'absolute', inset: 0,
         background: color,
         borderRadius: 'inherit',
-       />
+      }} />
     </button>
   )
 }
