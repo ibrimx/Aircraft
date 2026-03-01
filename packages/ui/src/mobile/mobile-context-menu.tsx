@@ -32,6 +32,10 @@ export type MobileContextMenuProps = {
 const VIEWPORT_PADDING = 12;
 const MENU_MIN_WIDTH = 200;
 
+const SCALE_IN = { scale: 0.6, opacity: 0 };
+const SCALE_FULL = { scale: 1, opacity: 1 };
+const ORIGIN_STYLE: CSSProperties = { transformOrigin: 'top left' };
+
 /* ── Styles ────────────────────────────────────────────── */
 
 const overlayCSS: CSSProperties = {
@@ -110,6 +114,11 @@ export function MobileContextMenu({
     [],
   );
 
+  const hrStyle: CSSProperties = useMemo(
+    () => ({ ...dividerCSS, backgroundColor: tokens.border }),
+    [tokens.border],
+  );
+
   return (
     <AnimatePresence>
       {open && (
@@ -122,11 +131,11 @@ export function MobileContextMenu({
             onClick={(e) => e.stopPropagation()}
           >
             <motion.div
-              initial= scale: 0.6, opacity: 0 
-              animate= scale: 1, opacity: 1 
-              exit= scale: 0.6, opacity: 0 
+              initial={SCALE_IN}
+              animate={SCALE_FULL}
+              exit={SCALE_IN}
               transition={SPRING_PRESETS.bouncy}
-              style= transformOrigin: 'top left' 
+              style={ORIGIN_STYLE}
             >
               <GlassPanel>
                 {items.map((item, idx) => {
@@ -137,7 +146,7 @@ export function MobileContextMenu({
                   };
                   return (
                     <div key={item.id}>
-                      {idx > 0 && <hr style= ...dividerCSS, backgroundColor: tokens.border  />}
+                      {idx > 0 && <hr style={hrStyle} />}
                       <button
                         type="button"
                         style={btnStyle}
