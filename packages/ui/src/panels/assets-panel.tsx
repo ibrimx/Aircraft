@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo, useRef, useEffect, type CSSProperties, type FC } from 'react';
 import { useThemeTokens } from '@aircraft/design-tokens';
 import { SPACING } from '@aircraft/design-tokens';
-import { cssTransition, EASING } from '@aircraft/design-tokens';
+import { cssTransition } from '@aircraft/design-tokens';
 import { ScrollArea } from '@aircraft/ui';
 import { Input } from '@aircraft/ui';
 import { IconButton } from '@aircraft/ui';
@@ -83,46 +83,46 @@ export const AssetsPanel: FC<AssetsPanelProps> = ({
     background: theme.colors.surface.raised, borderRadius: theme.radii.md,
     overflow: 'hidden', cursor: 'pointer',
     outline: selectedId === id ? `2px solid ${theme.colors.accent.default}` : 'none',
-    outlineOffset: -2, transition: cssTransition('box-shadow', EASING.easeInOut),
+    outlineOffset: -2, transition: cssTransition('box-shadow', 'normal', 'easeInOut'),
   });
 
   return (
     <div className={className} style={{ background: theme.colors.surface.default, border: `1px solid ${theme.colors.border.subtle}`, display: 'flex', flexDirection: 'column', ...style }}>
-      <div style= display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingInline: SPACING[2], paddingBlock: SPACING[2] >
-        <span style= fontWeight: 600, fontSize: 13 >Assets</span>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingInline: SPACING[2], paddingBlock: SPACING[2] }}>
+        <span style={{ fontWeight: 600, fontSize: 13 }}>Assets</span>
         <IconButton size="sm" variant="ghost" onClick={handleUploadClick} aria-label="Upload asset">⬆</IconButton>
         <input ref={fileRef} type="file" accept="image/*,video/*" multiple hidden onChange={handleFileChange} />
       </div>
-      <div style= paddingInline: SPACING[2], paddingBlockEnd: SPACING[1] >
-        <Input value={search} onChange={setSearch} placeholder="Search assets\u2026" />
+      <div style={{ paddingInline: SPACING[2], paddingBlockEnd: SPACING[1] }}>
+        <Input value={search} onChange={setSearch} placeholder="Search assets…" />
       </div>
-      <div style= display: 'flex', gap: SPACING[1], paddingInline: SPACING[2], paddingBlockEnd: SPACING[2], flexWrap: 'wrap' >
+      <div style={{ display: 'flex', gap: SPACING[1], paddingInline: SPACING[2], paddingBlockEnd: SPACING[2], flexWrap: 'wrap' }}>
         {CATEGORIES.map((c) => (
           <button key={c} onClick={() => setCategory(c)} style={{
             background: c === category ? theme.colors.accent.subtle : 'transparent',
             color: c === category ? theme.colors.accent.default : theme.colors.text.secondary,
             border: 'none', borderRadius: theme.radii.sm, padding: `${SPACING[1]}px ${SPACING[2]}px`,
             cursor: 'pointer', fontSize: 12, textTransform: 'capitalize',
-            transition: cssTransition('background', EASING.easeInOut),
+            transition: cssTransition('background', 'normal', 'easeInOut'),
           }}>{c}</button>
         ))}
       </div>
-      <ScrollArea style= flex: 1 >
+      <ScrollArea style={{ flex: 1 }}>
         {loading ? (
-          <div style={gridStyle}>{Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} style= height: 80, borderRadius: theme.radii.md  />)}</div>
+          <div style={gridStyle}>{Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} style={{ height: 80, borderRadius: theme.radii.md }} />)}</div>
         ) : filtered.length === 0 ? (
-          <div style= display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: SPACING[4], color: theme.colors.text.tertiary, fontSize: 13, gap: SPACING[1] >
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: SPACING[4], color: theme.colors.text.tertiary, fontSize: 13, gap: SPACING[1] }}>
             <span>No assets</span>
-            <button onClick={handleUploadClick} style= background: 'none', border: 'none', color: theme.colors.accent.default, cursor: 'pointer', fontSize: 12 >Upload files</button>
+            <button onClick={handleUploadClick} style={{ background: 'none', border: 'none', color: theme.colors.accent.default, cursor: 'pointer', fontSize: 12 }}>Upload files</button>
           </div>
         ) : (
           <div style={gridStyle}>
             {filtered.map((asset) => (
               <div key={asset.id} style={cardStyle(asset.id)} onClick={() => onSelect(asset.id)} draggable onDragStart={() => onDragStart(asset)}>
-                <img src={asset.thumbnailUrl} alt={asset.name} style= width: '100%', aspectRatio: '1', objectFit: 'cover', display: 'block'  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-                <div style= padding: SPACING[1] >
-                  <div style= fontSize: 12, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: theme.colors.text.primary >{asset.name}</div>
-                  <div style= fontSize: 11, color: theme.colors.text.tertiary >{formatSize(asset.size)}</div>
+                <img src={asset.thumbnailUrl} alt={asset.name} style={{ width: '100%', aspectRatio: '1', objectFit: 'cover', display: 'block' }} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                <div style={{ padding: SPACING[1] }}>
+                  <div style={{ fontSize: 12, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: theme.colors.text.primary }}>{asset.name}</div>
+                  <div style={{ fontSize: 11, color: theme.colors.text.tertiary }}>{formatSize(asset.size)}</div>
                 </div>
               </div>
             ))}

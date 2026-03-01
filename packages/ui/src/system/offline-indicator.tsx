@@ -3,7 +3,7 @@ import { useState, useEffect, useRef, type CSSProperties } from 'react';
 import { useThemeTokens } from '@aircraft/design-tokens';
 import { Z_INDEX } from '@aircraft/design-tokens';
 import { SPACING } from '@aircraft/design-tokens';
-import { cssTransition, EASING } from '@aircraft/design-tokens';
+import { cssTransition } from '@aircraft/design-tokens';
 import { TEXT_STYLES } from '@aircraft/design-tokens';
 
 export type OfflineIndicatorProps = {
@@ -75,7 +75,7 @@ export function OfflineIndicator({
     background: bg,
     color: tokens.colors.text.onColor,
     ...TEXT_STYLES.body,
-    transition: prefersReduced ? 'none' : cssTransition(['opacity', 'transform'], { easing: EASING.easeOut }),
+    transition: prefersReduced ? 'none' : cssTransition('opacity, transform', 'normal', 'easeOut'),
     opacity: 1,
     transform: prefersReduced ? 'none' : 'translateY(0)',
     ...style,
