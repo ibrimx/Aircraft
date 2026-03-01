@@ -1,9 +1,9 @@
 import { type CSSProperties } from 'react'
-import { Surface } from '@brimair/ui/primitives/surface'
-import { Badge } from '@brimair/ui/primitives/badge'
-import { useThemeTokens } from '@brimair/design-tokens/theme-provider'
-import { SPACING } from '@brimair/design-tokens/spacing'
-import { cssTransition } from '@brimair/design-tokens/motion-tokens'
+import { Surface } from '@aircraft/ui/primitives/surface'
+import { Badge } from '@aircraft/ui/primitives/badge'
+import { useThemeTokens } from '@aircraft/design-tokens/theme-provider'
+import { SPACING } from '@aircraft/design-tokens/spacing'
+import { cssTransition } from '@aircraft/design-tokens/motion-tokens'
 
 export type RoleInfo = {
   id: string

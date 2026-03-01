@@ -4,9 +4,9 @@
  * Dependencies: ids.ts, common.ts, auth-types.ts, errors.ts
  */
 
-import type { SessionId } from '@brimair/shared-types';
-import type { ISODateString, Result } from '@brimair/shared-types';
-import type { Session } from '@brimair/shared-types';
+import type { SessionId } from '@aircraft/shared-types';
+import type { ISODateString, Result } from '@aircraft/shared-types';
+import type { Session } from '@aircraft/shared-types';
 
 // ─── Token Types ─────────────────────────────────────────────
 

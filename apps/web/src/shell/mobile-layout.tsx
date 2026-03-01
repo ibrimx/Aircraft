@@ -1,6 +1,6 @@
 // P42 · mobile-layout.tsx — mobile single-column shell layout
 import type { ReactNode } from 'react'
-import { useThemeTokens } from '@brimair/design-tokens'
+import { useThemeTokens } from '@aircraft/design-tokens'
 
 export type MobileLayoutProps = {
   toolbar: ReactNode

@@ -10,11 +10,11 @@
 import type {
   PermissionSet,
   SystemPermission,
-} from '@brimair/shared-types';
-import type { BrimairError } from '@brimair/shared-types';
-import { createError, ERROR_CODES } from '@brimair/shared-types';
-import type { TokenService, PermissionResolver, SessionManager } from '@brimair/auth-engine';
-import { authenticate, authorizeSystem } from '@brimair/auth-engine';
+} from '@aircraft/shared-types';
+import type { AircraftError } from '@aircraft/shared-types';
+import { createError, ERROR_CODES } from '@aircraft/shared-types';
+import type { TokenService, PermissionResolver, SessionManager } from '@aircraft/auth-engine';
+import { authenticate, authorizeSystem } from '@aircraft/auth-engine';
 
 // ─── Types ────────────────────────────────────────────────────
 
@@ -69,7 +69,7 @@ interface MembersRouteContext {
 export async function handleListMembers(
   token: string,
   ctx: MembersRouteContext,
-): Promise<Result<{ members: WorkspaceMemberInfo[] }, BrimairError>> {
+): Promise<Result<{ members: WorkspaceMemberInfo[] }, AircraftError>> {
   // 1 — Authenticate
   const authResult = await authenticate(token, ctx.tokenService);
   if (!authResult.success) {
@@ -135,7 +135,7 @@ export async function handleUpdateMember(
   memberId: string,
   body: UpdateMemberBody,
   ctx: MembersRouteContext,
-): Promise<Result<{ member: WorkspaceMemberInfo }, BrimairError>> {
+): Promise<Result<{ member: WorkspaceMemberInfo }, AircraftError>> {
   // 1 — Authenticate
   const authResult = await authenticate(token, ctx.tokenService);
   if (!authResult.success) {
@@ -248,7 +248,7 @@ export async function handleDeleteMember(
   token: string,
   memberId: string,
   ctx: MembersRouteContext,
-): Promise<Result<void, BrimairError>> {
+): Promise<Result<void, AircraftError>> {
   // 1 — Authenticate
   const authResult = await authenticate(token, ctx.tokenService);
   if (!authResult.success) {

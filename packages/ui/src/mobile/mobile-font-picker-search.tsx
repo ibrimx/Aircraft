@@ -1,6 +1,6 @@
 // P59 — mobile-font-picker-search.tsx
 import { type CSSProperties, useCallback } from 'react';
-import { useThemeTokens } from '@brimair/design-tokens';
+import { useThemeTokens } from '@aircraft/design-tokens';
 
 /* ── Types ─────────────────────────────────────────────── */
 

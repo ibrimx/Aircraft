@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import type { ThemeMode } from '@brimair/shared-types';
+import type { ThemeMode } from '@aircraft/shared-types';
 
-const STORAGE_KEY = 'brimair-theme';
+const STORAGE_KEY = 'aircraft-theme';
 const DARK_MQ = '(prefers-color-scheme: dark)';
 
 function readStored(): ThemeMode | null {

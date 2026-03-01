@@ -10,8 +10,8 @@ import {
   useEffect,
 } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useThemeTokens } from '@brimair/design-tokens';
-import { EASING, DURATION } from '@brimair/design-tokens';
+import { useThemeTokens } from '@aircraft/design-tokens';
+import { EASING, DURATION } from '@aircraft/design-tokens';
 import { AdaptiveInputToolbar } from './adaptive-input-toolbar';
 
 /* ── Types ─────────────────────────────────────────────── */

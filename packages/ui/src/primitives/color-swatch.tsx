@@ -1,7 +1,7 @@
 // P30
 import type { CSSProperties } from 'react'
-import { useThemeTokens } from '@brimair/design-tokens'
-import { cssTransition } from '@brimair/design-tokens'
+import { useThemeTokens } from '@aircraft/design-tokens'
+import { cssTransition } from '@aircraft/design-tokens'
 
 export type ColorSwatchSize = 'sm' | 'md' | 'lg'
 

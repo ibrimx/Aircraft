@@ -1,8 +1,8 @@
 // P64 — adaptive-input-toolbar.tsx
 import { type CSSProperties, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { useThemeTokens } from '@brimair/design-tokens';
-import { Z_INDEX } from '@brimair/design-tokens';
+import { useThemeTokens } from '@aircraft/design-tokens';
+import { Z_INDEX } from '@aircraft/design-tokens';
 import type { ToolbarAction } from './adaptive-input';
 
 /* ── Types ─────────────────────────────────────────────── */

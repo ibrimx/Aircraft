@@ -1,8 +1,8 @@
 import { useState, useMemo } from 'react'
 import type { CSSProperties } from 'react'
-import { useThemeTokens } from '@brimair/design-tokens'
-import { cssTransition } from '@brimair/design-tokens'
-import type { CmsCollection, CmsSource } from '@brimair/shared-types'
+import { useThemeTokens } from '@aircraft/design-tokens'
+import { cssTransition } from '@aircraft/design-tokens'
+import type { CmsCollection, CmsSource } from '@aircraft/shared-types'
 import { CollectionList } from './collection-list'
 
 export type CollectionBrowserProps = {

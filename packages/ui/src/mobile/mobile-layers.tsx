@@ -1,8 +1,8 @@
 // P55 — mobile-layers.tsx
 import { type ReactNode, type CSSProperties } from 'react';
-import { useThemeTokens } from '@brimair/design-tokens';
-import { Z_INDEX } from '@brimair/design-tokens';
-import { BottomSheet } from '@brimair/ui';
+import { useThemeTokens } from '@aircraft/design-tokens';
+import { Z_INDEX } from '@aircraft/design-tokens';
+import { BottomSheet } from '@aircraft/ui';
 
 /* ── Types ─────────────────────────────────────────────── */
 

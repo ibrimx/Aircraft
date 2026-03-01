@@ -1,7 +1,7 @@
 // P63 — pull-to-action-indicator.tsx
 import { type CSSProperties, useMemo } from 'react';
 import { motion, type MotionValue } from 'framer-motion';
-import { useThemeTokens } from '@brimair/design-tokens';
+import { useThemeTokens } from '@aircraft/design-tokens';
 
 /* ── Types ─────────────────────────────────────────────── */
 

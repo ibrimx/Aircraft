@@ -1,9 +1,9 @@
 // P56 — mobile-layers-reorder.tsx
 import { type ReactNode, type CSSProperties, useCallback, useRef, useState } from 'react';
 import { motion, Reorder } from 'framer-motion';
-import { useThemeTokens } from '@brimair/design-tokens';
-import { SPRING_PRESETS } from '@brimair/ui';
-import { Z_INDEX } from '@brimair/design-tokens';
+import { useThemeTokens } from '@aircraft/design-tokens';
+import { SPRING_PRESETS } from '@aircraft/ui';
+import { Z_INDEX } from '@aircraft/design-tokens';
 
 /* ── Types ─────────────────────────────────────────────── */
 

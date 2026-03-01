@@ -1,13 +1,13 @@
 import { type CSSProperties, useMemo } from 'react'
-import { Surface } from '@brimair/ui/primitives/surface'
-import { ScrollArea } from '@brimair/ui/primitives/scroll-area'
-import { Button, IconButton } from '@brimair/ui/primitives/button'
-import { Tooltip } from '@brimair/ui/primitives/tooltip'
-import { Badge } from '@brimair/ui/primitives/badge'
-import { Skeleton } from '@brimair/ui/primitives/skeleton'
-import { useThemeTokens } from '@brimair/design-tokens/theme-provider'
-import { SPACING } from '@brimair/design-tokens/spacing'
-import { cssTransition } from '@brimair/design-tokens/motion-tokens'
+import { Surface } from '@aircraft/ui/primitives/surface'
+import { ScrollArea } from '@aircraft/ui/primitives/scroll-area'
+import { Button, IconButton } from '@aircraft/ui/primitives/button'
+import { Tooltip } from '@aircraft/ui/primitives/tooltip'
+import { Badge } from '@aircraft/ui/primitives/badge'
+import { Skeleton } from '@aircraft/ui/primitives/skeleton'
+import { useThemeTokens } from '@aircraft/design-tokens/theme-provider'
+import { SPACING } from '@aircraft/design-tokens/spacing'
+import { cssTransition } from '@aircraft/design-tokens/motion-tokens'
 
 export type InviteRecord = {
   id: string

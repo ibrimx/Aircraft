@@ -1,8 +1,8 @@
 import { useCallback } from 'react'
 import type { CSSProperties } from 'react'
-import { useThemeTokens } from '@brimair/design-tokens'
-import { cssTransition } from '@brimair/design-tokens'
-import type { CmsSourceType } from '@brimair/shared-types'
+import { useThemeTokens } from '@aircraft/design-tokens'
+import { cssTransition } from '@aircraft/design-tokens'
+import type { CmsSourceType } from '@aircraft/shared-types'
 
 export type SourcePickerProps = {
   onSelect: (type: CmsSourceType) => void

@@ -1,6 +1,6 @@
 // P58 — mobile-color-picker-sliders.tsx
 import { type CSSProperties, useState, useCallback, useMemo } from 'react';
-import { useThemeTokens } from '@brimair/design-tokens';
+import { useThemeTokens } from '@aircraft/design-tokens';
 
 /* ── Types ─────────────────────────────────────────────── */
 

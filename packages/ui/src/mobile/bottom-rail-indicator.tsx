@@ -1,8 +1,8 @@
 // P51
 import { type CSSProperties } from 'react';
-import { useThemeTokens } from '@brimair/design-tokens';
-import { MOBILE_REDUCED_MOTION } from '@brimair/design-tokens';
-import { SPRING_PRESETS } from '@brimair/ui';
+import { useThemeTokens } from '@aircraft/design-tokens';
+import { MOBILE_REDUCED_MOTION } from '@aircraft/design-tokens';
+import { SPRING_PRESETS } from '@aircraft/ui';
 
 export interface BottomRailIndicatorProps {
   readonly activeIndex: number;
