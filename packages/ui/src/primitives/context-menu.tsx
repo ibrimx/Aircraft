@@ -43,8 +43,11 @@ export function ContextMenu({
       </div>
       {state.open && createPortal(
         <>
-          <div style= position: 'fixed', inset: 0, zIndex: Z_INDEX.popover - 1 
-            onClick={close} onContextMenu={(e) => { e.preventDefault(); close() }} />
+          <div
+            style={{ position: 'fixed', inset: 0, zIndex: Z_INDEX.popover - 1 }}
+            onClick={close}
+            onContextMenu={(e) => { e.preventDefault(); close() }}
+          />
           <div role="menu" style={{
             position: 'fixed', top: state.y, left: state.x,
             zIndex: Z_INDEX.popover, minWidth: '180px',
@@ -56,9 +59,9 @@ export function ContextMenu({
           }}>
             {items.map((entry) =>
               isSeparator(entry)
-                ? <div key={entry.id} style=
+                ? <div key={entry.id} style={{
                     height: '1px', background: theme.colors.border.subtle, marginBlock: '4px',
-                   />
+                  }} />
                 : <MenuItemRow key={entry.id} item={entry} theme={theme}
                     onSelect={() => { entry.onClick(); close() }} />
             )}
