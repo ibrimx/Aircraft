@@ -1,6 +1,6 @@
 /**
  * light-theme.ts — Brimair Light Theme
- * @package @brimair/design-tokens
+ * @package @aircraft/design-tokens
  * Prompt: P21 · Phase 1.A — Design Tokens
  *
  * Defines BrimairTheme type (single source of truth) and lightTheme object.
@@ -9,7 +9,7 @@
  * 📖 STUDIO §2 Canvas Theming
  */
 
-import type { ThemeMode } from '@brimair/shared-types'
+import type { ThemeMode } from '@aircraft/shared-types'
 import type { SemanticColorTokens } from './colors-semantic'
 import { LIGHT_COLORS } from './colors-semantic'
 import { SHADOWS } from './shadows'
