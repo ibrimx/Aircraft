@@ -1,7 +1,7 @@
 import { type CSSProperties, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth, useI18n, useBreakpoint, CommandPalette, ErrorFallback, Button } from '@brimair/ui';
-import { useThemeTokens } from '@brimair/design-tokens';
+import { useThemeTokens } from '@aircraft/design-tokens';
 import { BuilderLayout } from '../layouts/builder-layout';
 
 const css = (s: CSSProperties): CSSProperties => s;
