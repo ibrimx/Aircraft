@@ -50,18 +50,18 @@ export function SlidePanel({
       {overlay && (
         <div
           onClick={onClose}
-          style=
+          style={{
             position: 'fixed', inset: 0,
             background: theme.colors.surface.overlay,
             zIndex: Z_INDEX.overlay - 1,
             opacity: visible ? 1 : 0,
             transition: cssTransition('opacity', 'normal', 'easeInOut'),
-          
+          }}
         />
       )}
       <div
         className={className}
-        style=
+        style={{
           position: 'fixed',
           width: isHorizontal ? width : '100%',
           height: isHorizontal ? '100%' : height,
@@ -71,7 +71,7 @@ export function SlidePanel({
           transition: cssTransition('transform', 'normal', 'easeOut'),
           ...DIRECTION_STYLES[direction](visible),
           ...style,
-        
+        }}
       >
         {children}
       </div>
