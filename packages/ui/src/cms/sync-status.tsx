@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
 import type { CSSProperties } from 'react'
-import { useThemeTokens } from '@brimair/design-tokens'
-import { cssTransition } from '@brimair/design-tokens'
-import type { CmsSyncStatus } from '@brimair/shared-types'
+import { useThemeTokens } from '@aircraft/design-tokens'
+import { cssTransition } from '@aircraft/design-tokens'
+import type { CmsSyncStatus } from '@aircraft/shared-types'
 
 export type SyncStatusProps = {
   syncStatus: CmsSyncStatus

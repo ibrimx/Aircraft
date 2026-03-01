@@ -10,7 +10,7 @@ import type {
   WorkspaceId,
   ActionPermission,
   ResourceType,
-} from '@brimair/shared-types';
+} from '@aircraft/shared-types';
 import type {
   PermissionCheckResult,
   PermissionCheckRequest,

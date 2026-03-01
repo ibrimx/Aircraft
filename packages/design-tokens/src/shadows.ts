@@ -1,6 +1,6 @@
 /**
  * shadows.ts — Design Tokens · Shadow Presets
- * @package @brimair/design-tokens
+ * @package @aircraft/design-tokens
  * Prompt: P18 · Phase 1.A — Design Tokens
  */
 

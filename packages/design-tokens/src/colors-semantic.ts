@@ -1,10 +1,10 @@
 /**
- * Semantic color tokens for Brimair — maps PALETTE primitives to UI roles.
+ * Semantic color tokens for Aircraft — maps PALETTE primitives to UI roles.
  * Dark/Light mappings per Design System Guide §2.4 / §2.5.
  * @see SemanticColorTokens — the canonical token shape for all themes.
  */
 import { PALETTE } from './colors'
-import type { ThemeMode } from '@brimair/shared-types'
+import type { ThemeMode } from '@aircraft/shared-types'
 
 /** Semantic color token shape shared by every theme. */
 export type SemanticColorTokens = {

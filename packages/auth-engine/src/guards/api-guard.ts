@@ -9,7 +9,7 @@
  *              permission-types.ts (PermissionCheckRequest, PermissionCheckResult)
  */
 
-import type { UserId, WorkspaceId, ActionPermission, ResourceType, SystemPermission } from '@brimair/shared-types'
+import type { UserId, WorkspaceId, ActionPermission, ResourceType, SystemPermission } from '@aircraft/shared-types'
 import type { TokenService } from '../session/session-types'
 import type { PermissionResolver } from '../core/permission-resolver'
 import type { PermissionCheckResult } from '../core/permission-types'

@@ -1,4 +1,4 @@
-import type { BreakpointName, BreakpointConfig } from '@brimair/shared-types'
+import type { BreakpointName, BreakpointConfig } from '@aircraft/shared-types'
 
 export const BREAKPOINTS: Record<BreakpointName, BreakpointConfig> = {
   mobile:  { name: 'mobile',  minWidth: 0,    maxWidth: 767  },

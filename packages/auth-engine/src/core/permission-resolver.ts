@@ -6,7 +6,7 @@ import type {
   SystemPermission,
   UserId,
   WorkspaceId,
-} from '@brimair/shared-types'
+} from '@aircraft/shared-types'
 import type { PermissionCheckRequest, PermissionCheckResult } from './permission-types'
 
 /** Debug payload that explains one permission resolution decision. */
