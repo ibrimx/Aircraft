@@ -1,3 +1,5 @@
+'use client'
+
 // P40 · app-shell.tsx — responsive application shell
 import { useState, useEffect } from 'react'
 import type { ReactNode } from 'react'
