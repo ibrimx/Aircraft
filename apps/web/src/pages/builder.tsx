@@ -1,7 +1,7 @@
 import { type CSSProperties, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useAuth, useI18n, useBreakpoint, CommandPalette, ErrorFallback, Button } from '@brimair/ui';
-import { useThemeTokens } from '@aircraft/design-tokens';
+import { useParams, useRouter } from 'next/navigation';
+import { useAuth, useI18n, useBreakpoint, CommandPalette, ErrorFallback, Button } from '@aircraft/ui';
+import { useThemeTokens } from '@brimair/design-tokens';
 import { BuilderLayout } from '../layouts/builder-layout';
 
 const css = (s: CSSProperties): CSSProperties => s;
@@ -9,8 +9,9 @@ type Preview = 'mobile' | 'tablet' | 'desktop';
 const PREVIEW_WIDTHS: Record<Preview, string> = { mobile: '375px', tablet: '768px', desktop: '100%' };
 
 export function BuilderPage(): React.JSX.Element {
-  const { projectId } = useParams<{ projectId: string }>();
-  const navigate = useNavigate();
+  const params = useParams<{ projectId: string }>();
+  const projectId = params?.projectId;
+  const router = useRouter();
   const { isAuthenticated } = useAuth();
   const { t } = useI18n();
   const tk = useThemeTokens();
@@ -19,7 +20,7 @@ export function BuilderPage(): React.JSX.Element {
   const [loading, setLoading] = useState(true);
   const [cmdOpen, setCmdOpen] = useState(false);
 
-  useEffect(() => { if (!isAuthenticated) navigate('/login'); }, [isAuthenticated, navigate]);
+  useEffect(() => { if (!isAuthenticated) router.push('/login'); }, [isAuthenticated, router]);
   useEffect(() => { if (!projectId) return; const id = setTimeout(() => setLoading(false), 600); return () => clearTimeout(id); }, [projectId]);
   useEffect(() => {
     const h = (e: KeyboardEvent) => { if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); setCmdOpen(true); } };
@@ -28,7 +29,7 @@ export function BuilderPage(): React.JSX.Element {
   }, []);
 
   if (!isAuthenticated) return <></>;
-  if (!projectId) return <ErrorFallback message={t('builder.notFound')} onRetry={() => navigate('/dashboard')} />;
+  if (!projectId) return <ErrorFallback message={t('builder.notFound')} onRetry={() => router.push('/dashboard')} />;
 
   if (loading) return (
     <BuilderLayout>
