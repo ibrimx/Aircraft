@@ -53,13 +53,13 @@ export function RecoveryPrompt({
 
   return (
     <Surface variant="raised" padding="lg" radius="lg" className={className} style={cardStyle}>
-      {icon && <span style= fontSize: 48, lineHeight: 1 >{icon}</span>}
-      <span style= ...TEXT_STYLES.subtitle, color: tokens.colors.text.primary >{title}</span>
+      {icon && <span style={{ fontSize: 48, lineHeight: 1 }}>{icon}</span>}
+      <span style={{ ...TEXT_STYLES.subtitle, color: tokens.colors.text.primary }}>{title}</span>
       {description && (
-        <span style= ...TEXT_STYLES.body, color: tokens.colors.text.secondary >{description}</span>
+        <span style={{ ...TEXT_STYLES.body, color: tokens.colors.text.secondary }}>{description}</span>
       )}
       {visibleActions.length > 0 && (
-        <div style= display: 'flex', gap: SPACING[3], justifyContent: 'center' >
+        <div style={{ display: 'flex', gap: SPACING[3], justifyContent: 'center' }}>
           {visibleActions.map((act, i) => (
             <Button key={i} variant={act.variant ?? 'primary'} onClick={act.onClick} loading={act.loading}>
               {act.label}
