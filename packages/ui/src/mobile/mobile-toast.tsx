@@ -29,6 +29,11 @@ const VARIANT_ICONS: Record<ToastVariant, string> = {
   warning: '⚠️',
 };
 
+const TOAST_INITIAL = { opacity: 0, y: 40, scale: 0.9 };
+const TOAST_ANIMATE = { opacity: 1, y: 0, scale: 1 };
+const TOAST_EXIT = { opacity: 0, x: 200, transition: { duration: 0.2 } };
+const DRAG_CONSTRAINTS = { left: 0, right: 0 };
+
 /* ── Styles ────────────────────────────────────────────── */
 
 const toastCSS: CSSProperties = {
@@ -76,33 +81,26 @@ export function MobileToast({
     [id, onDismiss],
   );
 
-  const wrapStyle: CSSProperties = useMemo(
-    () => ({ ...toastCSS }),
-    [],
-  );
-
   const textStyle: CSSProperties = useMemo(
     () => ({ ...msgCSS, color: tokens.textPrimary }),
     [tokens.textPrimary],
   );
 
-  const DRAG_CONSTRAINTS = { left: 0, right: 0 };
-
   return (
     <motion.div
       layout
-      style={wrapStyle}
+      style={toastCSS}
       drag="x"
       dragConstraints={DRAG_CONSTRAINTS}
       dragElastic={0.5}
       onDragEnd={handleDragEnd}
-      initial= opacity: 0, y: 40, scale: 0.9 
-      animate= opacity: 1, y: 0, scale: 1 
-      exit={{ opacity: 0, x: 200, transition: { duration: 0.2 } }}
+      initial={TOAST_INITIAL}
+      animate={TOAST_ANIMATE}
+      exit={TOAST_EXIT}
       transition={SPRING_PRESETS.gentle}
     >
       <GlassPanel>
-        <div style={wrapStyle}>
+        <div style={toastCSS}>
           <span>{VARIANT_ICONS[variant]}</span>
           <span style={textStyle}>{message}</span>
         </div>
