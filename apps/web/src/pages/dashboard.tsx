@@ -1,82 +1,62 @@
-import { type JSX, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button, useAuth, useBreakpoint, useI18n } from '@aircraft/ui';
-import { useThemeTokens } from '@aircraft/design-tokens';
+import { type CSSProperties, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth, useI18n, useBreakpoint, Button } from '@brimair/ui';
+import { useThemeTokens } from '@brimair/design-tokens';
 
-type Project = {
-  id: string;
-  name: string;
-  lastEdited: string;
-  thumbnail: string;
-};
+const css = (s: CSSProperties): CSSProperties => s;
 
-export function DashboardPage(): JSX.Element {
-  const { isAuthenticated } = useAuth();
-  const nav = useNavigate();
+type DashState = 'loading' | 'ready' | 'empty';
+
+export function DashboardPage(): React.JSX.Element {
+  const navigate = useNavigate();
+  const { isAuthenticated, user } = useAuth();
   const { t } = useI18n();
   const tk = useThemeTokens();
-  const { isMobile } = useBreakpoint();
+  const bp = useBreakpoint();
+  const [state, setState] = useState<DashState>('loading');
 
-  useEffect(() => {
-    if (!isAuthenticated) nav('/login', { replace: true });
-  }, [isAuthenticated, nav]);
+  useEffect(() => { if (!isAuthenticated) navigate('/login'); }, [isAuthenticated, navigate]);
+  useEffect(() => { const timer = setTimeout(() => setState('ready'), 600); return () => clearTimeout(timer); }, []);
 
-  const projects: Project[] = [];
+  if (!isAuthenticated) return <></>;
 
   return (
-    <div style= minHeight: '100vh', background: tk.bg.default, paddingBlock: 48, paddingInline: 24 >
-      <div style= maxWidth: 1200, marginInline: 'auto' >
-        <div style= display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBlockEnd: 32, flexWrap: 'wrap', gap: 16 >
-          <h1 style= fontSize: '1.5rem', fontWeight: 700, color: tk.text.primary >
-            {t('dashboard.title')}
-          </h1>
-          <Button variant="primary" onClick={() => nav('/new-project')}>
-            {t('dashboard.newProject')}
-          </Button>
-        </div>
+    <div style={css({ minBlockSize: '100vh', background: tk.bg.canvas, paddingBlock: 32, paddingInline: 24 })}>
+      <header style={css({ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBlockEnd: 32 })}>
+        <h1 style={css({ fontSize: 24, fontWeight: 700, color: tk.text.primary })}>{t('dashboard.welcome', { name: user?.name ?? '' })}</h1>
+        <Button style={css({ background: tk.accent.default, color: tk.bg.canvas, minBlockSize: 44, paddingInline: 20, borderRadius: 8, border: 'none', cursor: 'pointer' })}>{t('dashboard.newProject')}</Button>
+      </header>
 
-        {projects.length === 0 ? (
-          <div style= textAlign: 'center', paddingBlock: 120 >
-            <p style= fontSize: '1.125rem', color: tk.text.secondary, marginBlockEnd: 24 >
-              {t('dashboard.emptyState')}
-            </p>
-            <Button variant="primary" size="lg" onClick={() => nav('/new-project')}>
-              {t('builder.addPage')}
-            </Button>
-          </div>
-        ) : (
-          <div style= display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 24 >
-            {projects.map((project) => (
-              <div
-                key={project.id}
-                style={{ background: tk.bg.surface, border: `1px solid ${tk.border.default}`, borderRadius: 12, overflow: 'hidden' }}
-              >
-                <img
-                  src={project.thumbnail}
-                  alt={project.name}
-                  style= width: '100%', aspectRatio: '16/9', objectFit: 'cover', display: 'block' 
-                />
-                <div style= padding: 16 >
-                  <h3 style= fontSize: '1rem', fontWeight: 600, color: tk.text.primary >
-                    {project.name}
-                  </h3>
-                  <p style= fontSize: '0.75rem', color: tk.text.tertiary, marginBlockStart: 4 >
-                    {project.lastEdited}
-                  </p>
-                  <div style= display: 'flex', gap: 8, marginBlockStart: 12 >
-                    <Button variant="secondary" size="sm" onClick={() => nav(`/studio/${project.id}`)}>
-                      {t('dashboard.openStudio')}
-                    </Button>
-                    <Button variant="secondary" size="sm" onClick={() => nav(`/builder/${project.id}`)}>
-                      {t('dashboard.openBuilder')}
-                    </Button>
-                  </div>
+      {state === 'loading' && (
+        <div style={css({ display: 'grid', gridTemplateColumns: bp.isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 16 })} role="status" aria-label={t('dashboard.loading')}>
+          {Array.from({ length: 6 }, (_, i) => (
+            <div key={i} style={css({ blockSize: 160, borderRadius: 16, background: tk.bg.surface, animation: 'pulse 1.5s ease-in-out infinite' })} />
+          ))}
+        </div>
+      )}
+
+      {state === 'empty' && (
+        <div style={css({ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBlock: 80, gap: 16, color: tk.text.secondary })}>
+          <p>{t('dashboard.empty')}</p>
+          <Button style={css({ background: tk.accent.default, color: tk.bg.canvas, minBlockSize: 44, paddingInline: 24, borderRadius: 8, border: 'none', cursor: 'pointer' })}>{t('dashboard.createFirst')}</Button>
+        </div>
+      )}
+
+      {state === 'ready' && (
+        <div style={css({ display: 'grid', gridTemplateColumns: bp.isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 16 })}>
+          {[0, 1, 2].map((i) => (
+            <Link key={i} to={`/studio/project-${i}`} style={css({ textDecoration: 'none' })}>
+              <div style={css({ background: tk.bg.surface, borderRadius: 16, overflow: 'hidden', transition: 'filter 0.2s ease-in-out' })}>
+                <div style={css({ blockSize: 120, background: tk.bg.default })} />
+                <div style={css({ paddingBlock: 16, paddingInline: 16 })}>
+                  <h3 style={css({ fontSize: 16, fontWeight: 600, color: tk.text.primary })}>{t('dashboard.project', { index: String(i + 1) })}</h3>
+                  <p style={css({ fontSize: 13, color: tk.text.tertiary, marginBlockStart: 4 })}>{t('dashboard.lastEdited')}</p>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
-      </div>
+            </Link>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
