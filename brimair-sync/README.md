@@ -36,7 +36,7 @@ Use branches in this format so prompt numbers can be detected:
 Run every 10 minutes from this folder:
 
 ```bash
-*/10 * * * * cd /path/to/Aircraft/brimair-sync && /usr/bin/env bash -lc 'node sync.mjs >> sync.log 2>&1'
+*/10 * * * * cd /path/to/Aircraft/aircraft-sync && /usr/bin/env bash -lc 'node sync.mjs >> sync.log 2>&1'
 ```
 
 1. Run `crontab -e`
@@ -50,7 +50,7 @@ From the repository root (`/workspace/Aircraft`):
 ```bash
 cat > .git/hooks/post-push <<'HOOK'
 #!/bin/bash
-cd "$(git rev-parse --show-toplevel)/brimair-sync" || exit 0
+cd "$(git rev-parse --show-toplevel)/aircraft-sync" || exit 0
 node sync.mjs
 HOOK
 chmod +x .git/hooks/post-push

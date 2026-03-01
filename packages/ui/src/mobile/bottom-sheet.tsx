@@ -8,17 +8,17 @@ import {
   type ReactNode,
 } from 'react';
 import { createPortal } from 'react-dom';
-import { useThemeTokens } from '@brimair/design-tokens';
-import { Z_INDEX } from '@brimair/design-tokens';
+import { useThemeTokens } from '@aircraft/design-tokens';
+import { Z_INDEX } from '@aircraft/design-tokens';
 import {
   cssTransition,
   DURATION,
   EASING,
   MOBILE_TOUCH_TARGET,
   MOBILE_REDUCED_MOTION,
-} from '@brimair/design-tokens';
-import { SPRING_PRESETS } from '@brimair/ui';
-import { GlassPanel } from '@brimair/ui';
+} from '@aircraft/design-tokens';
+import { SPRING_PRESETS } from '@aircraft/ui';
+import { GlassPanel } from '@aircraft/ui';
 
 type BottomSheetSnapPoint = number; /* 0–1 fraction of viewport height */
 
