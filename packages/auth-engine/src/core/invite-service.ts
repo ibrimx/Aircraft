@@ -1,5 +1,5 @@
 import { createHash, randomUUID } from 'node:crypto'
-import type { AuthUser, Invite, InviteId, PermissionSet, RoleId, Session, SessionId, UserId, WorkspaceId } from '@brimair/shared-types'
+import type { AuthUser, Invite, InviteId, PermissionSet, RoleId, Session, SessionId, UserId, WorkspaceId } from '@aircraft/shared-types'
 import type { PermissionMergeStrategy } from './permission-types'
 import type { SessionManager, CreateSessionInput } from '../session/session-types'
 
@@ -54,7 +54,7 @@ export class InviteServiceImpl implements InviteService {
     const inviteToken = this.createJwtLikeToken(inviteId)
     const invite: PersistableInvite = { id: inviteId, workspaceId: req.workspaceId, createdBy: req.createdBy, email: req.email, roleId: req.roleId, permissions: MERGE_STRATEGY === 'role_override' ? req.permissions : req.permissions, expiresAt: expiresAt.toISOString(), status: 'pending', acceptedBy: null, acceptedAt: null, createdAt: now.toISOString(), tokenHash: this.hashToken(inviteToken) }
     await this.repository.save(invite)
-    const inviteUrl = `https://brimair.app/join?token=${encodeURIComponent(inviteToken)}`
+    const inviteUrl = `https://aircraft.app/join?token=${encodeURIComponent(inviteToken)}`
     return { invite, inviteUrl, inviteToken }
   }
 
