@@ -88,15 +88,15 @@ export const AssetsPanel: FC<AssetsPanelProps> = ({
 
   return (
     <div className={className} style={{ background: theme.colors.surface.default, border: `1px solid ${theme.colors.border.subtle}`, display: 'flex', flexDirection: 'column', ...style }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingInline: SPACING[2], paddingBlock: SPACING[2] }}>
-        <span style={{ fontWeight: 600, fontSize: 13 }}>Assets</span>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingInline: SPACING[3], paddingBlock: SPACING[2], borderBlockEnd: `1px solid ${theme.colors.border.subtle}` }}>
+        <span style={{ fontSize: 12, fontWeight: 600, color: theme.colors.text.secondary, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Assets</span>
         <IconButton size="sm" variant="ghost" onClick={handleUploadClick} aria-label="Upload asset">⬆</IconButton>
         <input ref={fileRef} type="file" accept="image/*,video/*" multiple hidden onChange={handleFileChange} />
       </div>
-      <div style={{ paddingInline: SPACING[2], paddingBlockEnd: SPACING[1] }}>
+      <div style={{ paddingInline: SPACING[3], paddingBlock: SPACING[2], borderBlockEnd: `1px solid ${theme.colors.border.subtle}` }}>
         <Input value={search} onChange={setSearch} placeholder="Search assets…" />
       </div>
-      <div style={{ display: 'flex', gap: SPACING[1], paddingInline: SPACING[2], paddingBlockEnd: SPACING[2], flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: SPACING[1], paddingInline: SPACING[3], paddingBlock: SPACING[2], borderBlockEnd: `1px solid ${theme.colors.border.subtle}` }}>
         {CATEGORIES.map((c) => (
           <button key={c} onClick={() => setCategory(c)} style={{
             background: c === category ? theme.colors.accent.subtle : 'transparent',
@@ -107,22 +107,22 @@ export const AssetsPanel: FC<AssetsPanelProps> = ({
           }}>{c}</button>
         ))}
       </div>
-      <ScrollArea style={{ flex: 1 }}>
+      <ScrollArea style={{ flex: 1, minBlockSize: 0 }}>
         {loading ? (
-          <div style={gridStyle}>{Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} style={{ height: 80, borderRadius: theme.radii.md }} />)}</div>
+          <div style={gridStyle}>{Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} style={{ aspectRatio: '1', borderRadius: theme.radii.md }} />)}</div>
         ) : filtered.length === 0 ? (
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: SPACING[4], color: theme.colors.text.tertiary, fontSize: 13, gap: SPACING[1] }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: SPACING[2], padding: SPACING[4], color: theme.colors.text.tertiary, fontSize: 13 }}>
             <span>No assets</span>
-            <button onClick={handleUploadClick} style={{ background: 'none', border: 'none', color: theme.colors.accent.default, cursor: 'pointer', fontSize: 12 }}>Upload files</button>
+            <button onClick={handleUploadClick} style={{ background: theme.colors.accent.default, color: '#fff', border: 'none', borderRadius: theme.radii.sm, padding: `${SPACING[1]}px ${SPACING[3]}px`, cursor: 'pointer', fontSize: 12 }}>Upload files</button>
           </div>
         ) : (
           <div style={gridStyle}>
             {filtered.map((asset) => (
               <div key={asset.id} style={cardStyle(asset.id)} onClick={() => onSelect(asset.id)} draggable onDragStart={() => onDragStart(asset)}>
-                <img src={asset.thumbnailUrl} alt={asset.name} style={{ width: '100%', aspectRatio: '1', objectFit: 'cover', display: 'block' }} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-                <div style={{ padding: SPACING[1] }}>
-                  <div style={{ fontSize: 12, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: theme.colors.text.primary }}>{asset.name}</div>
-                  <div style={{ fontSize: 11, color: theme.colors.text.tertiary }}>{formatSize(asset.size)}</div>
+                <img src={asset.thumbnailUrl} alt={asset.name} style={{ display: 'block', inlineSize: '100%', aspectRatio: '1', objectFit: 'cover' }} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                <div style={{ padding: `${SPACING[1]}px ${SPACING[2]}px` }}>
+                  <div style={{ fontSize: 11, fontWeight: 500, color: theme.colors.text.primary, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{asset.name}</div>
+                  <div style={{ fontSize: 10, color: theme.colors.text.tertiary }}>{formatSize(asset.size)}</div>
                 </div>
               </div>
             ))}

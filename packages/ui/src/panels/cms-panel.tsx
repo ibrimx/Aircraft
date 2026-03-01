@@ -1,7 +1,6 @@
 import { useState, type CSSProperties, type FC } from 'react';
 import { useThemeTokens } from '@aircraft/design-tokens';
 import { SPACING } from '@aircraft/design-tokens';
-import { cssTransition } from '@aircraft/design-tokens';
 import { TEXT_STYLES } from '@aircraft/design-tokens';
 import { ScrollArea } from '@aircraft/ui';
 import { Select } from '@aircraft/ui';
@@ -86,7 +85,7 @@ export const CmsPanel: FC<CmsPanelProps> = ({
   if (sources.length === 0 && !loading) {
     return (
       <div className={className} style={{ background: theme.colors.surface.default, border: `1px solid ${theme.colors.border.subtle}`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: SPACING[4], gap: SPACING[2], ...style }}>
-        <span style={{ color: theme.colors.text.secondary }}>No sources connected</span>
+        <span style={{ fontSize: 13, color: theme.colors.text.tertiary }}>No sources connected</span>
         <Button variant="secondary">Connect a source</Button>
       </div>
     );
@@ -97,18 +96,18 @@ export const CmsPanel: FC<CmsPanelProps> = ({
 
   return (
     <div className={className} style={{ background: theme.colors.surface.default, border: `1px solid ${theme.colors.border.subtle}`, display: 'flex', flexDirection: 'column', ...style }}>
-      <div style={{ padding: `${SPACING[2]}px ${SPACING[3]}px`, display: 'flex', alignItems: 'center' }}>
-        <span style={{ ...TEXT_STYLES.heading, flex: 1 }}>CMS</span>
+      <div style={{ padding: `${SPACING[2]}px ${SPACING[3]}px`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBlockEnd: `1px solid ${theme.colors.border.subtle}` }}>
+        <span style={{ fontSize: 12, fontWeight: 600, color: theme.colors.text.secondary, textTransform: 'uppercase', letterSpacing: '0.05em' }}>CMS</span>
         <Tooltip content="Refresh"><IconButton size="sm" variant="ghost" onClick={onRefresh} aria-label="Refresh">↻</IconButton></Tooltip>
       </div>
-      <ScrollArea style={{ flex: 1 }}>
+      <ScrollArea style={{ flex: 1, minBlockSize: 0 }}>
         <div style={{ padding: `0 ${SPACING[3]}px`, display: 'flex', flexDirection: 'column', gap: SPACING[3], paddingBlockEnd: SPACING[3] }}>
           {/* Step 1: Source */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING[1] }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING[2], paddingBlockStart: SPACING[3] }}>
             <span style={{ ...TEXT_STYLES.label, color: theme.colors.text.secondary }}>Source</span>
-            {loading && !selectedSourceId ? <Skeleton style={{ blockSize: 36, borderRadius: theme.radii.md }} /> : (
-              <div style={{ display: 'flex', alignItems: 'center', gap: SPACING[1] }}>
-                <div style={{ flex: 1 }}><Select options={sourceOptions} value={selectedSourceId ?? ''} onChange={onSelectSource} /></div>
+            {loading && !selectedSourceId ? <Skeleton style={{ blockSize: 32, borderRadius: theme.radii.sm }} /> : (
+              <div style={{ display: 'flex', alignItems: 'center', gap: SPACING[2] }}>
+                <div style={{ flex: 1, minInlineSize: 0 }}><Select options={sourceOptions} value={selectedSourceId ?? ''} onChange={onSelectSource} /></div>
                 {selectedSource && <Badge variant={STATUS_COLOR[selectedSource.status]}>{selectedSource.status}</Badge>}
                 {selectedSource?.status === 'error' && <Button size="sm" variant="ghost">Reconnect</Button>}
                 {selectedSource?.status === 'disconnected' && <Button size="sm" variant="ghost">Connect</Button>}
@@ -117,27 +116,22 @@ export const CmsPanel: FC<CmsPanelProps> = ({
           </div>
           {/* Step 2: Collection */}
           {selectedSourceId && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING[1] }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING[2] }}>
               <span style={{ ...TEXT_STYLES.label, color: theme.colors.text.secondary }}>Collection</span>
-              {loading && !selectedCollectionId ? <Skeleton style={{ blockSize: 36, borderRadius: theme.radii.md }} /> : (
+              {loading && !selectedCollectionId ? <Skeleton style={{ blockSize: 32, borderRadius: theme.radii.sm }} /> : (
                 <Select options={collectionOptions} value={selectedCollectionId ?? ''} onChange={onSelectCollection} />
               )}
             </div>
           )}
           {/* Step 3: Fields */}
           {selectedCollection && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING[1] }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING[2] }}>
               <span style={{ ...TEXT_STYLES.label, color: theme.colors.text.secondary }}>Fields</span>
-              {loading ? Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} style={{ blockSize: 36, borderRadius: theme.radii.md }} />) : (
+              {loading ? Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} style={{ blockSize: 32, borderRadius: theme.radii.sm }} />) : (
                 selectedCollection.fields.map((field) => (
-                  <div key={field.id} onClick={() => onBindField(field)} draggable onDragStart={() => onDragField(field)} style={{
-                    display: 'flex', alignItems: 'center', gap: SPACING[1],
-                    blockSize: 36, paddingInline: SPACING[2], cursor: 'pointer',
-                    borderRadius: theme.radii.sm, background: theme.colors.surface.raised,
-                    transition: cssTransition('background', 'normal', 'easeInOut'),
-                  }}>
-                    <span style={{ inlineSize: 20, textAlign: 'center', fontSize: 12 }}>{FIELD_ICONS[field.type]}</span>
-                    <span style={{ flex: 1, ...TEXT_STYLES.body }}>{field.name}</span>
+                  <div key={field.id} onClick={() => onBindField(field)} draggable onDragStart={() => onDragField(field)} style={{ display: 'flex', alignItems: 'center', gap: SPACING[2], height: 32, paddingInline: SPACING[2], borderRadius: theme.radii.sm, cursor: 'grab', background: theme.colors.surface.raised, transition: 'background 150ms easeInOut' }}>
+                    <span style={{ fontSize: 12, color: theme.colors.text.tertiary, inlineSize: 16, textAlign: 'center' }}>{FIELD_ICONS[field.type]}</span>
+                    <span style={{ fontSize: 13, color: theme.colors.text.primary, flex: 1 }}>{field.name}</span>
                     <Badge variant="gray">{field.type}</Badge>
                   </div>
                 ))
@@ -149,18 +143,14 @@ export const CmsPanel: FC<CmsPanelProps> = ({
             <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING[1] }}>
               <span style={{ ...TEXT_STYLES.label, color: theme.colors.text.secondary }}>Records ({records.length})</span>
               {records.slice(0, 5).map((rec) => (
-                <div key={rec.id} onClick={() => toggleRecord(rec.id)} style={{
-                  padding: SPACING[2], borderRadius: theme.radii.sm,
-                  background: theme.colors.surface.raised, cursor: 'pointer',
-                  transition: cssTransition('background', 'normal', 'easeInOut'),
-                }}>
-                  <div style={{ ...TEXT_STYLES.body, fontWeight: 500 }}>{truncate(rec.title, 50)}</div>
+                <div key={rec.id} onClick={() => toggleRecord(rec.id)} style={{ borderRadius: theme.radii.sm, background: theme.colors.surface.raised, cursor: 'pointer', overflow: 'hidden' }}>
+                  <div style={{ paddingInline: SPACING[2], paddingBlock: SPACING[1], fontSize: 13, color: theme.colors.text.primary }}>{truncate(rec.title, 50)}</div>
                   {expandedRecords.has(rec.id) && (
-                    <div style={{ marginBlockStart: SPACING[1], display: 'flex', flexDirection: 'column', gap: 2 }}>
+                    <div style={{ paddingInline: SPACING[2], paddingBlockEnd: SPACING[2], display: 'flex', flexDirection: 'column', gap: 2 }}>
                       {Object.entries(rec.fields).map(([key, val]) => (
-                        <div key={key} style={{ display: 'flex', gap: SPACING[1], ...TEXT_STYLES.caption }}>
-                          <span style={{ color: theme.colors.text.tertiary }}>{key}:</span>
-                          <span style={{ color: theme.colors.text.secondary }}>{truncate(String(val ?? ''), 50)}</span>
+                        <div key={key} style={{ display: 'flex', gap: SPACING[1] }}>
+                          <span style={{ fontSize: 11, color: theme.colors.text.secondary, minInlineSize: 60 }}>{key}:</span>
+                          <span style={{ fontSize: 11, color: theme.colors.text.tertiary }}>{truncate(String(val ?? ''), 50)}</span>
                         </div>
                       ))}
                     </div>

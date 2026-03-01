@@ -57,37 +57,37 @@ export const ComponentsPanel: FC<ComponentsPanelProps> = ({
 
   return (
     <div className={className} style={{ background: theme.colors.surface.default, border: `1px solid ${theme.colors.border.subtle}`, display: 'flex', flexDirection: 'column', ...style }}>
-      <div style={{ paddingInline: SPACING[2], paddingBlock: SPACING[2] }}>
-        <span style={{ fontWeight: 600, fontSize: 13 }}>Components</span>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingInline: SPACING[3], paddingBlock: SPACING[2], borderBlockEnd: `1px solid ${theme.colors.border.subtle}` }}>
+        <span style={{ fontSize: 12, fontWeight: 600, color: theme.colors.text.secondary, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Components</span>
       </div>
-      <div style={{ paddingInline: SPACING[2], paddingBlockEnd: SPACING[2] }}>
+      <div style={{ paddingInline: SPACING[3], paddingBlock: SPACING[2], borderBlockEnd: `1px solid ${theme.colors.border.subtle}` }}>
         <Input value={searchQuery} onChange={onSearch} placeholder="Search components…" />
       </div>
-      <ScrollArea style={{ flex: 1 }}>
+      <ScrollArea style={{ flex: 1, minBlockSize: 0 }}>
         {loading ? (
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: SPACING[2], padding: SPACING[2] }}>
-            {Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} style={{ height: 100, borderRadius: theme.radii.md }} />)}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: SPACING[2], padding: SPACING[2] }}>
+            {Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} style={{ blockSize: 80, borderRadius: theme.radii.md }} />)}
           </div>
         ) : grouped.length === 0 ? (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: SPACING[4], color: theme.colors.text.tertiary, fontSize: 13 }}>No components found</div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: SPACING[4], fontSize: 13, color: theme.colors.text.tertiary }}>No components found</div>
         ) : grouped.map(([cat, items]) => (
-          <div key={cat} style={{ paddingInline: SPACING[2], paddingBlockEnd: SPACING[2] }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: SPACING[1], paddingBlockEnd: SPACING[1] }}>
-              <span style={{ fontWeight: 600, fontSize: 12, color: theme.colors.text.secondary }}>{cat}</span>
-              <span style={{ fontSize: 11, color: theme.colors.text.tertiary, background: theme.colors.surface.raised, borderRadius: theme.radii.full, paddingInline: SPACING[1], minWidth: 18, textAlign: 'center' }}>{items.length}</span>
+          <div key={cat} style={{ paddingInline: SPACING[3], paddingBlock: SPACING[2] }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBlockEnd: SPACING[2] }}>
+              <span style={{ fontSize: 11, fontWeight: 600, color: theme.colors.text.secondary, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{cat}</span>
+              <span style={{ fontSize: 11, color: theme.colors.text.tertiary }}>{items.length}</span>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: SPACING[2] }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: SPACING[2] }}>
               {items.map((comp) => (
                 <div key={comp.id} style={cardStyle} onClick={() => onInsert(comp.id)} draggable onDragStart={() => onDragStart(comp)}>
                   {comp.previewUrl ? (
-                    <img src={comp.previewUrl} alt={comp.name} style={{ width: '100%', aspectRatio: '4/3', objectFit: 'cover', display: 'block' }} />
+                    <img src={comp.previewUrl} alt={comp.name} style={{ display: 'block', inlineSize: '100%', blockSize: 64, objectFit: 'cover' }} />
                   ) : (
-                    <div style={{ width: '100%', aspectRatio: '4/3', display: 'flex', alignItems: 'center', justifyContent: 'center', background: theme.colors.surface.sunken, color: theme.colors.text.tertiary, fontSize: 24 }}>⬜</div>
+                    <div style={{ blockSize: 64, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, background: theme.colors.surface.sunken }}>⬜</div>
                   )}
-                  <div style={{ padding: SPACING[1] }}>
-                    <div style={{ fontSize: 12, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: theme.colors.text.primary }}>{comp.name}</div>
+                  <div style={{ padding: `${SPACING[1]}px ${SPACING[2]}px` }}>
+                    <div style={{ fontSize: 11, fontWeight: 500, color: theme.colors.text.primary, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{comp.name}</div>
                     {comp.description && (
-                      <div style={{ fontSize: 11, color: theme.colors.text.secondary, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>{comp.description}</div>
+                      <div style={{ fontSize: 10, color: theme.colors.text.tertiary, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{comp.description}</div>
                     )}
                   </div>
                 </div>

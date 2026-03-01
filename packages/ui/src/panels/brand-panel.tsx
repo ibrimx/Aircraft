@@ -5,7 +5,6 @@ import { cssTransition } from '@aircraft/design-tokens';
 import { TEXT_STYLES } from '@aircraft/design-tokens';
 import { ScrollArea } from '@aircraft/ui';
 import { Button } from '@aircraft/ui';
-import { IconButton } from '@aircraft/ui';
 import { ColorSwatch } from '@aircraft/ui';
 import { Tooltip } from '@aircraft/ui';
 
@@ -57,7 +56,7 @@ const Section: FC<{ title: string; defaultOpen?: boolean; children: React.ReactN
         ...TEXT_STYLES.label, transition: cssTransition('background', 'normal', 'easeInOut'),
       }}>
         <span>{title}</span>
-        <span style={{ transform: open ? 'rotate(90deg)' : 'rotate(0deg)', transition: cssTransition('transform', 'normal', 'easeInOut') }}>▸</span>
+        <span style={{ display: 'inline-block', transition: cssTransition('transform', 'normal', 'easeInOut'), transform: open ? 'rotate(90deg)' : 'rotate(0deg)' }}>▸</span>
       </button>
       {open && <div style={{ padding: `0 ${SPACING[3]}px ${SPACING[3]}px` }}>{children}</div>}
     </div>
@@ -72,7 +71,7 @@ export const BrandPanel: FC<BrandPanelProps> = ({
   if (!colors.length && !fonts.length && !logos.length) {
     return (
       <div className={className} style={{ background: theme.colors.surface.default, border: `1px solid ${theme.colors.border.subtle}`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: SPACING[4], gap: SPACING[2], ...style }}>
-        <span style={{ color: theme.colors.text.secondary }}>No brand kit configured</span>
+        <span style={{ fontSize: 13, color: theme.colors.text.tertiary }}>No brand kit configured</span>
         <Button variant="secondary" onClick={onEditBrand}>Set up brand</Button>
       </div>
     );
@@ -80,40 +79,36 @@ export const BrandPanel: FC<BrandPanelProps> = ({
 
   return (
     <div className={className} style={{ background: theme.colors.surface.default, border: `1px solid ${theme.colors.border.subtle}`, display: 'flex', flexDirection: 'column', ...style }}>
-      <div style={{ padding: `${SPACING[2]}px ${SPACING[3]}px`, display: 'flex', alignItems: 'center' }}>
-        <span style={{ ...TEXT_STYLES.heading, flex: 1 }}>Brand</span>
+      <div style={{ padding: `${SPACING[2]}px ${SPACING[3]}px`, display: 'flex', alignItems: 'center', borderBlockEnd: `1px solid ${theme.colors.border.subtle}` }}>
+        <span style={{ fontSize: 12, fontWeight: 600, color: theme.colors.text.secondary, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Brand</span>
       </div>
-      <ScrollArea style={{ flex: 1 }}>
+      <ScrollArea style={{ flex: 1, minBlockSize: 0 }}>
         <Section title="Colors">
-          {colors.length === 0 ? <span style={{ color: theme.colors.text.tertiary, fontSize: 12 }}>No colors</span> : (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: SPACING[2] }}>
+          {colors.length === 0 ? <span style={{ fontSize: 12, color: theme.colors.text.tertiary }}>No colors</span> : (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: SPACING[2] }}>
               {colors.map((c) => (
-                <div key={c.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, cursor: 'pointer' }} onClick={() => onApplyColor(c)}>
+                <div key={c.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: SPACING[1], cursor: 'pointer' }} onClick={() => onApplyColor(c)}>
                   <Tooltip content={c.hex}>
                     <ColorSwatch color={c.hex} size={32} />
                   </Tooltip>
-                  {c.role && <span style={{ ...TEXT_STYLES.caption, color: theme.colors.text.secondary }}>{c.role}</span>}
+                  {c.role && <span style={{ fontSize: 10, color: theme.colors.text.tertiary, textTransform: 'capitalize' }}>{c.role}</span>}
                 </div>
               ))}
             </div>
           )}
         </Section>
         <Section title="Fonts">
-          {fonts.length === 0 ? <span style={{ color: theme.colors.text.tertiary, fontSize: 12 }}>No fonts</span> : (
+          {fonts.length === 0 ? <span style={{ fontSize: 12, color: theme.colors.text.tertiary }}>No fonts</span> : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING[2] }}>
               {fonts.map((f) => (
-                <div key={f.id} onClick={() => onApplyFont(f)} style={{
-                  padding: SPACING[2], background: theme.colors.surface.raised,
-                  borderRadius: theme.radii.md, cursor: 'pointer',
-                  transition: cssTransition('box-shadow', 'normal', 'easeInOut'),
-                }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: SPACING[1] }}>
-                    <span style={{ ...TEXT_STYLES.body, fontWeight: 600 }}>{f.name}</span>
+                <div key={f.id} onClick={() => onApplyFont(f)} style={{ background: theme.colors.surface.raised, borderRadius: theme.radii.md, padding: SPACING[2], cursor: 'pointer', transition: cssTransition('background', 'normal', 'easeInOut') }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: SPACING[1], marginBlockEnd: SPACING[1] }}>
+                    <span style={{ fontSize: 13, fontWeight: 600, color: theme.colors.text.primary }}>{f.name}</span>
                     {f.role && <span style={{ ...TEXT_STYLES.caption, color: theme.colors.accent.default, background: theme.colors.accent.subtle, borderRadius: theme.radii.sm, padding: `0 ${SPACING[1]}px` }}>{f.role}</span>}
                   </div>
-                  <div style={{ fontFamily: f.family, fontSize: 18, color: theme.colors.text.primary, marginBlockStart: 4 }}>Aa Bb Cc 123</div>
-                  <div style={{ display: 'flex', gap: 4, marginBlockStart: 4 }}>
-                    {f.weights.map((w) => <span key={w} style={{ ...TEXT_STYLES.caption, color: theme.colors.text.tertiary }}>{w}</span>)}
+                  <div style={{ fontFamily: f.family, fontSize: 20, color: theme.colors.text.primary, lineHeight: 1.3 }}>Aa Bb Cc 123</div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: SPACING[1], marginBlockStart: SPACING[1] }}>
+                    {f.weights.map((w) => <span key={w} style={{ fontSize: 10, color: theme.colors.text.tertiary, background: theme.colors.surface.default, borderRadius: theme.radii.sm, padding: `1px ${SPACING[1]}px` }}>{w}</span>)}
                   </div>
                 </div>
               ))}
@@ -121,15 +116,11 @@ export const BrandPanel: FC<BrandPanelProps> = ({
           )}
         </Section>
         <Section title="Logos">
-          {logos.length === 0 ? <span style={{ color: theme.colors.text.tertiary, fontSize: 12 }}>No logos</span> : (
+          {logos.length === 0 ? <span style={{ fontSize: 12, color: theme.colors.text.tertiary }}>No logos</span> : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: SPACING[2] }}>
               {logos.map((l) => (
-                <div key={l.id} onClick={() => onInsertLogo(l)} style={{
-                  background: theme.colors.surface.sunken, borderRadius: theme.radii.md,
-                  overflow: 'hidden', cursor: 'pointer',
-                  transition: cssTransition('box-shadow', 'normal', 'easeInOut'),
-                }}>
-                  <img src={l.url} alt={l.name} style={{ inlineSize: '100%', blockSize: 64, objectFit: 'contain', padding: SPACING[2] }} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                <div key={l.id} onClick={() => onInsertLogo(l)} style={{ background: theme.colors.surface.raised, borderRadius: theme.radii.md, overflow: 'hidden', cursor: 'pointer', transition: cssTransition('box-shadow', 'normal', 'easeInOut') }}>
+                  <img src={l.url} alt={l.name} style={{ display: 'block', inlineSize: '100%', blockSize: 64, objectFit: 'contain', padding: SPACING[2] }} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
                   <div style={{ padding: `4px ${SPACING[2]}px ${SPACING[1]}px`, ...TEXT_STYLES.caption, color: theme.colors.text.secondary }}>{l.variant}</div>
                 </div>
               ))}
