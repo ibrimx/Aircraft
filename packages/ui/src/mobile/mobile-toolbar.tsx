@@ -26,6 +26,8 @@ export interface MobileToolbarProps {
   readonly style?: CSSProperties;
 }
 
+const groupWrapCSS: CSSProperties = { display: 'contents' };
+
 export function MobileToolbar({
   groups,
   activeId,
@@ -85,7 +87,7 @@ export function MobileToolbar({
     <div style={wrapCSS}>
       <GlassPanel radius="lg" className={className} style={barCSS}>
         {nonEmpty.map((group, gi) => (
-          <div key={group.id} style= display: 'flex', alignItems: 'center', gap: 2 >
+          <div key={group.id} style={groupWrapCSS}>
             {gi > 0 && <div style={sepCSS} />}
             {group.items.map((item) => {
               const isActive = item.id === activeId;
