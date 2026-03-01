@@ -7,7 +7,7 @@ import type {
   SystemPermission,
   UserId,
   WorkspaceId,
-} from '@brimair/shared-types'
+} from '@aircraft/shared-types'
 
 const ALL_RESOURCES: readonly ResourceType[] = [
   'studio_file',

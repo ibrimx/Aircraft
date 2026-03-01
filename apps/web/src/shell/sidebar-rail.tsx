@@ -2,7 +2,7 @@
  * 📖 DSG §6 Panels, §10 Interactive States · FRAMER §2 · STUDIO §2.1 */
 
 import type { CSSProperties } from 'react'
-import { useThemeTokens } from '@brimair/design-tokens'
+import { useThemeTokens } from '@aircraft/design-tokens'
 
 export type SidebarRailProps = {
   onExpand: () => void

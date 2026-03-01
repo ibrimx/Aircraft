@@ -1,9 +1,9 @@
 /**
- * dark-theme.ts — Brimair Dark Theme (Primary / Default)
- * @package @brimair/design-tokens
+ * dark-theme.ts — Aircraft Dark Theme (Primary / Default)
+ * @package @aircraft/design-tokens
  * Prompt: P21 · Phase 1.A — Design Tokens
  *
- * Brimair is dark-first — this is the primary theme.
+ * Aircraft is dark-first — this is the primary theme.
  * 📖 DSG §1 Visual Philosophy (dark-first), §2.4 Dark Semantic Mapping
  * 📖 FRAMER §2 Spring Presets (theme transitions)
  * 📖 STUDIO §2 Canvas Theming
@@ -15,10 +15,10 @@ import { SPACING, SPACING_ALIAS } from './spacing'
 import { RADIUS } from './radius'
 import { FONT_FAMILY, TEXT_STYLES } from './typography-tokens'
 import { DURATION, EASING } from './motion-tokens'
-import type { BrimairTheme } from './light-theme'
+import type { AircraftTheme } from './light-theme'
 
-/** Dark theme — primary mode (Brimair default). */
-export const darkTheme: BrimairTheme = {
+/** Dark theme — primary mode (Aircraft default). */
+export const darkTheme: AircraftTheme = {
   mode: 'dark',
   colors: DARK_COLORS,
   shadows: SHADOWS,

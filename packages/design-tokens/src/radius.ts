@@ -1,6 +1,6 @@
 /**
  * radius.ts — Design Tokens · Border Radius
- * @package @brimair/design-tokens
+ * @package @aircraft/design-tokens
  * Prompt: P17 · Phase 1.A — Design Tokens
  */
 
