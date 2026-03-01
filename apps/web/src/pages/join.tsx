@@ -1,7 +1,7 @@
 import { type CSSProperties } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { useI18n, InviteGate } from '@brimair/ui';
-import { useThemeTokens } from '@brimair/design-tokens';
+import { useI18n, InviteGate } from '@aircraft/ui';
+import { useThemeTokens } from '@aircrif/design-tokens';
 
 const css = (s: CSSProperties): CSSProperties => s;
 
