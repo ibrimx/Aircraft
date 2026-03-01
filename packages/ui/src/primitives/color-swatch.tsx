@@ -1,7 +1,6 @@
 // P30
 import type { CSSProperties } from 'react'
-import { useThemeTokens } from '@aircraft/design-tokens'
-import { cssTransition } from '@aircraft/design-tokens'
+import { useThemeTokens, cssTransition } from '@aircraft/design-tokens'
 
 export type ColorSwatchSize = 'sm' | 'md' | 'lg'
 
@@ -51,7 +50,8 @@ export function ColorSwatch({
       }}
     >
       <span style={{
-        position: 'absolute', inset: 0,
+        position: 'absolute',
+        inset: 0,
         background: color,
         borderRadius: 'inherit',
       }} />
