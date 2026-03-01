@@ -2,6 +2,13 @@
   "name": "@aircraft/web",
   "version": "0.0.1",
   "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "build:cf": "next-on-pages",
+    "preview": "wrangler pages dev",
+    "lint": "next lint"
+  },
   "dependencies": {
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
@@ -13,6 +20,8 @@
   },
   "devDependencies": {
     "@types/react": "^19.1.12",
-    "@types/react-dom": "^19.1.9"
+    "@types/react-dom": "^19.1.9",
+    "@cloudflare/next-on-pages": "^1.13.12",
+    "wrangler": "^3.101.0"
   }
 }
