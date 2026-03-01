@@ -1,45 +1,65 @@
-// P36 · presets.ts — motion presets & spring configs
-import { DURATION, EASING } from '@aircraft/design-tokens'
-import type { DurationKey, EasingKey } from '@aircraft/design-tokens'
+/**
+ * @file presets.ts
+ * @package @brimair/ui
+ * @description Motion spring & transition presets for Brimair design tool.
+ * Zero enum — uses const objects. Zero any. Named exports only.
+ */
 
-export type SpringConfig = {
-  mass: number
-  stiffness: number
-  damping: number
-}
+import type { Transition } from 'framer-motion';
 
-export const SPRING_CONFIGS = {
-  gentle:   { mass: 1, stiffness: 120, damping: 14 },
-  bouncy:   { mass: 1, stiffness: 300, damping: 10 },
-  stiff:    { mass: 1, stiffness: 500, damping: 30 },
-  molasses: { mass: 1, stiffness: 40,  damping: 20 },
-} as const
+// ---------------------------------------------------------------------------
+// Reduced-motion helper
+// ---------------------------------------------------------------------------
+export const prefersReducedMotion = (): boolean =>
+  typeof window !== 'undefined' &&
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-export type SpringConfigKey = keyof typeof SPRING_CONFIGS
+// ---------------------------------------------------------------------------
+// Spring presets
+// ---------------------------------------------------------------------------
+export const SPRING_PRESETS = {
+  /** Snappy UI feedback (buttons, chips) */
+  snappy: { type: 'spring', stiffness: 400, damping: 30, mass: 1 },
+  /** Default smooth spring for most transitions */
+  smooth: { type: 'spring', stiffness: 260, damping: 24, mass: 1 },
+  /** Gentle entrance for cards / panels */
+  gentle: { type: 'spring', stiffness: 160, damping: 22, mass: 1 },
+  /** Bouncy micro-interaction */
+  bouncy: { type: 'spring', stiffness: 500, damping: 20, mass: 0.8 },
+} as const;
 
-export type TransitionPreset = {
-  duration: string
-  easing: string
-  delay?: string
-}
+export type SpringPresetKey = keyof typeof SPRING_PRESETS;
 
-export const TRANSITION_PRESETS = {
-  fadeIn:      { duration: DURATION.normal, easing: EASING.easeOut },
-  fadeOut:     { duration: DURATION.fast,   easing: EASING.easeIn },
-  scaleIn:    { duration: DURATION.normal, easing: EASING.easeOut },
-  scaleOut:   { duration: DURATION.fast,   easing: EASING.easeIn },
-  slideUp:    { duration: DURATION.normal, easing: EASING.easeOut },
-  slideDown:  { duration: DURATION.normal, easing: EASING.easeOut },
-  slideLeft:  { duration: DURATION.normal, easing: EASING.easeOut },
-  slideRight: { duration: DURATION.normal, easing: EASING.easeOut },
-} as const
+// ---------------------------------------------------------------------------
+// Transition presets (Framer Motion Transition type)
+// ---------------------------------------------------------------------------
+export const TRANSITION_PRESETS: Record<string, Transition> = {
+  /** Instant — for reduced-motion contexts */
+  instant: { duration: 0 },
+  /** Fast fade / scale */
+  fast: { type: 'tween', duration: 0.15, ease: 'easeInOut' },
+  /** Standard UI transition */
+  standard: { type: 'tween', duration: 0.25, ease: 'easeInOut' },
+  /** Slower entrance for large surfaces */
+  enter: { type: 'tween', duration: 0.35, ease: [0.4, 0, 0.2, 1] },
+  /** Exit transition */
+  exit: { type: 'tween', duration: 0.2, ease: [0.4, 0, 1, 1] },
+};
 
-export type TransitionPresetKey = keyof typeof TRANSITION_PRESETS
+export type TransitionPresetKey = keyof typeof TRANSITION_PRESETS;
 
-export const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)'
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
 
-export function getReducedMotionPreset(
-  _preset: TransitionPreset,
-): TransitionPreset {
-  return { duration: '0ms', easing: 'linear', delay: '0ms' }
-}
+/**
+ * Returns the spring preset — falls back to `instant` when user prefers reduced motion.
+ */
+export const getSpring = (key: SpringPresetKey): Transition =>
+  prefersReducedMotion() ? TRANSITION_PRESETS.instant : (SPRING_PRESETS[key] as Transition);
+
+/**
+ * Returns the transition preset — falls back to `instant` when user prefers reduced motion.
+ */
+export const getTransition = (key: TransitionPresetKey): Transition =>
+  prefersReducedMotion() ? TRANSITION_PRESETS.instant : TRANSITION_PRESETS[key];
