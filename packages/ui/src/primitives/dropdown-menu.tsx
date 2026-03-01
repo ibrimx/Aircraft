@@ -1,9 +1,7 @@
 // P32
 import { useState, useRef, useEffect } from 'react'
 import type { ReactElement, ReactNode, CSSProperties } from 'react'
-import { useThemeTokens } from '@aircraft/design-tokens'
-import { Z_INDEX } from '@aircraft/design-tokens'
-import { cssTransition } from '@aircraft/design-tokens'
+import { useThemeTokens, Z_INDEX, cssTransition } from '@aircraft/design-tokens'
 
 export type MenuItemType = 'default' | 'destructive'
 
@@ -92,25 +90,32 @@ export function MenuItemRow({ item, theme, onSelect }: {
       onClick={() => { if (!item.disabled) onSelect() }}
       onKeyDown={(e) => { if (e.key === 'Enter' && !item.disabled) onSelect() }}
       style={{
-        display: 'flex', alignItems: 'center', gap: theme.spacing[2],
-        paddingBlock: '8px', paddingInline: '12px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '8px',
+        paddingBlock: '8px',
+        paddingInline: '12px',
+        cursor: item.disabled ? 'not-allowed' : 'pointer',
+        opacity: item.disabled ? 0.4 : 1,
+        color: isDestructive ? theme.colors.destructive.default : theme.colors.text.primary,
         fontSize: theme.textStyles.body.fontSize,
         fontFamily: theme.fontFamily.sans,
-        color: item.disabled
-          ? theme.colors.text.disabled
-          : isDestructive ? theme.colors.destructive.default : theme.colors.text.primary,
-        cursor: item.disabled ? 'not-allowed' : 'pointer',
-        transition: cssTransition('background', 'fast', 'easeOut'),
       }}
     >
-      {item.icon && <span style={{ flexShrink: 0 }}>{item.icon}</span>}
-      <span style={{ flex: 1 }}>{item.label}</span>
+      {item.icon && (
+        <span style={{ display: 'inline-flex', alignItems: 'center', flexShrink: 0 }}>
+          {item.icon}
+        </span>
+      )}
+      <span style={{ flex: 1, textAlign: 'start' }}>{item.label}</span>
       {item.shortcut && (
         <span style={{
           fontSize: theme.textStyles.caption.fontSize,
-          color: theme.colors.text.tertiary,
-          marginInlineStart: '16px',
-        }}>{item.shortcut}</span>
+          color: theme.colors.text.secondary,
+          marginInlineStart: 'auto',
+        }}>
+          {item.shortcut}
+        </span>
       )}
     </div>
   )
