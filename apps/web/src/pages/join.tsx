@@ -1,12 +1,13 @@
 import { type CSSProperties } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import { useI18n, InviteGate } from '@aircraft/ui';
-import { useThemeTokens } from '@aircrif/design-tokens';
+import { useThemeTokens } from '@aircraft/design-tokens';
 
 const css = (s: CSSProperties): CSSProperties => s;
 
 export function JoinPage(): React.JSX.Element {
-  const [params] = useSearchParams();
+  const params = useSearchParams();
   const token = params.get('token');
   const { t } = useI18n();
   const tk = useThemeTokens();
@@ -15,7 +16,7 @@ export function JoinPage(): React.JSX.Element {
     return (
       <div style={css({ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minBlockSize: '100vh', background: tk.bg.canvas, color: tk.text.primary, gap: 16, paddingInline: 24 })}>
         <p>{t('join.invalidLink')}</p>
-        <Link to="/login" style={css({ color: tk.accent.default })}>{t('join.goToLogin')}</Link>
+        <Link href="/login" style={css({ color: tk.accent.default })}>{t('join.goToLogin')}</Link>
       </div>
     );
   }
