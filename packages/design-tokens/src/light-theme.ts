@@ -1,5 +1,7 @@
 /**
+ rename-brimair-to-aircraft
  * light-theme.ts — Aircraft Light Theme
+ * light-theme.ts — Brimair Light Theme
  * @package @aircraft/design-tokens
  * Prompt: P21 · Phase 1.A — Design Tokens
  *

@@ -1,6 +1,6 @@
 /**
  * mobile-overrides.ts — Design Tokens · Mobile Overrides
- * @package @brimair/design-tokens
+ * @package @aircraft/design-tokens
  * Prompt: P20 · Phase 1.A — Design Tokens
  *
  * Reduces heavy visual effects for mobile performance.

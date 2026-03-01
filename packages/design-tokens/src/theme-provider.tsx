@@ -1,6 +1,6 @@
 /**
  * theme-provider.tsx — React context provider + useThemeTokens() hook
- * @package @brimair/design-tokens
+ * @package @aircraft/design-tokens
  * Prompt: P21 · Phase 1.A — Design Tokens
  *
  * Provides the active BrimairTheme to the entire component tree.
@@ -16,7 +16,7 @@
  */
 
 import { createContext, useContext, useMemo, type ReactNode } from 'react'
-import type { ThemeMode } from '@brimair/shared-types'
+import type { ThemeMode } from '@aircraft/shared-types'
 import type { BrimairTheme } from './light-theme'
 import { lightTheme } from './light-theme'
 import { darkTheme } from './dark-theme'
