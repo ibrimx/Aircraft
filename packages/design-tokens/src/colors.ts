@@ -1,5 +1,5 @@
 /**
- * Primitive color palette for Brimair design tokens.
+ * Primitive color palette for Aircraft design tokens.
  * Values sourced from Design System Guide §2.
  * @see PALETTE — single source of truth for all raw color values.
  */

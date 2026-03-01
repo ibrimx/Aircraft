@@ -1,6 +1,6 @@
 // packages/ui/src/hooks/use-cms-source.ts
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
-import type { CmsSource } from '@brimair/shared-types';
+import type { CmsSource } from '@aircraft/shared-types';
 
 // ── Context ──────────────────────────────────────────────
 type CmsContextValue = {

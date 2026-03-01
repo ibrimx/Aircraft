@@ -1,6 +1,6 @@
 // packages/ui/src/hooks/use-auth.ts
 import { createContext, useContext } from 'react';
-import type { AuthUser, Session } from '@brimair/shared-types';
+import type { AuthUser, Session } from '@aircraft/shared-types';
 
 // ── Types ────────────────────────────────────────────────
 export type AuthState = {

@@ -10,7 +10,7 @@ export type UseDirectionReturn = {
   setDirection: (dir: Direction) => void;
 };
 
-const STORAGE_KEY = 'brimair-direction';
+const STORAGE_KEY = 'aircraft-direction';
 
 function readStored(): Direction | null {
   if (typeof window === 'undefined') return null;

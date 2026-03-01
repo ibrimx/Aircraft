@@ -1,9 +1,9 @@
 // P29 — select.tsx
 import { useState, useRef, useEffect } from 'react'
 import type { CSSProperties } from 'react'
-import { useThemeTokens } from '@brimair/design-tokens'
-import { Z_INDEX } from '@brimair/design-tokens'
-import { cssTransition } from '@brimair/design-tokens'
+import { useThemeTokens } from '@aircraft/design-tokens'
+import { Z_INDEX } from '@aircraft/design-tokens'
+import { cssTransition } from '@aircraft/design-tokens'
 
 export type SelectOption = { value: string; label: string; disabled?: boolean }
 export type SelectSize = 'sm' | 'md' | 'lg'

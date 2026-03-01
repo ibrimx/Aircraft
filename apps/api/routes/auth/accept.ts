@@ -10,17 +10,17 @@ import type {
   ISODateString,
   AuthUser,
   PermissionSet,
-} from '@brimair/shared-types';
-import type { BrimairError } from '@brimair/shared-types';
-import { createError, ERROR_CODES } from '@brimair/shared-types';
+} from '@aircraft/shared-types';
+import type { AircraftError } from '@aircraft/shared-types';
+import { createError, ERROR_CODES } from '@aircraft/shared-types';
 import type {
   InviteService,
   TokenService,
   TokenPair,
   AccessToken,
   RefreshToken,
-} from '@brimair/auth-engine';
-import type { SessionManager } from '@brimair/auth-engine';
+} from '@aircraft/auth-engine';
+import type { SessionManager } from '@aircraft/auth-engine';
 
 // ─── Types ────────────────────────────────────────────────────────
 
@@ -112,7 +112,7 @@ export async function handleAcceptInvite(
   body: AcceptInviteBody,
   ip: string,
   ctx: AcceptRouteContext,
-): Promise<Result<{ tokens: TokenPair; member: WorkspaceMemberInfo }, BrimairError>> {
+): Promise<Result<{ tokens: TokenPair; member: WorkspaceMemberInfo }, AircraftError>> {
   // 1 — Rate-limit
   const attemptCount = ctx.rateLimitStore.getAttemptCount(ip, RATE_LIMIT_WINDOW_MS);
   if (attemptCount >= RATE_LIMIT_MAX_ATTEMPTS) {

@@ -11,15 +11,15 @@ import type {
   LoginResponse,
   AuthUser,
   SessionId,
-} from '@brimair/shared-types';
-import type { BrimairError } from '@brimair/shared-types';
-import { createError, ERROR_CODES } from '@brimair/shared-types';
+} from '@aircraft/shared-types';
+import type { AircraftError } from '@aircraft/shared-types';
+import { createError, ERROR_CODES } from '@aircraft/shared-types';
 import type {
   SessionManager,
   TokenService,
   TokenPair,
-} from '@brimair/auth-engine';
-import { authenticate } from '@brimair/auth-engine';
+} from '@aircraft/auth-engine';
+import { authenticate } from '@aircraft/auth-engine';
 
 // ─── Types ────────────────────────────────────────────────────
 
@@ -97,7 +97,7 @@ export async function handleLogin(
   body: LoginBody,
   ip: string,
   ctx: SessionRouteContext,
-): Promise<Result<LoginResponse, BrimairError>> {
+): Promise<Result<LoginResponse, AircraftError>> {
   // 1 — Rate-limit check
   const attemptCount = ctx.rateLimitStore.getAttemptCount(ip, RATE_LIMIT_WINDOW_MS);
   if (attemptCount >= RATE_LIMIT_MAX_ATTEMPTS) {
@@ -182,7 +182,7 @@ export async function handleLogin(
 export async function handleLogout(
   token: string,
   ctx: SessionRouteContext,
-): Promise<Result<void, BrimairError>> {
+): Promise<Result<void, AircraftError>> {
   // 1 — Authenticate
   const authResult = await authenticate(token, ctx.tokenService);
   if (!authResult.success) {
@@ -232,7 +232,7 @@ export async function handleRefreshSession(
   accessToken: string | null,
   body: RefreshBody,
   ctx: SessionRouteContext,
-): Promise<Result<{ tokens: TokenPair }, BrimairError>> {
+): Promise<Result<{ tokens: TokenPair }, AircraftError>> {
   // 1 — Validate body
   if (!body.refreshToken) {
     return {

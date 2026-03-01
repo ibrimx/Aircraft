@@ -15,12 +15,12 @@ import type {
   Role,
   PermissionSet,
   SystemPermission,
-} from '@brimair/shared-types';
-import type { BrimairError } from '@brimair/shared-types';
-import { createError, ERROR_CODES } from '@brimair/shared-types';
-import type { InviteService, TokenService } from '@brimair/auth-engine';
-import type { PermissionResolver } from '@brimair/auth-engine';
-import { authenticate, authorizeSystem } from '@brimair/auth-engine';
+} from '@aircraft/shared-types';
+import type { AircraftError } from '@aircraft/shared-types';
+import { createError, ERROR_CODES } from '@aircraft/shared-types';
+import type { InviteService, TokenService } from '@aircraft/auth-engine';
+import type { PermissionResolver } from '@aircraft/auth-engine';
+import { authenticate, authorizeSystem } from '@aircraft/auth-engine';
 
 // ─── Types ────────────────────────────────────────────────────
 
@@ -49,7 +49,7 @@ export async function handleCreateInvite(
   token: string,
   body: CreateInviteBody,
   ctx: InviteRouteContext,
-): Promise<Result<{ inviteId: string; inviteLink: string }, BrimairError>> {
+): Promise<Result<{ inviteId: string; inviteLink: string }, AircraftError>> {
   // 1 — Authenticate
   const authResult = await authenticate(token, ctx.tokenService);
   if (!authResult.success) {
@@ -136,7 +136,7 @@ export async function handleGetInvite(
   token: string,
   inviteId: string,
   ctx: InviteRouteContext,
-): Promise<Result<{ inviteId: string; status: string }, BrimairError>> {
+): Promise<Result<{ inviteId: string; status: string }, AircraftError>> {
   // 1 — Authenticate
   const authResult = await authenticate(token, ctx.tokenService);
   if (!authResult.success) {
@@ -201,7 +201,7 @@ export async function handleRevokeInvite(
   token: string,
   inviteId: string,
   ctx: InviteRouteContext,
-): Promise<Result<void, BrimairError>> {
+): Promise<Result<void, AircraftError>> {
   // 1 — Authenticate
   const authResult = await authenticate(token, ctx.tokenService);
   if (!authResult.success) {

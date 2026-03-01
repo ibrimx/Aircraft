@@ -1,6 +1,6 @@
 // packages/ui/src/hooks/use-gesture-state.ts
 import { useCallback, useRef, useState } from 'react';
-import type { GestureDirection } from '@brimair/shared-types';
+import type { GestureDirection } from '@aircraft/shared-types';
 
 // ── Types ────────────────────────────────────────────────
 export type GestureState = {
