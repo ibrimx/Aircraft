@@ -116,7 +116,7 @@ export function RecordCard({
                   whiteSpace: 'nowrap',
                 
               >
-                {f.value || '—'}
+                {f.value || '\u2014'}
               </span>
             </div>
           ))}

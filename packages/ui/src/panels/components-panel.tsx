@@ -61,7 +61,7 @@ export const ComponentsPanel: FC<ComponentsPanelProps> = ({
         <span style= fontWeight: 600, fontSize: 13 >Components</span>
       </div>
       <div style= paddingInline: SPACING[2], paddingBlockEnd: SPACING[2] >
-        <Input value={searchQuery} onChange={onSearch} placeholder="Search components…" />
+        <Input value={searchQuery} onChange={onSearch} placeholder="Search components\u2026" />
       </div>
       <ScrollArea style= flex: 1 >
         {loading ? (
@@ -82,7 +82,7 @@ export const ComponentsPanel: FC<ComponentsPanelProps> = ({
                   {comp.previewUrl ? (
                     <img src={comp.previewUrl} alt={comp.name} style= width: '100%', aspectRatio: '4/3', objectFit: 'cover', display: 'block'  />
                   ) : (
-                    <div style= width: '100%', aspectRatio: '4/3', display: 'flex', alignItems: 'center', justifyContent: 'center', background: theme.colors.surface.sunken, color: theme.colors.text.tertiary, fontSize: 24 >⬜</div>
+                    <div style= width: '100%', aspectRatio: '4/3', display: 'flex', alignItems: 'center', justifyContent: 'center', background: theme.colors.surface.sunken, color: theme.colors.text.tertiary, fontSize: 24 >\u2b1c</div>
                   )}
                   <div style= padding: SPACING[1] >
                     <div style= fontSize: 12, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: theme.colors.text.primary >{comp.name}</div>

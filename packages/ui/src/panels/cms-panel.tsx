@@ -57,12 +57,12 @@ const STATUS_COLOR: Record<CmsSource['status'], string> = {
 };
 
 const FIELD_ICONS: Record<CmsField['type'], string> = {
-  text: 'T', 'rich-text': '¶', number: '#', date: '📅',
-  image: '🖼', relation: '🔗', select: '▼', boolean: '✔',
+  text: 'T', 'rich-text': '\u00b6', number: '#', date: '\ud83d\udcc5',
+  image: '\ud83d\uddbc', relation: '\ud83d\udd17', select: '\u25bc', boolean: '\u2714',
 };
 
 const truncate = (str: string, max: number): string =>
-  str.length > max ? `${str.slice(0, max)}…` : str;
+  str.length > max ? `${str.slice(0, max)}\u2026` : str;
 
 export const CmsPanel: FC<CmsPanelProps> = ({
   sources, selectedSourceId, collections, selectedCollectionId,
@@ -99,7 +99,7 @@ export const CmsPanel: FC<CmsPanelProps> = ({
     <div className={className} style={{ background: theme.colors.surface.default, border: `1px solid ${theme.colors.border.subtle}`, display: 'flex', flexDirection: 'column', ...style }}>
       <div style={{ padding: `${SPACING[2]}px ${SPACING[3]}px`, display: 'flex', alignItems: 'center' }}>
         <span style= ...TEXT_STYLES.heading, flex: 1 >CMS</span>
-        <Tooltip content="Refresh"><IconButton size="sm" variant="ghost" onClick={onRefresh} aria-label="Refresh">↻</IconButton></Tooltip>
+        <Tooltip content="Refresh"><IconButton size="sm" variant="ghost" onClick={onRefresh} aria-label="Refresh">\u21bb</IconButton></Tooltip>
       </div>
       <ScrollArea style= flex: 1 >
         <div style={{ padding: `0 ${SPACING[3]}px`, display: 'flex', flexDirection: 'column', gap: SPACING[3], paddingBlockEnd: SPACING[3] }}>
