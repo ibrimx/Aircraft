@@ -1,8 +1,8 @@
 // P27
 import { forwardRef } from 'react'
 import type { InputHTMLAttributes, ReactNode, CSSProperties } from 'react'
-import { useThemeTokens } from '@brimair/design-tokens'
-import { cssTransition } from '@brimair/design-tokens'
+import { useThemeTokens } from '@aircraft/design-tokens'
+import { cssTransition } from '@aircraft/design-tokens'
 
 export type InputSize = 'sm' | 'md' | 'lg'
 
@@ -35,7 +35,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       : theme.colors.border.default
 
     return (
-      <div style= display: 'inline-flex', flexDirection: 'column', width: fullWidth ? '100%' : 'auto' >
+      <div style=463>
         <div
           className={className}
           style={{
@@ -55,27 +55,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           <input
             ref={ref}
             disabled={disabled}
-            style=
-              flex: 1, border: 'none', outline: 'none',
-              background: 'transparent',
-              color: theme.colors.text.primary,
-              fontSize: s.fontSize,
-              fontFamily: theme.fontFamily.sans,
-              lineHeight: theme.textStyles.body.lineHeight,
-              textAlign: 'start' as const,
-              width: '100%',
-            
+            style=464
             {...rest}
           />
           {endIcon}
         </div>
         {helperText && (
-          <span style=
-            fontSize: '12px',
-            color: error ? theme.colors.destructive.default : theme.colors.text.secondary,
-            marginBlockStart: theme.spacing[1],
-            paddingInlineStart: s.paddingInline,
-          >
+          <span style=465>
             {helperText}
           </span>
         )}

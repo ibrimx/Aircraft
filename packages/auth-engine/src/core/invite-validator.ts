@@ -1,6 +1,6 @@
 import { createHash, randomBytes } from 'node:crypto'
 
-import type { Invite, InviteId } from '@brimair/shared-types'
+import type { Invite, InviteId } from '@aircraft/shared-types'
 import type { PermissionMergeStrategy } from './permission-types'
 
 const VALIDATOR_STRATEGY: PermissionMergeStrategy = 'role_override'

@@ -1,8 +1,8 @@
 import { useState, useMemo } from 'react'
 import type { CSSProperties } from 'react'
-import { useThemeTokens } from '@brimair/design-tokens'
-import { cssTransition } from '@brimair/design-tokens'
-import type { CmsRecord, CmsCollection } from '@brimair/shared-types'
+import { useThemeTokens } from '@aircraft/design-tokens'
+import { cssTransition } from '@aircraft/design-tokens'
+import type { CmsRecord, CmsCollection } from '@aircraft/shared-types'
 import { RecordCard } from './record-card'
 
 export type RecordListProps = {
@@ -71,28 +71,19 @@ export function RecordList({
         }}
       >
         <span
-          style=
-            fontSize: theme.textStyles.subtitle.fontSize,
-            fontWeight: theme.textStyles.subtitle.fontWeight,
-            color: theme.colors.text.primary,
-            fontFamily: theme.fontFamily.sans,
-          
+          style=458
         >
           {collection.name}
         </span>
         <span
-          style=
-            fontSize: theme.textStyles.caption.fontSize,
-            color: theme.colors.text.tertiary,
-            fontFamily: theme.fontFamily.sans,
-          
+          style=459
         >
           {records.length} records
         </span>
       </div>
 
       {/* Search */}
-      <div style= paddingBlock: theme.spacing[2], paddingInline: theme.spacingAlias.md >
+      <div style=460>
         <input
           type="search"
           placeholder="Search records\u2026"
@@ -117,37 +108,17 @@ export function RecordList({
 
       {/* Records */}
       <div
-        style=
-          display: 'flex',
-          flexDirection: 'column',
-          gap: theme.spacing[2],
-          paddingBlock: theme.spacing[2],
-          paddingInline: theme.spacingAlias.md,
-          overflowY: 'auto',
-          maxHeight: '400px',
-        
+        style=461
       >
         {loading && records.length === 0 ? (
           <div
-            style=
-              paddingBlock: theme.spacingAlias.xl,
-              textAlign: 'center',
-              color: theme.colors.text.tertiary,
-              fontSize: theme.textStyles.body.fontSize,
-              fontFamily: theme.fontFamily.sans,
-            
+            style=462
           >
             Loading records\u2026
           </div>
         ) : filtered.length === 0 ? (
           <div
-            style=
-              paddingBlock: theme.spacingAlias.xl,
-              textAlign: 'center',
-              color: theme.colors.text.tertiary,
-              fontSize: theme.textStyles.body.fontSize,
-              fontFamily: theme.fontFamily.sans,
-            
+            style=462
           >
             {search ? 'No matching records' : 'No records in collection'}
           </div>

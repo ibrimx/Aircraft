@@ -1,11 +1,11 @@
 import { type CSSProperties } from 'react'
-import { ScrollArea } from '@brimair/ui/primitives/scroll-area'
-import { Toggle } from '@brimair/ui/primitives/toggle'
-import { Tooltip } from '@brimair/ui/primitives/tooltip'
-import { Badge } from '@brimair/ui/primitives/badge'
-import { Separator } from '@brimair/ui/primitives/separator'
-import { useThemeTokens } from '@brimair/design-tokens/theme-provider'
-import { SPACING } from '@brimair/design-tokens/spacing'
+import { ScrollArea } from '@aircraft/ui/primitives/scroll-area'
+import { Toggle } from '@aircraft/ui/primitives/toggle'
+import { Tooltip } from '@aircraft/ui/primitives/tooltip'
+import { Badge } from '@aircraft/ui/primitives/badge'
+import { Separator } from '@aircraft/ui/primitives/separator'
+import { useThemeTokens } from '@aircraft/design-tokens/theme-provider'
+import { SPACING } from '@aircraft/design-tokens/spacing'
 
 export type PermissionItem = {
   key: string
@@ -36,39 +36,31 @@ export function PermissionEditor({ categories, onChange, readOnly = false, class
     .sort((a, b) => a.name.localeCompare(b.name))
 
   return (
-    <ScrollArea className={className} style= ...style >
+    <ScrollArea className={className} style=474>
       {visibleCategories.map((cat, catIdx) => (
-        <div key={cat.name} style= marginBlockEnd: SPACING[4] >
-          <div style= display: 'flex', alignItems: 'center', gap: SPACING[2], marginBlockEnd: SPACING[2] >
-            <span style= fontWeight: 600, fontSize: 14, color: theme.text.primary >{cat.name}</span>
+        <div key={cat.name} style=475>
+          <div style=476>
+            <span style=477>{cat.name}</span>
             <Badge variant="default" size="sm">{cat.permissions.length}</Badge>
           </div>
-          {catIdx > 0 && <Separator style= marginBlockEnd: SPACING[2]  />}
+          {catIdx > 0 && <Separator style=478 />}
 
           {cat.permissions.map((perm) => (
             <div
               key={perm.key}
-              style=
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                gap: SPACING[3],
-                paddingBlock: SPACING[2],
-                paddingInline: SPACING[2],
-                minHeight: 44,
-              
+              style=479
             >
               <div style= flex: 1, minWidth: 0 >
-                <span style= fontSize: 13, color: theme.text.primary, fontWeight: 500 >{perm.label}</span>
+                <span style=480>{perm.label}</span>
                 {perm.description && (
-                  <p style= fontSize: 12, color: theme.text.secondary, marginBlockStart: 2, lineHeight: '16px' >{perm.description}</p>
+                  <p style=481>{perm.description}</p>
                 )}
               </div>
 
-              <div style= display: 'flex', alignItems: 'center', gap: SPACING[2], flexShrink: 0 >
+              <div style=482>
                 {perm.locked && (
                   <Tooltip content="System permission">
-                    <span style= fontSize: 14, color: theme.text.tertiary  aria-label="Locked">🔒</span>
+                    <span style=483 aria-label="Locked">🔒</span>
                   </Tooltip>
                 )}
                 <Toggle
