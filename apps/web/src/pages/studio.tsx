@@ -1,5 +1,5 @@
 import { type CSSProperties, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams, useRouter } from 'next/navigation';
 import { useAuth, useI18n, CommandPalette, ErrorFallback, Workspace } from '@aircraft/ui';
 import { useThemeTokens } from '@aircraft/design-tokens';
 import { StudioLayout } from '../layouts/studio-layout';
@@ -9,15 +9,16 @@ const css = (s: CSSProperties): CSSProperties => s;
 type DocState = 'loading' | 'ready' | 'error' | 'not-found';
 
 export function StudioPage(): React.JSX.Element {
-  const { projectId } = useParams<{ projectId: string }>();
-  const navigate = useNavigate();
+  const params = useParams<{ projectId: string }>();
+  const projectId = params?.projectId;
+  const router = useRouter();
   const { isAuthenticated } = useAuth();
   const { t } = useI18n();
   const tk = useThemeTokens();
   const [docState, setDocState] = useState<DocState>('loading');
   const [cmdOpen, setCmdOpen] = useState(false);
 
-  useEffect(() => { if (!isAuthenticated) navigate('/login'); }, [isAuthenticated, navigate]);
+  useEffect(() => { if (!isAuthenticated) router.push('/login'); }, [isAuthenticated, router]);
 
   useEffect(() => {
     if (!projectId) { setDocState('not-found'); return; }
@@ -45,7 +46,7 @@ export function StudioPage(): React.JSX.Element {
   );
 
   if (docState === 'error') return <ErrorFallback message={t('studio.error')} onRetry={() => setDocState('loading')} />;
-  if (docState === 'not-found') { navigate('/dashboard'); return <></>; }
+  if (docState === 'not-found') { router.push('/dashboard'); return <></>; }
 
   return (
     <StudioLayout>
