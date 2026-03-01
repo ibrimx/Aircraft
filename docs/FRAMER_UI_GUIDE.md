@@ -1,4 +1,4 @@
-Brimair — Framer UI Guide
+Aircraft — Framer UI Guide
 يُقرأ عند كتابة أي component بصري في apps/web.
 يحدد الشكل والإحساس والحركة.
 

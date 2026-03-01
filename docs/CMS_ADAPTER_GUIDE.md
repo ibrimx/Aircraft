@@ -1,4 +1,4 @@
-Brimair — CMS Adapter Guide
+Aircraft — CMS Adapter Guide
 يُقرأ عند كتابة أي adapter في packages/cms-engine/adapters/
 
 1) Adapter Interface:

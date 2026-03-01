@@ -1,6 +1,6 @@
-# Brimair Sync
+# Aircraft Sync
 
-Syncs GitHub Pull Requests from `ibrimx/Brimair` (targeting `main`) into a Notion PR Tracker database.
+Syncs GitHub Pull Requests from `ibrimx/Aircraft` (targeting `main`) into a Notion PR Tracker database.
 
 ## Setup
 
@@ -36,7 +36,7 @@ Use branches in this format so prompt numbers can be detected:
 Run every 10 minutes from this folder:
 
 ```bash
-*/10 * * * * cd /path/to/Brimair/brimair-sync && /usr/bin/env bash -lc 'node sync.mjs >> sync.log 2>&1'
+*/10 * * * * cd /path/to/Aircraft/brimair-sync && /usr/bin/env bash -lc 'node sync.mjs >> sync.log 2>&1'
 ```
 
 1. Run `crontab -e`
@@ -45,7 +45,7 @@ Run every 10 minutes from this folder:
 
 ## Git hook setup (post-push)
 
-From the repository root (`/workspace/Brimair`):
+From the repository root (`/workspace/Aircraft`):
 
 ```bash
 cat > .git/hooks/post-push <<'HOOK'

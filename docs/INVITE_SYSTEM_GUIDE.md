@@ -1,4 +1,4 @@
-Brimair — Invite System Guide
+Aircraft — Invite System Guide
 يُقرأ عند العمل على: auth-engine, auth UI components, auth API routes
 
 1) The Flow:
@@ -7,7 +7,7 @@ body: { email?, role, permissions, expiresInDays }
 response: { inviteUrl, inviteId }
 
 [2] System يرسل email بالرابط:
-https://brimair.app/join?token=<signed-jwt>
+https://aircraft.app/join?token=<signed-jwt>
 
 [3] Invitee GET /join?token=...
 - valid: صفحة التسجيل

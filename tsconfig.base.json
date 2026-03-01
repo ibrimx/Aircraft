@@ -16,49 +16,49 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "paths": {
-      "@brimair/shared-types": [
+      "@aircraft/shared-types": [
         "./packages/shared-types/src"
       ],
-      "@brimair/studio-engine": [
+      "@aircraft/studio-engine": [
         "./packages/studio-engine/src"
       ],
-      "@brimair/builder-engine": [
+      "@aircraft/builder-engine": [
         "./packages/builder-engine/src"
       ],
-      "@brimair/cms-engine": [
+      "@aircraft/cms-engine": [
         "./packages/cms-engine/src"
       ],
-      "@brimair/auth-engine": [
+      "@aircraft/auth-engine": [
         "./packages/auth-engine/src"
       ],
-      "@brimair/fabric-adapter": [
+      "@aircraft/fabric-adapter": [
         "./packages/fabric-adapter/src"
       ],
-      "@brimair/mobile-runtime": [
+      "@aircraft/mobile-runtime": [
         "./packages/mobile-runtime/src"
       ],
-      "@brimair/brand-kit": [
+      "@aircraft/brand-kit": [
         "./packages/brand-kit/src"
       ],
-      "@brimair/state-bridge": [
+      "@aircraft/state-bridge": [
         "./packages/state-bridge/src"
       ],
-      "@brimair/local-draft": [
+      "@aircraft/local-draft": [
         "./packages/local-draft/src"
       ],
-      "@brimair/sync-engine": [
+      "@aircraft/sync-engine": [
         "./packages/sync-engine/src"
       ],
-      "@brimair/error-boundary": [
+      "@aircraft/error-boundary": [
         "./packages/error-boundary/src"
       ],
-      "@brimair/storage-adapter": [
+      "@aircraft/storage-adapter": [
         "./packages/storage-adapter/src"
       ],
-      "@brimair/publish-adapters": [
+      "@aircraft/publish-adapters": [
         "./packages/publish-adapters/src"
       ],
-      "@brimair/a11y": [
+      "@aircraft/a11y": [
         "./packages/a11y/src"
       ]
     }

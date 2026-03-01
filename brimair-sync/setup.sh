@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-echo "🚀 Setting up Brimair Sync..."
+echo "🚀 Setting up Aircraft Sync..."
 
 if [ ! -f .env ]; then
   cp .env.example .env

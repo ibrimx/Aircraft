@@ -1,4 +1,4 @@
-Brimair — Design System Guide
+Aircraft — Design System Guide
 هذا الملف هو المرجع الوحيد لكل قيمة بصرية.
 لا يوجد لون أو مسافة أو ظل خارج هذا النظام.
 

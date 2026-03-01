@@ -1,4 +1,4 @@
-Brimair — Mobile UI Contract
+Aircraft — Mobile UI Contract
 كل component يظهر على الموبايل يجب أن يلتزم بهذا العقد.
 لا استثناءات.
 

@@ -1,4 +1,4 @@
-Brimair — Codex Task Template
+Aircraft — Codex Task Template
 هذا القالب يُتبع في كل task يُعطى لـ Codex.
 لا يوجد task بدون هذا القالب.
 

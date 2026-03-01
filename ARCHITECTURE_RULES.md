@@ -1,4 +1,4 @@
-You are working on Brimair v3.0 — a strict TypeScript monorepo.
+You are working on Aircraft v3.0 — a strict TypeScript monorepo.
 
 Architectural Principles (MANDATORY):
 

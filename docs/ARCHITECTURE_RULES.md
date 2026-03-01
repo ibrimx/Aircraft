@@ -1,4 +1,4 @@
-Brimair — Architecture Rules
+Aircraft — Architecture Rules
 هذا الملف يُقرأ قبل كتابة أي كود في أي package أو app.
 كل قاعدة هنا غير قابلة للتفاوض.
 
