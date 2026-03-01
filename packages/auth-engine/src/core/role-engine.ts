@@ -4,8 +4,8 @@ import type {
   RoleId,
   RoleName,
   WorkspaceId,
-} from '@brimair/shared-types'
-import { createId } from '@brimair/shared-types'
+} from '@aircraft/shared-types'
+import { createId } from '@aircraft/shared-types'
 import {
   DEFAULT_ADMIN_PERMISSIONS,
   DEFAULT_EDITOR_PERMISSIONS,

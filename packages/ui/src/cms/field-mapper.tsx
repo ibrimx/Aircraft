@@ -1,8 +1,8 @@
 import { useCallback } from 'react'
 import type { CSSProperties } from 'react'
-import { useThemeTokens } from '@brimair/design-tokens'
-import { cssTransition } from '@brimair/design-tokens'
-import type { CmsFieldSchema, CmsFieldType } from '@brimair/shared-types'
+import { useThemeTokens } from '@aircraft/design-tokens'
+import { cssTransition } from '@aircraft/design-tokens'
+import type { CmsFieldSchema, CmsFieldType } from '@aircraft/shared-types'
 
 export type FieldMapping = {
   sourceField: string
@@ -96,28 +96,19 @@ export function FieldMapper({
         }}
       >
         <span
-          style=
-            fontSize: theme.textStyles.body.fontSize,
-            fontWeight: theme.textStyles.bodyBold.fontWeight,
-            color: theme.colors.text.primary,
-            fontFamily: theme.fontFamily.sans,
-          
+          style=467
         >
           Field Mapping
         </span>
         <span
-          style=
-            fontSize: theme.textStyles.caption.fontSize,
-            color: theme.colors.text.tertiary,
-            fontFamily: theme.fontFamily.sans,
-          
+          style=468
         >
           {mappings.length}/{schema.length} mapped
         </span>
       </div>
 
       {/* Field rows */}
-      <div style= display: 'flex', flexDirection: 'column' >
+      <div style=469>
         {schema.map((field) => {
           const mapping = getMapping(field.name)
           return (
@@ -135,36 +126,15 @@ export function FieldMapper({
             >
               {/* Source field */}
               <div
-                style=
-                  flex: 1,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: theme.spacing[2],
-                
+                style=470
               >
                 <span
-                  style=
-                    width: '24px',
-                    height: '24px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderRadius: theme.radius.sm,
-                    background: theme.colors.surface.sunken,
-                    fontSize: '11px',
-                    color: theme.colors.text.secondary,
-                    fontFamily: theme.fontFamily.mono,
-                    flexShrink: 0,
-                  
+                  style=471
                 >
                   {FIELD_TYPE_ICONS[field.type] ?? '?'}
                 </span>
                 <span
-                  style=
-                    fontSize: theme.textStyles.body.fontSize,
-                    color: theme.colors.text.primary,
-                    fontFamily: theme.fontFamily.sans,
-                  
+                  style=472
                 >
                   {field.name}
                 </span>
@@ -172,13 +142,7 @@ export function FieldMapper({
 
               {/* Arrow */}
               <span
-                style=
-                  color: mapping
-                    ? theme.colors.accent.default
-                    : theme.colors.text.disabled,
-                  fontSize: '14px',
-                  flexShrink: 0,
-                
+                style=473
               >
                 \u2192
               </span>

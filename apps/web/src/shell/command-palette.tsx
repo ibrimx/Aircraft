@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import { createPortal } from 'react-dom'
 import type { ReactNode, CSSProperties } from 'react'
-import { useThemeTokens } from '@brimair/design-tokens'
-import { Z_INDEX } from '@brimair/design-tokens'
-import { cssTransition } from '@brimair/design-tokens'
+import { useThemeTokens } from '@aircraft/design-tokens'
+import { Z_INDEX } from '@aircraft/design-tokens'
+import { cssTransition } from '@aircraft/design-tokens'
 
 export type CommandItem = {
   id: string; label: string; icon?: ReactNode

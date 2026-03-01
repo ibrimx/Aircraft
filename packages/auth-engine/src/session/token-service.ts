@@ -5,10 +5,10 @@
  */
 
 import { createHmac, randomUUID } from 'node:crypto';
-import { createId } from '@brimair/shared-types';
-import type { SessionId } from '@brimair/shared-types';
-import type { ISODateString, Result } from '@brimair/shared-types';
-import { createError, ERROR_CODES } from '@brimair/shared-types';
+import { createId } from '@aircraft/shared-types';
+import type { SessionId } from '@aircraft/shared-types';
+import type { ISODateString, Result } from '@aircraft/shared-types';
+import { createError, ERROR_CODES } from '@aircraft/shared-types';
 import type {
   TokenService,
   TokenPair,
@@ -17,7 +17,7 @@ import type {
   RefreshToken,
 } from './session-types';
 
-// ─── Constants ───────────────────────────────────────────────
+// ─── Constants ─────────────────────────────────────────────
 
 /** Default access-token lifetime: 15 minutes (in seconds) */
 const ACCESS_TOKEN_TTL = 15 * 60;
@@ -25,7 +25,7 @@ const ACCESS_TOKEN_TTL = 15 * 60;
 /** Default refresh-token lifetime: 7 days (in seconds) */
 const REFRESH_TOKEN_TTL = 7 * 24 * 60 * 60;
 
-// ─── Helpers ─────────────────────────────────────────────────
+// ─── Helpers ───────────────────────────────────────────────
 
 /**
  * Minimal Base64-URL encoder (no padding).
@@ -47,7 +47,7 @@ function epochToISO(epoch: number): ISODateString {
   return new Date(epoch * 1000).toISOString() as ISODateString;
 }
 
-// ─── Token Service ───────────────────────────────────────────
+// ─── Token Service ─────────────────────────────────────────
 
 export interface TokenServiceConfig {
   /** Secret used for HMAC signing (swap for RSA/EC in prod) */

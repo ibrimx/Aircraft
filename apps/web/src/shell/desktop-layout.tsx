@@ -1,6 +1,6 @@
 // P41 · desktop-layout.tsx — desktop 3-column shell layout
 import type { ReactNode } from 'react'
-import { useThemeTokens } from '@brimair/design-tokens'
+import { useThemeTokens } from '@aircraft/design-tokens'
 
 export type DesktopLayoutProps = {
   sidebar: ReactNode
@@ -15,16 +15,11 @@ export function DesktopLayout({
 }: DesktopLayoutProps) {
   const theme = useThemeTokens()
   return (
-    <div style=
-      display: 'flex', flexDirection: 'row',
-      height: '100dvh', background: theme.colors.surface.default,
-    >
+    <div style=455>
       {sidebar}
-      <div style=
-        display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0,
-      >
+      <div style=456>
         {toolbar}
-        <div style= flex: 1, overflow: 'auto' >{workspace}</div>
+        <div style=457>{workspace}</div>
         {statusBar}
       </div>
       {inspector}

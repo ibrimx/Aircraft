@@ -1,7 +1,7 @@
 // P40 · app-shell.tsx — responsive application shell
 import { useState, useEffect } from 'react'
 import type { ReactNode } from 'react'
-import { BREAKPOINT_VALUES } from '@brimair/design-tokens'
+import { BREAKPOINT_VALUES } from '@aircraft/design-tokens'
 import { DesktopLayout } from './desktop-layout'
 import { MobileLayout } from './mobile-layout'
 import { Sidebar } from './sidebar'

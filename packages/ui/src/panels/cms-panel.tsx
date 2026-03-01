@@ -1,14 +1,14 @@
 import { useState, type CSSProperties, type FC } from 'react';
-import { useThemeTokens } from '@brimair/design-tokens';
-import { SPACING } from '@brimair/design-tokens';
-import { cssTransition, EASING } from '@brimair/design-tokens';
-import { TEXT_STYLES } from '@brimair/design-tokens';
-import { ScrollArea } from '@brimair/ui';
-import { Select } from '@brimair/ui';
-import { Button, IconButton } from '@brimair/ui';
-import { Badge } from '@brimair/ui';
-import { Skeleton } from '@brimair/ui';
-import { Tooltip } from '@brimair/ui';
+import { useThemeTokens } from '@aircraft/design-tokens';
+import { SPACING } from '@aircraft/design-tokens';
+import { cssTransition, EASING } from '@aircraft/design-tokens';
+import { TEXT_STYLES } from '@aircraft/design-tokens';
+import { ScrollArea } from '@aircraft/ui';
+import { Select } from '@aircraft/ui';
+import { Button, IconButton } from '@aircraft/ui';
+import { Badge } from '@aircraft/ui';
+import { Skeleton } from '@aircraft/ui';
+import { Tooltip } from '@aircraft/ui';
 
 export type CmsSource = {
   id: string;

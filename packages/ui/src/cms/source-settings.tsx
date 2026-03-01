@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react'
 import type { CSSProperties } from 'react'
-import { useThemeTokens } from '@brimair/design-tokens'
-import { cssTransition } from '@brimair/design-tokens'
-import type { CmsSource, CmsSourceStatus } from '@brimair/shared-types'
+import { useThemeTokens } from '@aircraft/design-tokens'
+import { cssTransition } from '@aircraft/design-tokens'
+import type { CmsSource, CmsSourceStatus } from '@aircraft/shared-types'
 
 export type SourceSettingsProps = {
   source: CmsSource
@@ -225,7 +225,7 @@ export function SourceSettings({
 
 function getStatusColor(
   status: CmsSourceStatus,
-  theme: ReturnType<typeof import('@brimair/design-tokens').useThemeTokens>,
+  theme: ReturnType<typeof import('@aircraft/design-tokens').useThemeTokens>,
 ): string {
   switch (status) {
     case 'connected': return theme.colors.success.default

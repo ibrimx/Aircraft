@@ -1,10 +1,10 @@
 import { useMemo, type CSSProperties, type FC } from 'react';
-import { useThemeTokens } from '@brimair/design-tokens';
-import { SPACING } from '@brimair/design-tokens';
-import { cssTransition, EASING } from '@brimair/design-tokens';
-import { ScrollArea } from '@brimair/ui';
-import { Input } from '@brimair/ui';
-import { Skeleton } from '@brimair/ui';
+import { useThemeTokens } from '@aircraft/design-tokens';
+import { SPACING } from '@aircraft/design-tokens';
+import { cssTransition, EASING } from '@aircraft/design-tokens';
+import { ScrollArea } from '@aircraft/ui';
+import { Input } from '@aircraft/ui';
+import { Skeleton } from '@aircraft/ui';
 
 export type ComponentItem = {
   id: string;
@@ -82,7 +82,7 @@ export const ComponentsPanel: FC<ComponentsPanelProps> = ({
                   {comp.previewUrl ? (
                     <img src={comp.previewUrl} alt={comp.name} style= width: '100%', aspectRatio: '4/3', objectFit: 'cover', display: 'block'  />
                   ) : (
-                    <div style= width: '100%', aspectRatio: '4/3', display: 'flex', alignItems: 'center', justifyContent: 'center', background: theme.colors.surface.sunken, color: theme.colors.text.tertiary, fontSize: 24 >⬜</div>
+                    <div style= width: '100%', aspectRatio: '4/3', display: 'flex', alignItems: 'center', justifyContent: 'center', background: theme.colors.surface.sunken, color: theme.colors.text.tertiary, fontSize: 24 >\u2b1c</div>
                   )}
                   <div style= padding: SPACING[1] >
                     <div style= fontSize: 12, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: theme.colors.text.primary >{comp.name}</div>

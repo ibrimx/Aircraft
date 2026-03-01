@@ -1,7 +1,7 @@
 // P49
 import { type CSSProperties } from 'react';
-import { useThemeTokens } from '@brimair/design-tokens';
-import { MOBILE_TOUCH_TARGET } from '@brimair/design-tokens';
+import { useThemeTokens } from '@aircraft/design-tokens';
+import { MOBILE_TOUCH_TARGET } from '@aircraft/design-tokens';
 
 export interface BottomSheetHandleProps {
   readonly className?: string;

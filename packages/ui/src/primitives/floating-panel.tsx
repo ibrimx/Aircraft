@@ -1,6 +1,6 @@
 /**
  * P25 — floating-panel.tsx · Floating panel with RTL-safe placement
- * @package @brimair/ui
+ * @package @aircraft/ui
  * Absolute-positioned GlassPanel using Z_INDEX tokens + logical properties.
  * 📖 DSG §6.2 Glass · §7 Z-Index · §11 RTL
  * 📖 PAGE BUILDER §6 RTL logical properties
@@ -8,7 +8,7 @@
  */
 
 import type { ReactNode, CSSProperties } from 'react'
-import { Z_INDEX } from '@brimair/design-tokens'
+import { Z_INDEX } from '@aircraft/design-tokens'
 import { GlassPanel } from './glass-panel'
 
 export type FloatingPanelPlacement = 'top' | 'bottom' | 'left' | 'right'
@@ -42,13 +42,7 @@ export function FloatingPanel({
   return (
     <GlassPanel
       className={className}
-      style=
-        position: 'absolute',
-        width,
-        zIndex,
-        ...PLACEMENT_STYLES[placement](offset),
-        ...style,
-      
+      style=466
     >
       {children}
     </GlassPanel>
