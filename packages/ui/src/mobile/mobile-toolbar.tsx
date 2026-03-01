@@ -1,9 +1,9 @@
 // P52
 import { useCallback, useState, type CSSProperties, type ReactNode } from 'react';
-import { useThemeTokens } from '@brimair/design-tokens';
-import { Z_INDEX } from '@brimair/design-tokens';
-import { MOBILE_TOUCH_TARGET, MOBILE_REDUCED_MOTION } from '@brimair/design-tokens';
-import { GlassPanel } from '@brimair/ui';
+import { useThemeTokens } from '@aircraft/design-tokens';
+import { Z_INDEX } from '@aircraft/design-tokens';
+import { MOBILE_TOUCH_TARGET, MOBILE_REDUCED_MOTION } from '@aircraft/design-tokens';
+import { GlassPanel } from '@aircraft/ui';
 
 export interface ToolbarItem {
   readonly id: string;

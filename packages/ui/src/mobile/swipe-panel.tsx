@@ -9,8 +9,8 @@ import {
   Children,
 } from 'react';
 import { motion, useMotionValue, animate, type PanInfo } from 'framer-motion';
-import { useThemeTokens } from '@brimair/design-tokens';
-import { EASING, DURATION } from '@brimair/design-tokens';
+import { useThemeTokens } from '@aircraft/design-tokens';
+import { EASING, DURATION } from '@aircraft/design-tokens';
 
 /* ── Types ─────────────────────────────────────────────── */
 

@@ -1,9 +1,9 @@
 // P57 — mobile-color-picker.tsx
 import { type ReactNode, type CSSProperties, useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useThemeTokens } from '@brimair/design-tokens';
-import { EASING, DURATION } from '@brimair/design-tokens';
-import { BottomSheet } from '@brimair/ui';
+import { useThemeTokens } from '@aircraft/design-tokens';
+import { EASING, DURATION } from '@aircraft/design-tokens';
+import { BottomSheet } from '@aircraft/ui';
 
 /* ── Types ─────────────────────────────────────────────── */
 

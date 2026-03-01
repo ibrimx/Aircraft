@@ -1,8 +1,8 @@
 // P56 — mobile-layers-swipe.tsx
 import { type ReactNode, type CSSProperties, useRef, useCallback, useMemo } from 'react';
 import { motion, useMotionValue, useTransform, type PanInfo } from 'framer-motion';
-import { useThemeTokens } from '@brimair/design-tokens';
-import { SPRING_PRESETS } from '@brimair/ui';
+import { useThemeTokens } from '@aircraft/design-tokens';
+import { SPRING_PRESETS } from '@aircraft/ui';
 
 /* ── Types ─────────────────────────────────────────────── */
 

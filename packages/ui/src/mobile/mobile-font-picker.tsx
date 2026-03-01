@@ -1,8 +1,8 @@
 // P59 — mobile-font-picker.tsx
 import { type ReactNode, type CSSProperties, useState, useCallback, useMemo, useRef } from 'react';
-import { useThemeTokens } from '@brimair/design-tokens';
-import { EASING, DURATION } from '@brimair/design-tokens';
-import { BottomSheet } from '@brimair/ui';
+import { useThemeTokens } from '@aircraft/design-tokens';
+import { EASING, DURATION } from '@aircraft/design-tokens';
+import { BottomSheet } from '@aircraft/ui';
 
 /* ── Types ─────────────────────────────────────────────── */
 

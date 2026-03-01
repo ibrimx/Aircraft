@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import type { BreakpointName } from '@brimair/shared-types';
-import { BREAKPOINT_VALUES } from '@brimair/design-tokens';
+import type { BreakpointName } from '@aircraft/shared-types';
+import { BREAKPOINT_VALUES } from '@aircraft/design-tokens';
 
 export type BreakpointState = {
   current: BreakpointName;

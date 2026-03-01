@@ -1,7 +1,7 @@
 // P54 — mobile-inspector-stepper.tsx
 import { type CSSProperties, useRef, useCallback } from 'react';
-import { useThemeTokens } from '@brimair/design-tokens';
-import { MOBILE_TOUCH_TARGET } from '@brimair/design-tokens';
+import { useThemeTokens } from '@aircraft/design-tokens';
+import { MOBILE_TOUCH_TARGET } from '@aircraft/design-tokens';
 
 /* ── Types ─────────────────────────────────────────────── */
 
