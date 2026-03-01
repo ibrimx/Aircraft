@@ -12,12 +12,12 @@ export type PullToActionIndicatorProps = {
   isLoading: boolean;
 };
 
-/* ── Constants ─────────────────────────────────────────── */
+/* ── Constants ───────────────────────────────────────────── */
 
 const INDICATOR_SIZE = 28;
 const SPINNER_SPRING = { type: 'spring' as const, stiffness: 80, damping: 12, mass: 1 };
 
-/* ── Component ─────────────────────────────────────────── */
+/* ── Component ───────────────────────────────────────────── */
 
 export function PullToActionIndicator(props: PullToActionIndicatorProps) {
   const { opacity, rotation, isLoading } = props;
@@ -55,8 +55,11 @@ export function PullToActionIndicator(props: PullToActionIndicatorProps) {
     ? { repeat: Infinity, duration: 0.8, ease: 'linear' as const }
     : SPINNER_SPRING;
 
+  // Extract motion style to avoid inline double-brace corruption
+  const indicatorMotionStyle = { ...wrapStyle, opacity };
+
   return (
-    <motion.div style= ...wrapStyle, opacity >
+    <motion.div style={indicatorMotionStyle}>
       <motion.div
         style={dotStyle}
         animate={spinAnimate}

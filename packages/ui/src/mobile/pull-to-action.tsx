@@ -24,13 +24,13 @@ export type PullToActionProps = {
 
 type PullState = 'idle' | 'pulling' | 'loading';
 
-/* ── Constants ─────────────────────────────────────────── */
+/* ── Constants ───────────────────────────────────────────── */
 
 const DEFAULT_THRESHOLD = 80;
 const DEFAULT_RESISTANCE = 0.4;
 const SPRING_BACK = { type: 'spring' as const, stiffness: 400, damping: 30, mass: 1 };
 
-/* ── Component ─────────────────────────────────────────── */
+/* ── Component ───────────────────────────────────────────── */
 
 export function PullToAction(props: PullToActionProps) {
   const {
@@ -91,6 +91,9 @@ export function PullToAction(props: PullToActionProps) {
     [],
   );
 
+  // Extract motion style to avoid inline double-brace corruption
+  const contentMotionStyle = { y: pullY };
+
   return (
     <div
       style={wrapStyle}
@@ -104,7 +107,7 @@ export function PullToAction(props: PullToActionProps) {
         rotation={indicatorRotation}
         isLoading={state === 'loading'}
       />
-      <motion.div style= y: pullY >{children}</motion.div>
+      <motion.div style={contentMotionStyle}>{children}</motion.div>
     </div>
   );
 }
