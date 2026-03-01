@@ -1,5 +1,6 @@
 import { type CSSProperties, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useAuth, useI18n, useBreakpoint, Button } from '@aircraft/ui';
 import { useThemeTokens } from '@aircraft/design-tokens';
 
@@ -8,14 +9,14 @@ const css = (s: CSSProperties): CSSProperties => s;
 type DashState = 'loading' | 'ready' | 'empty';
 
 export function DashboardPage(): React.JSX.Element {
-  const navigate = useNavigate();
+  const router = useRouter();
   const { isAuthenticated, user } = useAuth();
   const { t } = useI18n();
   const tk = useThemeTokens();
   const bp = useBreakpoint();
   const [state, setState] = useState<DashState>('loading');
 
-  useEffect(() => { if (!isAuthenticated) navigate('/login'); }, [isAuthenticated, navigate]);
+  useEffect(() => { if (!isAuthenticated) router.replace('/login'); }, [isAuthenticated, router]);
   useEffect(() => { const timer = setTimeout(() => setState('ready'), 600); return () => clearTimeout(timer); }, []);
 
   if (!isAuthenticated) return <></>;
@@ -45,7 +46,7 @@ export function DashboardPage(): React.JSX.Element {
       {state === 'ready' && (
         <div style={css({ display: 'grid', gridTemplateColumns: bp.isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 16 })}>
           {[0, 1, 2].map((i) => (
-            <Link key={i} to={`/studio/project-${i}`} style={css({ textDecoration: 'none' })}>
+            <Link key={i} href={`/studio/project-${i}`} style={css({ textDecoration: 'none' })}>
               <div style={css({ background: tk.bg.surface, borderRadius: 16, overflow: 'hidden', transition: 'filter 0.2s ease-in-out' })}>
                 <div style={css({ blockSize: 120, background: tk.bg.default })} />
                 <div style={css({ paddingBlock: 16, paddingInline: 16 })}>
