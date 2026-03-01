@@ -1,5 +1,5 @@
 // P54 — mobile-inspector-tabs.tsx
-import { type ReactNode, type CSSProperties, useState, useRef, useLayoutEffect } from 'react';
+import { type ReactNode, type CSSProperties, useState, useRef, useLayoutEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useThemeTokens } from '@brimair/design-tokens';
 import { SPRING_PRESETS } from '@brimair/ui';
@@ -73,6 +73,16 @@ export function MobileInspectorTabs({ tabs, activeTab, onTabChange }: MobileInsp
 
   const activeContent = tabs.find((t) => t.id === selected)?.content;
 
+  const underlineStyle: CSSProperties = useMemo(
+    () => ({ ...underlineCSS, backgroundColor: tokens.accentPrimary }),
+    [tokens.accentPrimary],
+  );
+
+  const underlineAnimate = useMemo(
+    () => ({ left: indicator.left, width: indicator.width }),
+    [indicator.left, indicator.width],
+  );
+
   return (
     <div>
       <div style={tabBarCSS}>
@@ -95,8 +105,8 @@ export function MobileInspectorTabs({ tabs, activeTab, onTabChange }: MobileInsp
           );
         })}
         <motion.div
-          style= ...underlineCSS, backgroundColor: tokens.accentPrimary 
-          animate= left: indicator.left, width: indicator.width 
+          style={underlineStyle}
+          animate={underlineAnimate}
           transition={SPRING_PRESETS.bouncy}
         />
       </div>
