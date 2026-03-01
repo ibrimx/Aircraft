@@ -1,3 +1,3 @@
-// @brimair/publish-adapters
+// @aircraft/publish-adapters
 // Barrel export — will be populated as files are added.
 export {}

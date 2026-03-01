@@ -1,3 +1,3 @@
-// @brimair/storage-adapter
+// @aircraft/storage-adapter
 // Barrel export — will be populated as files are added.
 export {}
