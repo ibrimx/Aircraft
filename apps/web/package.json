@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@aircraft/ui": "workspace:*",
+    "@aircraft/design-tokens": "workspace:*",
+    "@aircraft/shared-types": "workspace:*",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "next": "^15.5.2",
