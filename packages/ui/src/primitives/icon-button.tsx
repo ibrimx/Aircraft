@@ -1,6 +1,6 @@
 /**
  * P26 — icon-button.tsx · Square icon button with required aria-label
- * @package @brimair/ui
+ * @package @aircraft/ui
  * 📖 DSG §10.2 Variants · STUDIO §3.1 Toolbar 32px icons
  * 📖 PAGE BUILDER §6.3 Touch targets
  */

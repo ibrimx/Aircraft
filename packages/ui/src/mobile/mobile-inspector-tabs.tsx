@@ -1,8 +1,8 @@
 // P54 — mobile-inspector-tabs.tsx
 import { type ReactNode, type CSSProperties, useState, useRef, useLayoutEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { useThemeTokens } from '@brimair/design-tokens';
-import { SPRING_PRESETS } from '@brimair/ui';
+import { useThemeTokens } from '@aircraft/design-tokens';
+import { SPRING_PRESETS } from '@aircraft/ui';
 
 /* ── Types ─────────────────────────────────────────────── */
 

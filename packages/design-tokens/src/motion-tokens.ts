@@ -1,6 +1,6 @@
 /**
  * motion-tokens.ts — Design Tokens · Duration & Easing
- * @package @brimair/design-tokens
+ * @package @aircraft/design-tokens
  * Prompt: P20 · Phase 1.A — Design Tokens
  *
  * ⛔ EASING.linear exists ONLY for reduced-motion fallback.

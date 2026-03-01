@@ -1,10 +1,10 @@
 // P60 — mobile-context-menu.tsx
 import { type ReactNode, type CSSProperties, useRef, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useThemeTokens } from '@brimair/design-tokens';
-import { Z_INDEX } from '@brimair/design-tokens';
-import { SPRING_PRESETS } from '@brimair/ui';
-import { GlassPanel } from '@brimair/ui';
+import { useThemeTokens } from '@aircraft/design-tokens';
+import { Z_INDEX } from '@aircraft/design-tokens';
+import { SPRING_PRESETS } from '@aircraft/ui';
+import { GlassPanel } from '@aircraft/ui';
 
 /* ── Types ─────────────────────────────────────────────── */
 

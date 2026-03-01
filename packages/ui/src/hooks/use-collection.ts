@@ -1,6 +1,6 @@
 // packages/ui/src/hooks/use-collection.ts
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
-import type { CmsCollection, CmsRecord } from '@brimair/shared-types';
+import type { CmsCollection, CmsRecord } from '@aircraft/shared-types';
 
 // ── Context ──────────────────────────────────────────────
 type CollectionContextValue = {
