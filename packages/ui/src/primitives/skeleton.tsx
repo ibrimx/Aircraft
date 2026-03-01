@@ -1,8 +1,8 @@
 // P34
 import { useRef, useEffect } from 'react'
 import type { CSSProperties } from 'react'
-import { useThemeTokens } from '@brimair/design-tokens'
-import type { RadiusKey } from '@brimair/design-tokens'
+import { useThemeTokens } from '@aircraft/design-tokens'
+import type { RadiusKey } from '@aircraft/design-tokens'
 
 export type SkeletonProps = {
   width?: string | number
@@ -14,8 +14,8 @@ export type SkeletonProps = {
 }
 
 const SHIMMER_STYLES = [
-  '@keyframes brimair-shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}',
-  '@media(prefers-reduced-motion:reduce){[data-brimair-shimmer]{animation:none!important}}',
+  '@keyframes aircraft-shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}',
+  '@media(prefers-reduced-motion:reduce){[data-aircraft-shimmer]{animation:none!important}}',
 ].join('')
 
 export function Skeleton({
@@ -50,11 +50,11 @@ export function Skeleton({
       
     >
       <div
-        data-brimair-shimmer
+        data-aircraft-shimmer
         style={{
           position: 'absolute', inset: 0,
           background: `linear-gradient(90deg, transparent 0%, ${theme.colors.border.subtle} 50%, transparent 100%)`,
-          animation: 'brimair-shimmer 1.5s ease-in-out infinite',
+          animation: 'aircraft-shimmer 1.5s ease-in-out infinite',
         }}
       />
     </div>

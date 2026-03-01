@@ -1,6 +1,6 @@
 /**
  * P26 — button.tsx · Theme-aware button with 4 variants × 3 sizes
- * @package @brimair/ui
+ * @package @aircraft/ui
  * 📖 DSG §10.2 Button Variants · §10.1 Interactive States
  * 📖 FRAMER §5 Micro-interactions · §3 Duration/Easing tokens
  * 📖 PAGE BUILDER §6.3 Touch targets (md≥44, lg≥48)
@@ -9,8 +9,8 @@
 
 import { forwardRef } from 'react'
 import type { ButtonHTMLAttributes, ReactNode, CSSProperties } from 'react'
-import { useThemeTokens, cssTransition } from '@brimair/design-tokens'
-import type { BrimairTheme } from '@brimair/design-tokens'
+import { useThemeTokens, cssTransition } from '@aircraft/design-tokens'
+import type { AircraftTheme } from '@aircraft/design-tokens'
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'destructive'
 export type ButtonSize = 'sm' | 'md' | 'lg'
@@ -73,7 +73,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   },
 )
 
-function getVariantStyle(variant: ButtonVariant, theme: BrimairTheme): CSSProperties {
+function getVariantStyle(variant: ButtonVariant, theme: AircraftTheme): CSSProperties {
   switch (variant) {
     case 'primary': return {
       background: theme.colors.accent.default, color: '#FFFFFF',

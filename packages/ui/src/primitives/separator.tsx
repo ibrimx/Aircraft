@@ -1,6 +1,6 @@
 // P33
 import type { CSSProperties } from 'react'
-import { useThemeTokens } from '@brimair/design-tokens'
+import { useThemeTokens } from '@aircraft/design-tokens'
 
 export type SeparatorProps = {
   orientation?: 'horizontal' | 'vertical'

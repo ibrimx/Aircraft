@@ -1,15 +1,15 @@
 /**
  * P25 — glass-panel.tsx · Glass morphism container
- * @package @brimair/ui
+ * @package @aircraft/ui
  * Frosted glass panel matching DSG §6.2 Glass Panel Recipe.
  * 📖 DSG §6.2 Glass Morphism · §10 Interactive States
  * 📖 FRAMER §5 Micro-interactions · STUDIO §11 Compliance
  */
 
 import type { ReactNode, ElementType, CSSProperties } from 'react'
-import { useThemeTokens } from '@brimair/design-tokens'
-import { cssBackdropBlur } from '@brimair/design-tokens'
-import type { BlurKey, RadiusKey, SpacingAlias } from '@brimair/design-tokens'
+import { useThemeTokens } from '@aircraft/design-tokens'
+import { cssBackdropBlur } from '@aircraft/design-tokens'
+import type { BlurKey, RadiusKey, SpacingAlias } from '@aircraft/design-tokens'
 
 export type GlassPanelProps = {
   blur?: BlurKey

@@ -1,6 +1,6 @@
 // P34
 import type { CSSProperties } from 'react'
-import { useThemeTokens, cssTransition } from '@brimair/design-tokens'
+import { useThemeTokens, cssTransition } from '@aircraft/design-tokens'
 
 export type ProgressSize = 'sm' | 'md'
 

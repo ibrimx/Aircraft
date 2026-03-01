@@ -1,7 +1,7 @@
 // P35
 import { useRef, useEffect } from 'react'
 import type { ReactNode, CSSProperties } from 'react'
-import { useThemeTokens } from '@brimair/design-tokens'
+import { useThemeTokens } from '@aircraft/design-tokens'
 
 export type ScrollAreaProps = {
   maxHeight?: string | number
@@ -24,10 +24,10 @@ export function ScrollArea({
   useEffect(() => {
     if (scrollStyleInjected) return
     const css = [
-      `.brimair-scroll::-webkit-scrollbar{width:6px;height:6px}`,
-      `.brimair-scroll::-webkit-scrollbar-thumb{background:${theme.colors.border.default};border-radius:9999px}`,
-      `.brimair-scroll::-webkit-scrollbar-track{background:transparent}`,
-      `@media(prefers-reduced-motion:reduce){.brimair-scroll{scroll-behavior:auto!important}}`,
+      `.aircraft-scroll::-webkit-scrollbar{width:6px;height:6px}`,
+      `.aircraft-scroll::-webkit-scrollbar-thumb{background:${theme.colors.border.default};border-radius:9999px}`,
+      `.aircraft-scroll::-webkit-scrollbar-track{background:transparent}`,
+      `@media(prefers-reduced-motion:reduce){.aircraft-scroll{scroll-behavior:auto!important}}`,
     ].join('')
     const sheet = document.createElement('style')
     sheet.textContent = css
@@ -44,7 +44,7 @@ export function ScrollArea({
   return (
     <div
       ref={ref}
-      className={`brimair-scroll ${className ?? ''}`}
+      className={`aircraft-scroll ${className ?? ''}`}
       style={{
         maxHeight,
         ...overflow,
