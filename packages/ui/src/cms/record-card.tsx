@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
-import { useThemeTokens } from '@brimair/design-tokens'
-import { cssTransition } from '@brimair/design-tokens'
-import type { CmsRecord, CmsFieldSchema, CmsFieldValue } from '@brimair/shared-types'
+import { useThemeTokens } from '@aircraft/design-tokens'
+import { cssTransition } from '@aircraft/design-tokens'
+import type { CmsRecord, CmsFieldSchema, CmsFieldValue } from '@aircraft/shared-types'
 
 export type RecordCardProps = {
   record: CmsRecord

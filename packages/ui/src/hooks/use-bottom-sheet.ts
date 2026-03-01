@@ -1,7 +1,7 @@
 // packages/ui/src/hooks/use-bottom-sheet.ts
 import { useCallback, useRef, useState } from 'react';
-import type { SheetSnapConfig } from '@brimair/shared-types';
-import { SHEET_SNAP_CONFIG } from '@brimair/shared-types';
+import type { SheetSnapConfig } from '@aircraft/shared-types';
+import { SHEET_SNAP_CONFIG } from '@aircraft/shared-types';
 import { useHaptic } from './use-haptic';
 import { useReducedMotion } from './use-reduced-motion';
 

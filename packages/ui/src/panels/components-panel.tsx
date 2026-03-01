@@ -1,10 +1,10 @@
 import { useMemo, type CSSProperties, type FC } from 'react';
-import { useThemeTokens } from '@brimair/design-tokens';
-import { SPACING } from '@brimair/design-tokens';
-import { cssTransition, EASING } from '@brimair/design-tokens';
-import { ScrollArea } from '@brimair/ui';
-import { Input } from '@brimair/ui';
-import { Skeleton } from '@brimair/ui';
+import { useThemeTokens } from '@aircraft/design-tokens';
+import { SPACING } from '@aircraft/design-tokens';
+import { cssTransition, EASING } from '@aircraft/design-tokens';
+import { ScrollArea } from '@aircraft/ui';
+import { Input } from '@aircraft/ui';
+import { Skeleton } from '@aircraft/ui';
 
 export type ComponentItem = {
   id: string;
@@ -61,7 +61,7 @@ export const ComponentsPanel: FC<ComponentsPanelProps> = ({
         <span style= fontWeight: 600, fontSize: 13 >Components</span>
       </div>
       <div style= paddingInline: SPACING[2], paddingBlockEnd: SPACING[2] >
-        <Input value={searchQuery} onChange={onSearch} placeholder="Search components\u2026" />
+        <Input value={searchQuery} onChange={onSearch} placeholder="Search components…" />
       </div>
       <ScrollArea style= flex: 1 >
         {loading ? (
