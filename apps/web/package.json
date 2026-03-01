@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aircraft/ui": "workspace:*",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "next": "^15.5.2",
