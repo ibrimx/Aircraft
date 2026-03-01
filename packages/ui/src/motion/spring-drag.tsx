@@ -100,7 +100,7 @@ export function SpringDrag({
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
-      style= touchAction: 'none', cursor: disabled ? 'default' : 'grab', userSelect: 'none', ...style 
+      style={{ touchAction: 'none', cursor: disabled ? 'default' : 'grab', userSelect: 'none', ...style }}
     >
       {children}
     </div>
