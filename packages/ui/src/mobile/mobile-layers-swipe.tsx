@@ -1,5 +1,5 @@
 // P56 — mobile-layers-swipe.tsx
-import { type ReactNode, type CSSProperties, useRef, useCallback } from 'react';
+import { type ReactNode, type CSSProperties, useRef, useCallback, useMemo } from 'react';
 import { motion, useMotionValue, useTransform, type PanInfo } from 'framer-motion';
 import { useThemeTokens } from '@brimair/design-tokens';
 import { SPRING_PRESETS } from '@brimair/ui';
@@ -20,6 +20,7 @@ export type MobileLayersSwipeProps = {
 
 const DEFAULT_THRESHOLD = 0.3;
 const DEFAULT_VELOCITY = 800;
+const DRAG_CONSTRAINTS = { left: 0, right: 0 };
 
 /* ── Styles ────────────────────────────────────────────── */
 
@@ -72,14 +73,23 @@ export function MobileLayersSwipe({
 
   const contentCSS: CSSProperties = { position: 'relative', backgroundColor: tokens.surfacePrimary };
 
+  const leftStyle = useMemo(
+    () => ({ ...leftActionCSS, opacity: leftOpacity }),
+    [leftOpacity],
+  );
+  const rightStyle = useMemo(
+    () => ({ ...rightActionCSS, opacity: rightOpacity }),
+    [rightOpacity],
+  );
+
   return (
     <div ref={containerRef} style={wrapCSS}>
-      {leftAction && <motion.div style= ...leftActionCSS, opacity: leftOpacity >{leftAction}</motion.div>}
-      {rightAction && <motion.div style= ...rightActionCSS, opacity: rightOpacity >{rightAction}</motion.div>}
+      {leftAction && <motion.div style={leftStyle}>{leftAction}</motion.div>}
+      {rightAction && <motion.div style={rightStyle}>{rightAction}</motion.div>}
       <motion.div
         style={contentCSS}
         drag="x"
-        dragConstraints= left: 0, right: 0 
+        dragConstraints={DRAG_CONSTRAINTS}
         dragElastic={0.4}
         onDragEnd={handleDragEnd}
         transition={SPRING_PRESETS.gentle}
