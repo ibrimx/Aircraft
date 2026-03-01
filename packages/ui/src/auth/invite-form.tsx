@@ -1,10 +1,10 @@
 import { type CSSProperties, useState, useCallback } from 'react'
-import { Surface } from '@brimair/ui/primitives/surface'
-import { Input } from '@brimair/ui/primitives/input'
-import { Select, type SelectOption } from '@brimair/ui/primitives/select'
-import { Button } from '@brimair/ui/primitives/button'
-import { useThemeTokens } from '@brimair/design-tokens/theme-provider'
-import { SPACING } from '@brimair/design-tokens/spacing'
+import { Surface } from '@aircraft/ui/primitives/surface'
+import { Input } from '@aircraft/ui/primitives/input'
+import { Select, type SelectOption } from '@aircraft/ui/primitives/select'
+import { Button } from '@aircraft/ui/primitives/button'
+import { useThemeTokens } from '@aircraft/design-tokens/theme-provider'
+import { SPACING } from '@aircraft/design-tokens/spacing'
 
 export type InviteFormData = {
   email: string

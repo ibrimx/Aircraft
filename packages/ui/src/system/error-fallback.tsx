@@ -1,17 +1,17 @@
 // packages/ui/src/system/error-fallback.tsx
 import { type CSSProperties } from 'react';
-import type { BrimairError, RecoveryAction } from '@brimair/shared-types';
-import { useThemeTokens } from '@brimair/design-tokens';
-import { Z_INDEX } from '@brimair/design-tokens';
-import { SPACING } from '@brimair/design-tokens';
-import { SHADOWS } from '@brimair/design-tokens';
-import { TEXT_STYLES } from '@brimair/design-tokens';
-import { cssTransition, EASING } from '@brimair/design-tokens';
+import type { AircraftError, RecoveryAction } from '@aircraft/shared-types';
+import { useThemeTokens } from '@aircraft/design-tokens';
+import { Z_INDEX } from '@aircraft/design-tokens';
+import { SPACING } from '@aircraft/design-tokens';
+import { SHADOWS } from '@aircraft/design-tokens';
+import { TEXT_STYLES } from '@aircraft/design-tokens';
+import { cssTransition, EASING } from '@aircraft/design-tokens';
 import { Button } from '../primitives/button';
 import { Surface } from '../primitives/surface';
 
 export type ErrorFallbackProps = {
-  error: BrimairError;
+  error: AircraftError;
   onRetry?: () => void;
   onReset?: () => void;
   fullScreen?: boolean;
@@ -47,7 +47,7 @@ export function ErrorFallback({
       case 'retry': onRetry?.(); break;
       case 'reload': window.location.reload(); break;
       case 'login': window.location.assign('/login'); break;
-      case 'contact_support': window.location.assign('mailto:support@brimair.com'); break;
+      case 'contact_support': window.location.assign('mailto:support@aircraft.app'); break;
       case 'dismiss': onReset?.(); break;
     }
   };

@@ -1,10 +1,10 @@
 // packages/ui/src/system/offline-indicator.tsx
 import { useState, useEffect, useRef, type CSSProperties } from 'react';
-import { useThemeTokens } from '@brimair/design-tokens';
-import { Z_INDEX } from '@brimair/design-tokens';
-import { SPACING } from '@brimair/design-tokens';
-import { cssTransition, EASING } from '@brimair/design-tokens';
-import { TEXT_STYLES } from '@brimair/design-tokens';
+import { useThemeTokens } from '@aircraft/design-tokens';
+import { Z_INDEX } from '@aircraft/design-tokens';
+import { SPACING } from '@aircraft/design-tokens';
+import { cssTransition, EASING } from '@aircraft/design-tokens';
+import { TEXT_STYLES } from '@aircraft/design-tokens';
 
 export type OfflineIndicatorProps = {
   position?: 'top' | 'bottom';

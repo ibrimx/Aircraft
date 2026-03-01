@@ -1,11 +1,11 @@
 import { type CSSProperties, useMemo } from 'react'
-import { Surface } from '@brimair/ui/primitives/surface'
-import { Button } from '@brimair/ui/primitives/button'
-import { Badge } from '@brimair/ui/primitives/badge'
-import { Skeleton } from '@brimair/ui/primitives/skeleton'
-import { useThemeTokens } from '@brimair/design-tokens/theme-provider'
-import { SPACING } from '@brimair/design-tokens/spacing'
-import { cssTransition } from '@brimair/design-tokens/motion-tokens'
+import { Surface } from '@aircraft/ui/primitives/surface'
+import { Button } from '@aircraft/ui/primitives/button'
+import { Badge } from '@aircraft/ui/primitives/badge'
+import { Skeleton } from '@aircraft/ui/primitives/skeleton'
+import { useThemeTokens } from '@aircraft/design-tokens/theme-provider'
+import { SPACING } from '@aircraft/design-tokens/spacing'
+import { cssTransition } from '@aircraft/design-tokens/motion-tokens'
 
 export type InviteStatus = 'validating' | 'valid' | 'expired' | 'invalid' | 'accepted' | 'error'
 
@@ -97,18 +97,18 @@ export function InviteGate({ invite, onAccept, onDecline, accepting = false, err
         {status === 'validating' && (
           <>
             <div style={{ width: 40, height: 40, borderRadius: '50%', border: `3px solid ${theme.border.default}`, borderTopColor: theme.accent.default, animation: 'spin 800ms linear infinite' }} />
-            <span style= color: theme.text.secondary, fontSize: 13 >Verifying invite…</span>
+            <span style= color: theme.text.secondary, fontSize: 13 >Verifying invite\u2026</span>
           </>
         )}
 
         {status === 'valid' && (
           <>
-            <span style= fontSize: 40, lineHeight: 1 >{workspaceIcon ?? '🏢'}</span>
+            <span style= fontSize: 40, lineHeight: 1 >{workspaceIcon ?? '\uD83C\uDFE2'}</span>
             <h2 style= fontSize: 20, fontWeight: 600, color: theme.text.primary, margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100%' >{workspaceName}</h2>
             <p style= fontSize: 13, color: theme.text.secondary, margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100%' >{inviterName} invited you as <strong>{role}</strong></p>
             <span style= fontSize: 12, color: countdown === 'Expired' ? theme.destructive.default : theme.text.tertiary >{countdown}</span>
             <div style= display: 'flex', gap: SPACING[2], marginBlockStart: SPACING[2] >
-              <Button variant="primary" onClick={() => onAccept(token)} disabled={accepting}>{accepting ? 'Joining…' : 'Accept'}</Button>
+              <Button variant="primary" onClick={() => onAccept(token)} disabled={accepting}>{accepting ? 'Joining\u2026' : 'Accept'}</Button>
               {!accepting && <Button variant="ghost" onClick={() => onDecline(token)}>Decline</Button>}
             </div>
           </>
@@ -120,7 +120,7 @@ export function InviteGate({ invite, onAccept, onDecline, accepting = false, err
             <p style= fontSize: 13, color: theme.text.secondary, margin: 0 >
               {status === 'expired' && 'This invite has expired. Request a new invite from the workspace admin.'}
               {status === 'invalid' && 'This invite link is not valid.'}
-              {status === 'accepted' && 'Redirecting to workspace…'}
+              {status === 'accepted' && 'Redirecting to workspace\u2026'}
               {status === 'error' && (errorMessage ?? 'Something went wrong.')}
             </p>
             {status === 'error' && <Button variant="secondary" onClick={() => onAccept(token)}>Try again</Button>}

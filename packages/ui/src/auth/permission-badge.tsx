@@ -1,6 +1,6 @@
 import { type CSSProperties } from 'react'
-import { Badge } from '@brimair/ui/primitives/badge'
-import { useThemeTokens } from '@brimair/design-tokens/theme-provider'
+import { Badge } from '@aircraft/ui/primitives/badge'
+import { useThemeTokens } from '@aircraft/design-tokens/theme-provider'
 
 export type PermissionLevel = 'admin' | 'editor' | 'viewer' | 'custom'
 
@@ -14,10 +14,10 @@ export type PermissionBadgeProps = {
 }
 
 const LEVEL_ICON: Record<PermissionLevel, string> = {
-  admin: '🔑',
-  editor: '✏️',
-  viewer: '👁',
-  custom: '⚙️',
+  admin: '\uD83D\uDD11',
+  editor: '\u270F\uFE0F',
+  viewer: '\uD83D\uDC41',
+  custom: '\u2699\uFE0F',
 }
 
 export function PermissionBadge({ level, label, size = 'sm', showIcon = false, className, style }: PermissionBadgeProps) {

@@ -1,14 +1,14 @@
 /**
  * P24 — surface.tsx · Surface primitive component
- * @package @brimair/ui
+ * @package @aircraft/ui
  * Renders a themed container with flat / raised / sunken variants.
  * 📖 DSG §6 Shadows · §10 Interactive States (Panel/Card)
  * 📖 FRAMER §5 Micro-interactions (hover scale, focus ring)
  */
 
 import type { ReactNode, ElementType, CSSProperties } from 'react'
-import { useThemeTokens } from '@brimair/design-tokens'
-import type { SpacingAlias, RadiusKey } from '@brimair/design-tokens'
+import { useThemeTokens } from '@aircraft/design-tokens'
+import type { SpacingAlias, RadiusKey } from '@aircraft/design-tokens'
 
 export type SurfaceVariant = 'flat' | 'raised' | 'sunken'
 

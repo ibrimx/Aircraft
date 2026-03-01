@@ -1,8 +1,8 @@
 import { type CSSProperties, type ReactNode, useEffect } from 'react'
-import { Skeleton } from '@brimair/ui/primitives/skeleton'
-import { Surface } from '@brimair/ui/primitives/surface'
-import { useThemeTokens } from '@brimair/design-tokens/theme-provider'
-import { SPACING } from '@brimair/design-tokens/spacing'
+import { Skeleton } from '@aircraft/ui/primitives/skeleton'
+import { Surface } from '@aircraft/ui/primitives/surface'
+import { useThemeTokens } from '@aircraft/design-tokens/theme-provider'
+import { SPACING } from '@aircraft/design-tokens/spacing'
 import { AccessDenied } from './access-denied'
 
 export type AuthState = 'loading' | 'authenticated' | 'unauthenticated'

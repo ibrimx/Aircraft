@@ -1,10 +1,10 @@
 import { type CSSProperties } from 'react'
-import { Surface } from '@brimair/ui/primitives/surface'
-import { Button } from '@brimair/ui/primitives/button'
-import { Badge } from '@brimair/ui/primitives/badge'
-import { useThemeTokens } from '@brimair/design-tokens/theme-provider'
-import { SPACING } from '@brimair/design-tokens/spacing'
-import { cssTransition } from '@brimair/design-tokens/motion-tokens'
+import { Surface } from '@aircraft/ui/primitives/surface'
+import { Button } from '@aircraft/ui/primitives/button'
+import { Badge } from '@aircraft/ui/primitives/badge'
+import { useThemeTokens } from '@aircraft/design-tokens/theme-provider'
+import { SPACING } from '@aircraft/design-tokens/spacing'
+import { cssTransition } from '@aircraft/design-tokens/motion-tokens'
 
 export type DeniedReason = 'no_permission' | 'not_authenticated' | 'not_member' | 'role_insufficient'
 
@@ -67,7 +67,7 @@ export function AccessDenied({ reason, requiredPermission, requiredRole, onGoBac
   return (
     <div className={className} style={wrapStyle}>
       <Surface variant="raised" style={cardStyle}>
-        <span style= fontSize: 64, lineHeight: 1, color: theme.text.tertiary  aria-hidden>\ud83d\udd12</span>
+        <span style= fontSize: 64, lineHeight: 1, color: theme.text.tertiary  aria-hidden>\uD83D\uDD12</span>
 
         <h2 style= fontSize: 20, fontWeight: 600, color: theme.text.primary, margin: 0 >
           {config.title}
