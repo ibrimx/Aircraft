@@ -22,6 +22,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@aircraft/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       framer-motion:
         specifier: ^12.23.12
         version: 12.34.3(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -112,6 +115,8 @@ importers:
       '@supabase/supabase-js':
         specifier: ^2.57.4
         version: 2.98.0
+
+  packages/ui: {}
 
 packages:
 
