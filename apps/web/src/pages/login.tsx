@@ -1,7 +1,7 @@
 import { type JSX, type FormEvent, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Input, useAuth, useI18n } from '@brimair/ui';
-import { useThemeTokens } from '@brimair/design-tokens';
+import { Button, Input, useAuth, useI18n } from '@aircraft/ui';
+import { useThemeTokens } from '@aircraft/design-tokens';
 
 export function LoginPage(): JSX.Element {
   const { isAuthenticated, login } = useAuth();
