@@ -1,7 +1,7 @@
 // P38 · layout-transition.tsx — FLIP-based layout animation
 import { useRef, useEffect } from 'react'
 import type { ReactNode, CSSProperties } from 'react'
-import { DURATION, EASING } from '@brimair/design-tokens'
+import { DURATION, EASING } from '@aircraft/design-tokens'
 import { REDUCED_MOTION_QUERY } from './presets'
 
 export type LayoutTransitionProps = {

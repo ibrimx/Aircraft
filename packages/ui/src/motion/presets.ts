@@ -1,6 +1,6 @@
 // P36 · presets.ts — motion presets & spring configs
-import { DURATION, EASING } from '@brimair/design-tokens'
-import type { DurationKey, EasingKey } from '@brimair/design-tokens'
+import { DURATION, EASING } from '@aircraft/design-tokens'
+import type { DurationKey, EasingKey } from '@aircraft/design-tokens'
 
 export type SpringConfig = {
   mass: number

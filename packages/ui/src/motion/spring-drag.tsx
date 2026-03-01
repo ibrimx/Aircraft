@@ -3,7 +3,7 @@ import { useRef, useEffect, useCallback } from 'react'
 import type { ReactNode, CSSProperties } from 'react'
 import { SPRING_CONFIGS } from './presets'
 import type { SpringConfigKey } from './presets'
-import type { Rect } from '@brimair/shared-types'
+import type { Rect } from '@aircraft/shared-types'
 
 export type SpringDragProps = {
   children: ReactNode

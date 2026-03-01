@@ -1,10 +1,10 @@
 import { useMemo, type CSSProperties, type FC } from 'react';
-import { useThemeTokens } from '@brimair/design-tokens';
-import { SPACING } from '@brimair/design-tokens';
-import { cssTransition, EASING } from '@brimair/design-tokens';
-import { ScrollArea } from '@brimair/ui';
-import { IconButton } from '@brimair/ui';
-import { Tooltip } from '@brimair/ui';
+import { useThemeTokens } from '@aircraft/design-tokens';
+import { SPACING } from '@aircraft/design-tokens';
+import { cssTransition, EASING } from '@aircraft/design-tokens';
+import { ScrollArea } from '@aircraft/ui';
+import { IconButton } from '@aircraft/ui';
+import { Tooltip } from '@aircraft/ui';
 
 export type HistoryEntry = {
   id: string;

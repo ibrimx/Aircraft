@@ -2,7 +2,7 @@
 import type { ReactNode, CSSProperties } from 'react'
 import { AnimatedPresence } from './animated-presence'
 import { TRANSITION_PRESETS } from './presets'
-import { useThemeTokens, Z_INDEX, cssTransition } from '@brimair/design-tokens'
+import { useThemeTokens, Z_INDEX, cssTransition } from '@aircraft/design-tokens'
 
 export type SlidePanelDirection = 'left' | 'right' | 'top' | 'bottom'
 

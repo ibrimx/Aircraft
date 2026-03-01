@@ -1,11 +1,11 @@
 import { useState, useCallback, useMemo, type CSSProperties, type FC } from 'react';
-import { useThemeTokens } from '@brimair/design-tokens';
-import { SPACING } from '@brimair/design-tokens';
-import { cssTransition, EASING } from '@brimair/design-tokens';
-import { ScrollArea } from '@brimair/ui';
-import { Input } from '@brimair/ui';
-import { IconButton } from '@brimair/ui';
-import { Tooltip } from '@brimair/ui';
+import { useThemeTokens } from '@aircraft/design-tokens';
+import { SPACING } from '@aircraft/design-tokens';
+import { cssTransition, EASING } from '@aircraft/design-tokens';
+import { ScrollArea } from '@aircraft/ui';
+import { Input } from '@aircraft/ui';
+import { IconButton } from '@aircraft/ui';
+import { Tooltip } from '@aircraft/ui';
 
 export type LayerItem = {
   id: string;
@@ -111,7 +111,7 @@ export const LayersPanel: FC<LayersPanelProps> = ({
               <span style= flex: 1, fontSize: 13, color: selectedIds.includes(layer.id) ? theme.colors.accent.default : theme.colors.text.primary, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' >{layer.name}</span>
             )}
             <Tooltip content={layer.visible ? 'Hide' : 'Show'}>
-              <IconButton size="sm" variant="ghost" onClick={(e: React.MouseEvent) => { e.stopPropagation(); onToggleVisibility(layer.id); }} aria-label={layer.visible ? 'Hide layer' : 'Show layer'}>{layer.visible ? '👁' : '👁‍🗨'}</IconButton>
+              <IconButton size="sm" variant="ghost" onClick={(e: React.MouseEvent) => { e.stopPropagation(); onToggleVisibility(layer.id); }} aria-label={layer.visible ? 'Hide layer' : 'Show layer'}>{'\uD83D\uDC41'}</IconButton>
             </Tooltip>
             <Tooltip content={layer.locked ? 'Unlock' : 'Lock'}>
               <IconButton size="sm" variant="ghost" onClick={(e: React.MouseEvent) => { e.stopPropagation(); onToggleLock(layer.id); }} aria-label={layer.locked ? 'Unlock layer' : 'Lock layer'}>{layer.locked ? '🔒' : '🔓'}</IconButton>
