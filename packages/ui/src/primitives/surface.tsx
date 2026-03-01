@@ -44,13 +44,13 @@ export function Surface({
   return (
     <Component
       className={className}
-      style=
+      style={{
         background: v.background,
         boxShadow: v.boxShadow,
         padding: theme.spacingAlias[padding],
         borderRadius: theme.radius[radius],
         ...style,
-      
+      }}
     >
       {children}
     </Component>

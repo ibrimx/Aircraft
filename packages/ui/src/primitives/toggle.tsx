@@ -31,7 +31,7 @@ export function Toggle({
       disabled={disabled}
       onClick={() => onChange(!checked)}
       className={className}
-      style=
+      style={{
         display: 'inline-flex', alignItems: 'center',
         width: s.trackW, height: s.trackH,
         borderRadius: theme.radius.pill,
@@ -41,7 +41,7 @@ export function Toggle({
         opacity: disabled ? 0.4 : 1,
         transition: cssTransition('background', 'normal', 'easeInOut'),
         ...style,
-      
+      }}
       {...rest}
     >
       <span style={{

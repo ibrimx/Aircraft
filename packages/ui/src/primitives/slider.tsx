@@ -28,13 +28,13 @@ export function Slider({
   )
 
   return (
-    <div className={className} style= position: 'relative', opacity: disabled ? 0.4 : 1, ...style >
+    <div className={className} style={{ position: 'relative', opacity: disabled ? 0.4 : 1, ...style }}>
       {/* Visual track */}
-      <div style=
+      <div style={{
         height: '4px', borderRadius: theme.radius.pill,
         background: theme.colors.border.default,
         position: 'relative', overflow: 'hidden',
-      >
+      }}>
         <div style={{
           height: '100%', width: `${percent}%`,
           background: theme.colors.accent.default,
@@ -46,11 +46,11 @@ export function Slider({
       <input
         type="range" min={min} max={max} step={step} value={value}
         disabled={disabled} onChange={handleChange}
-        style=
+        style={{
           position: 'absolute', inset: 0, width: '100%',
           opacity: 0, cursor: disabled ? 'not-allowed' : 'pointer',
           height: '44px', marginBlockStart: '-20px',
-        
+        }}
       />
     </div>
   )

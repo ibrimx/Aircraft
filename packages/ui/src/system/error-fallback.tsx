@@ -4,9 +4,8 @@ import type { AircraftError, RecoveryAction } from '@aircraft/shared-types';
 import { useThemeTokens } from '@aircraft/design-tokens';
 import { Z_INDEX } from '@aircraft/design-tokens';
 import { SPACING } from '@aircraft/design-tokens';
-import { SHADOWS } from '@aircraft/design-tokens';
 import { TEXT_STYLES } from '@aircraft/design-tokens';
-import { cssTransition, EASING } from '@aircraft/design-tokens';
+import { cssTransition } from '@aircraft/design-tokens';
 import { Button } from '../primitives/button';
 import { Surface } from '../primitives/surface';
 
@@ -60,8 +59,8 @@ export function ErrorFallback({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    background: tokens.colors.bg.overlay,
-    transition: prefersReduced ? 'none' : cssTransition(['opacity'], { easing: EASING.easeOut }),
+    background: tokens.colors.surface.overlay,
+    transition: prefersReduced ? 'none' : cssTransition('opacity', 'normal', 'easeOut'),
   } : {};
 
   const cardStyle: CSSProperties = {
@@ -79,11 +78,11 @@ export function ErrorFallback({
   return (
     <div className={className} style={wrapperStyle}>
       <Surface variant="raised" style={cardStyle}>
-        <span style= fontSize: iconSize, lineHeight: 1 >\u26A0\uFE0F</span>
-        <span style= ...TEXT_STYLES.subtitle, color: tokens.colors.text.primary >
+        <span style={{ fontSize: iconSize, lineHeight: 1 }}>\u26A0\uFE0F</span>
+        <span style={{ ...TEXT_STYLES.subtitle, color: tokens.colors.text.primary }}>
           {error.message}
         </span>
-        <span style= ...TEXT_STYLES.caption, color: tokens.colors.text.secondary >
+        <span style={{ ...TEXT_STYLES.caption, color: tokens.colors.text.secondary }}>
           {error.code}
         </span>
         <Button variant="primary" onClick={handleAction}>{mapping.label}</Button>

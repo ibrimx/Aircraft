@@ -39,7 +39,7 @@ export function Skeleton({
   return (
     <div
       className={className}
-      style=
+      style={{
         width: circle ? dim : width,
         height: circle ? dim : height,
         borderRadius: circle ? '50%' : theme.radius[radius],
@@ -47,7 +47,7 @@ export function Skeleton({
         overflow: 'hidden',
         position: 'relative',
         ...style,
-      
+      }}
     >
       <div
         data-aircraft-shimmer
