@@ -2,8 +2,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import type { ReactNode, CSSProperties } from 'react'
-import { useThemeTokens } from '@aircraft/design-tokens'
-import { Z_INDEX } from '@aircraft/design-tokens'
+import { useThemeTokens, Z_INDEX } from '@aircraft/design-tokens'
 import { isSeparator, MenuItemRow } from './dropdown-menu'
 import type { MenuEntry } from './dropdown-menu'
 
@@ -44,7 +43,11 @@ export function ContextMenu({
       {state.open && createPortal(
         <>
           <div
-            style={{ position: 'fixed', inset: 0, zIndex: Z_INDEX.popover - 1 }}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              zIndex: Z_INDEX.popover - 1,
+            }}
             onClick={close}
             onContextMenu={(e) => { e.preventDefault(); close() }}
           />
@@ -60,7 +63,9 @@ export function ContextMenu({
             {items.map((entry) =>
               isSeparator(entry)
                 ? <div key={entry.id} style={{
-                    height: '1px', background: theme.colors.border.subtle, marginBlock: '4px',
+                    height: '1px',
+                    background: theme.colors.border.subtle,
+                    marginBlock: '4px',
                   }} />
                 : <MenuItemRow key={entry.id} item={entry} theme={theme}
                     onSelect={() => { entry.onClick(); close() }} />
