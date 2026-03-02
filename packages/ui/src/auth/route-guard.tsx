@@ -21,21 +21,26 @@ export type RouteGuardProps = {
 function DefaultFallback() {
   const theme = useThemeTokens()
   return (
-    <div style=
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      minHeight: '100vh',
-      paddingInline: SPACING[4],
-    >
-      <Surface variant="raised" style=
-        maxWidth: 480,
-        width: '100%',
-        paddingInline: SPACING[6],
-        paddingBlock: SPACING[8],
+    <div
+      style={{
         display: 'flex',
-        flexDirection: 'column',
-        gap: SPACING[4],
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh',
+        paddingInline: SPACING[4],
+      }}
+    >
+      <Surface
+        variant="raised"
+        style={{
+          maxWidth: 480,
+          width: '100%',
+          paddingInline: SPACING[6],
+          paddingBlock: SPACING[8],
+          display: 'flex',
+          flexDirection: 'column',
+          gap: SPACING[4],
+        }}
       >
         <Skeleton width="60%" height="24px" />
         <Skeleton width="100%" height="16px" />

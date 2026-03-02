@@ -96,19 +96,28 @@ export function FieldMapper({
         }}
       >
         <span
-          style=467
+          style={{
+            fontSize: theme.textStyles.caption.fontSize,
+            fontWeight: 600,
+            color: theme.colors.text.secondary,
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
+          }}
         >
           Field Mapping
         </span>
         <span
-          style=468
+          style={{
+            fontSize: theme.textStyles.caption.fontSize,
+            color: theme.colors.text.tertiary,
+          }}
         >
           {mappings.length}/{schema.length} mapped
         </span>
       </div>
 
       {/* Field rows */}
-      <div style=469>
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
         {schema.map((field) => {
           const mapping = getMapping(field.name)
           return (
@@ -126,15 +135,39 @@ export function FieldMapper({
             >
               {/* Source field */}
               <div
-                style=470
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: theme.spacing[2],
+                  minWidth: 0,
+                  flex: '0 0 42%',
+                }}
               >
                 <span
-                  style=471
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '24px',
+                    height: '24px',
+                    borderRadius: theme.radius.sm,
+                    background: theme.colors.surface.sunken,
+                    color: theme.colors.text.secondary,
+                    fontSize: theme.textStyles.caption.fontSize,
+                    flexShrink: 0,
+                  }}
                 >
                   {FIELD_TYPE_ICONS[field.type] ?? '?'}
                 </span>
                 <span
-                  style=472
+                  style={{
+                    color: theme.colors.text.primary,
+                    fontSize: theme.textStyles.body.fontSize,
+                    fontFamily: theme.fontFamily.sans,
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
                 >
                   {field.name}
                 </span>
@@ -142,9 +175,13 @@ export function FieldMapper({
 
               {/* Arrow */}
               <span
-                style=473
+                style={{
+                  color: theme.colors.text.tertiary,
+                  fontSize: theme.textStyles.body.fontSize,
+                  flexShrink: 0,
+                }}
               >
-                \u2192
+                →
               </span>
 
               {/* Target selector */}
