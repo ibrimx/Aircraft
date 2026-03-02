@@ -1,5 +1,6 @@
 # Keep deploy payload focused on static export output
 **/.next/cache
-**/cache/webpack
-apps/web/.next
-apps/web/.next/**
+**/out/cache
+**/.vercel/output/static/cache
+**/cache/webpack/**
+**/cache/**/*.pack
