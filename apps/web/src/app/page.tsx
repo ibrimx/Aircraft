@@ -1,5 +1,3 @@
-// apps/web/src/app/page.tsx
-
 import { AppShell } from '../shell/app-shell';
 import { DashboardPage } from '../dashboard';
 
