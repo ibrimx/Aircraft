@@ -40,17 +40,32 @@ export function SourcePicker({
     [disabled, onSelect],
   )
 
+  const gridStyle: CSSProperties = {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
+    gap: theme.spacing[3],
+    ...style,
+  }
+
+  const iconStyle: CSSProperties = { fontSize: '24px', lineHeight: 1 }
+
+  const labelStyle = (isSelected: boolean): CSSProperties => ({
+    fontSize: theme.textStyles.caption.fontSize,
+    fontWeight: isSelected
+      ? theme.textStyles.bodyBold.fontWeight
+      : theme.textStyles.body.fontWeight,
+    color: isSelected
+      ? theme.colors.accent.default
+      : theme.colors.text.primary,
+    lineHeight: theme.textStyles.caption.lineHeight,
+  })
+
   return (
     <div
       className={className}
       role="radiogroup"
       aria-label="Select CMS source type"
-      style=
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
-        gap: theme.spacing[3],
-        ...style,
-      
+      style={gridStyle}
     >
       {SOURCE_OPTIONS.map((source) => {
         const isSelected = selected === source.type
@@ -87,21 +102,8 @@ export function SourcePicker({
               minHeight: '44px',
             }}
           >
-            <span style= fontSize: '24px', lineHeight: 1 >{source.icon}</span>
-            <span
-              style=
-                fontSize: theme.textStyles.caption.fontSize,
-                fontWeight: isSelected
-                  ? theme.textStyles.bodyBold.fontWeight
-                  : theme.textStyles.body.fontWeight,
-                color: isSelected
-                  ? theme.colors.accent.default
-                  : theme.colors.text.primary,
-                lineHeight: theme.textStyles.caption.lineHeight,
-              
-            >
-              {source.label}
-            </span>
+            <span style={iconStyle}>{source.icon}</span>
+            <span style={labelStyle(isSelected)}>{source.label}</span>
           </button>
         )
       })}
