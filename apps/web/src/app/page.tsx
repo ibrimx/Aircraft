@@ -1,5 +1,5 @@
 import { AppShell } from '../shell/app-shell';
-import { DashboardPage } from '../dashboard';
+import DashboardPage from '../pages/dashboard'; // هنا التغيير
 
 export const runtime = 'edge';
 
