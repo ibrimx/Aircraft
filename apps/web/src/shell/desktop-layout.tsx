@@ -30,9 +30,17 @@ export function DesktopLayout({
     >
       {sidebar}
 
-      <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateRows: 'auto 1fr auto',
+          minWidth: 0,
+          borderInlineStart: `1px solid ${theme.colors.border.default}`,
+          borderInlineEnd: `1px solid ${theme.colors.border.default}`,
+        }}
+      >
         {toolbar}
-        <div style={{ flex: 1, minHeight: 0, overflow: 'auto' }}>{workspace}</div>
+        <div style={{ minWidth: 0, overflow: 'auto' }}>{workspace}</div>
         {statusBar}
       </div>
 
