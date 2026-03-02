@@ -9,6 +9,7 @@ export type ThemeTokens = {
   spacing: typeof SPACING
   spacingAlias: typeof SPACING_ALIAS
   radius: typeof RADIUS
+  radii: typeof RADIUS
   shadows: typeof SHADOWS
   textStyles: typeof TEXT_STYLES
   fontFamily: typeof FONT_FAMILY
