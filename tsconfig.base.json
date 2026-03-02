@@ -67,6 +67,7 @@
       "@aircraft/design-tokens": [
         "./packages/design-tokens/dist"
       ]
-    }
+    },
+    "baseUrl": "."
   }
 }

@@ -12,6 +12,7 @@ import {
   Button,
 } from '@aircraft/ui';
 import { useThemeTokens } from '@aircraft/design-tokens';
+import type { AircraftError } from '@aircraft/shared-types';
 
 const css = (s: CSSProperties): CSSProperties => s;
 
@@ -47,6 +48,22 @@ export default function CmsPage(): React.JSX.Element {
   if (!isAuthenticated) return <></>;
 
   if (error) {
+    const fallbackError: AircraftError = {
+      code: 'cms/unknown-error',
+      category: 'cms',
+      severity: 'recoverable',
+      message: 'An unexpected CMS error occurred.',
+      userMessage: null,
+      context: {},
+      timestamp: new Date().toISOString() as AircraftError['timestamp'],
+      recoveryAction: 'retry',
+    };
+
+    const resolvedError: AircraftError =
+      error && typeof error === 'object' && 'code' in (error as Record<string, unknown>)
+        ? (error as AircraftError)
+        : fallbackError;
+
     return (
       <div
         style={css({
@@ -57,7 +74,7 @@ export default function CmsPage(): React.JSX.Element {
           color: tk.text.primary,
         })}
       >
-        <ErrorFallback />
+        <ErrorFallback error={resolvedError} onRetry={() => router.reload()} />
         <div>
           <Button
             onClick={() => router.push('/cms')}
@@ -182,7 +199,12 @@ export default function CmsPage(): React.JSX.Element {
         <SyncStatus syncStatus={(cms?.syncStatus ?? cms?.status ?? cms?.sync ?? {}) as any} />
 
         {/* CollectionBrowser expects `source` (not sourceId) */}
-        <CollectionBrowser source={sourceId} />
+        <CollectionBrowser
+          source={sourceId as any}
+          collections={[]}
+          onSelect={() => {}}
+          onRefresh={() => {}}
+        />
       </main>
     </div>
   );
