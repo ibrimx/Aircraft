@@ -32,9 +32,6 @@ export * from './hooks/use-safe-area'
 export * from './hooks/use-orientation'
 export * from './hooks/use-thumb-zone'
 
-// ─── I18n ─────────────────────────────────────────────────────────────────────
-export * from './i18n/i18n-provider'
-
 // ─── Panels ───────────────────────────────────────────────────────────────────
 export * from './panels/index'
 

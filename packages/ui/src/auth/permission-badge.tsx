@@ -1,6 +1,6 @@
 import { type CSSProperties } from 'react'
-import { Badge } from '@aircraft/ui/primitives/badge'
-import { useThemeTokens } from '@aircraft/design-tokens/theme-provider'
+import { Badge } from '@aircraft/ui'
+import { useThemeTokens } from '@aircraft/design-tokens'
 
 export type PermissionLevel = 'admin' | 'editor' | 'viewer' | 'custom'
 
@@ -20,14 +20,21 @@ const LEVEL_ICON: Record<PermissionLevel, string> = {
   custom: '\u2699\uFE0F',
 }
 
-export function PermissionBadge({ level, label, size = 'sm', showIcon = false, className, style }: PermissionBadgeProps) {
+export function PermissionBadge({
+  level,
+  label,
+  size = 'sm',
+  showIcon = false,
+  className,
+  style,
+}: PermissionBadgeProps) {
   const theme = useThemeTokens()
 
   const colorMap: Record<PermissionLevel, { bg: string; text: string }> = {
-    admin: { bg: theme.accent.default, text: '#FFFFFF' },
-    editor: { bg: theme.success.default, text: '#FFFFFF' },
-    viewer: { bg: theme.bg.surface ?? theme.surface?.sunken ?? theme.border.default, text: theme.text.secondary },
-    custom: { bg: theme.warning.default, text: theme.text.primary },
+    admin:  { bg: theme.colors.accent.default,      text: '#FFFFFF' },
+    editor: { bg: theme.colors.success.default,     text: '#FFFFFF' },
+    viewer: { bg: theme.colors.surface.sunken,      text: theme.colors.text.secondary },
+    custom: { bg: theme.colors.warning.default,     text: theme.colors.text.primary },
   }
 
   const colors = colorMap[level]
@@ -36,15 +43,15 @@ export function PermissionBadge({ level, label, size = 'sm', showIcon = false, c
   return (
     <Badge
       className={className}
-      style=
+      style={{
         background: colors.bg,
         color: colors.text,
         fontSize: size === 'sm' ? 12 : 13,
         fontWeight: 500,
         ...style,
-      
+      }}
     >
-      {showIcon && <span style= marginInlineEnd: 4 >{LEVEL_ICON[level]}</span>}
+      {showIcon && <span style={{ marginInlineEnd: 4 }}>{LEVEL_ICON[level]}</span>}
       {displayLabel}
     </Badge>
   )
