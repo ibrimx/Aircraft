@@ -96,7 +96,7 @@ export function MemberList({ members, loading = false, searchQuery = '', onSearc
       <Input
         placeholder="Search by name or email"
         value={searchQuery}
-        onChange={onSearch}
+        onChange={(e) => onSearch(e.target.value)}
         aria-label="Search members"
         style={{ marginBlockEnd: SPACING[3] }}
       />
