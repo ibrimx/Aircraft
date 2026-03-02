@@ -1,7 +1,9 @@
 import { type CSSProperties, useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { useAuth, useI18n, useBreakpoint, CommandPalette, ErrorFallback, Button } from '@aircraft/ui';
+import { useAuth, useI18n, useBreakpoint, ErrorFallback, Button } from '@aircraft/ui';
 import { useThemeTokens } from '@aircraft/design-tokens';
+
+import { CommandPalette } from '../shell/command-palette';
 import { BuilderLayout } from '../layouts/builder-layout';
 
 const css = (s: CSSProperties): CSSProperties => s;
