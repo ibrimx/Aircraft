@@ -43,7 +43,7 @@ export function InviteForm({ roles, onSubmit, onCancel, submitting = false, erro
           type="email"
           placeholder="colleague@company.com"
           value={email}
-          onChange={setEmail}
+          onChange={(e) => setEmail(e.target.value)}
           required
           aria-label="Email address"
         />
@@ -54,7 +54,7 @@ export function InviteForm({ roles, onSubmit, onCancel, submitting = false, erro
           <Select
             options={roles}
             value={role}
-            onChange={setRole}
+            onChange={(value) => setRole(value)}
             placeholder="Select role"
             aria-label="Role"
           />

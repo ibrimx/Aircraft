@@ -94,7 +94,7 @@ export const AssetsPanel: FC<AssetsPanelProps> = ({
         <input ref={fileRef} type="file" accept="image/*,video/*" multiple hidden onChange={handleFileChange} />
       </div>
       <div style={{ paddingInline: SPACING[3], paddingBlock: SPACING[2], borderBlockEnd: `1px solid ${theme.colors.border.subtle}` }}>
-        <Input value={search} onChange={setSearch} placeholder="Search assets…" />
+        <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search assets…" />
       </div>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: SPACING[1], paddingInline: SPACING[3], paddingBlock: SPACING[2], borderBlockEnd: `1px solid ${theme.colors.border.subtle}` }}>
         {CATEGORIES.map((c) => (
