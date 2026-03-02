@@ -8,9 +8,7 @@ import type {
   UserId,
 } from './ids'
 import type { AssetRef, HexColor, ISODateString } from './common'
-
-/** Supported responsive breakpoints for Builder page rendering. */
-export type Breakpoint = 'mobile' | 'tablet' | 'desktop' | 'wide'
+import type { Breakpoint } from './ui-types'
 
 /** Per-breakpoint value map that includes mobile, tablet, desktop, and wide keys. */
 export type BreakpointValues<T> = Record<Breakpoint, T>

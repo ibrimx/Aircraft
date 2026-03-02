@@ -5,7 +5,12 @@
     "outDir": "./dist",
     "jsx": "react-jsx",
     "types": ["react", "react-dom"],
-    "moduleResolution": "bundler"
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM"],
+    "declaration": true,
+    "declarationMap": false,
+    "emitDeclarationOnly": false,
+    "composite": false
   },
   "include": ["src"]
 }

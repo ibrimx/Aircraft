@@ -17,55 +17,55 @@
     "skipLibCheck": true,
     "paths": {
       "@aircraft/shared-types": [
-        "./packages/shared-types/src"
+        "./packages/shared-types/dist"
       ],
       "@aircraft/studio-engine": [
-        "./packages/studio-engine/src"
+        "./packages/studio-engine/dist"
       ],
       "@aircraft/builder-engine": [
-        "./packages/builder-engine/src"
+        "./packages/builder-engine/dist"
       ],
       "@aircraft/cms-engine": [
-        "./packages/cms-engine/src"
+        "./packages/cms-engine/dist"
       ],
       "@aircraft/auth-engine": [
-        "./packages/auth-engine/src"
+        "./packages/auth-engine/dist"
       ],
       "@aircraft/fabric-adapter": [
-        "./packages/fabric-adapter/src"
+        "./packages/fabric-adapter/dist"
       ],
       "@aircraft/mobile-runtime": [
-        "./packages/mobile-runtime/src"
+        "./packages/mobile-runtime/dist"
       ],
       "@aircraft/brand-kit": [
-        "./packages/brand-kit/src"
+        "./packages/brand-kit/dist"
       ],
       "@aircraft/state-bridge": [
-        "./packages/state-bridge/src"
+        "./packages/state-bridge/dist"
       ],
       "@aircraft/local-draft": [
-        "./packages/local-draft/src"
+        "./packages/local-draft/dist"
       ],
       "@aircraft/sync-engine": [
-        "./packages/sync-engine/src"
+        "./packages/sync-engine/dist"
       ],
       "@aircraft/error-boundary": [
-        "./packages/error-boundary/src"
+        "./packages/error-boundary/dist"
       ],
       "@aircraft/storage-adapter": [
-        "./packages/storage-adapter/src"
+        "./packages/storage-adapter/dist"
       ],
       "@aircraft/publish-adapters": [
-        "./packages/publish-adapters/src"
+        "./packages/publish-adapters/dist"
       ],
       "@aircraft/a11y": [
-        "./packages/a11y/src"
+        "./packages/a11y/dist"
       ],
       "@aircraft/ui": [
-        "./packages/ui/src"
+        "./packages/ui/dist"
       ],
       "@aircraft/design-tokens": [
-        "./packages/design-tokens/src"
+        "./packages/design-tokens/dist"
       ]
     }
   }
