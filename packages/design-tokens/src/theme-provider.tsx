@@ -1,61 +1,90 @@
 /**
  * theme-provider.tsx — React context provider + useThemeTokens() hook
  * @package @aircraft/design-tokens
- *
- * Canonical theme is AircraftTheme (light-theme.ts / dark-theme.ts).
- * UI consumes ThemeTokens (adapter) to support tk.bg/text/accent/border shape.
  */
-import React, { createContext, useContext, useMemo, type ReactNode } from 'react'
+
+import { createContext, useContext, useMemo, type ReactNode } from 'react'
 import type { ThemeMode } from '@aircraft/shared-types'
 import type { AircraftTheme } from './light-theme'
 import { lightTheme } from './light-theme'
 import { darkTheme } from './dark-theme'
 
 /**
- * Adapter tokens consumed by UI/pages.
- * Keep `colors` to support existing calls like `tk.colors.*`
- * and expose legacy flattened groups: bg/text/accent/border.
+ * Adapter tokens consumed by apps/ui/web code as tk.bg / tk.text / tk.accent / tk.border.
+ * This is intentionally a "view model" derived from AircraftTheme.
  */
-export type ThemeTokens = AircraftTheme & {
-  readonly colors: AircraftTheme['colors']
-  readonly bg: AircraftTheme['bg'] & {
+export type ThemeTokens = {
+  readonly mode: ThemeMode
+
+  readonly bg: {
+    readonly canvas: string
+    readonly surface: string
+    readonly elevated: string
+    readonly overlay: string
+    /** backward-compat alias used in some older pages */
     readonly default: string
   }
-  readonly text: AircraftTheme['text'] & {
+
+  readonly text: {
+    readonly primary: string
+    readonly secondary: string
+    readonly tertiary: string
+    readonly disabled: string
+    /** backward-compat alias */
     readonly muted: string
+    readonly inverse: string
   }
-  readonly accent: AircraftTheme['accent']
-  readonly border: AircraftTheme['border']
+
+  readonly accent: {
+    readonly default: string
+    readonly hover: string
+    readonly active: string
+    readonly subtle: string
+  }
+
+  readonly border: {
+    readonly default: string
+    readonly subtle: string
+    readonly strong: string
+  }
+
+  /** keep the canonical theme available for components that need deep tokens */
+  readonly theme: AircraftTheme
 }
 
-/**
- * Map SemanticColorTokens => ThemeTokens.
- */
 function toThemeTokens(theme: AircraftTheme): ThemeTokens {
-  const c = theme.colors
-  
-  // Helpers: pick first defined string
-  const pick = (...vals: unknown[]): string => {
-    for (const v of vals) if (typeof v === 'string' && v.length) return v
-    return '#000000'
-  }
+  const c: any = theme.colors
 
-  const bgCanvas = pick(c.background?.primary, c.surface?.default)
-  const bgSurface = pick(c.surface?.default, c.background?.primary)
-  const bgElevated = pick(c.surface?.raised, bgSurface)
-  const bgOverlay = pick(c.surface?.overlay, 'rgba(0,0,0,0.4)')
-  const bgDefault = bgSurface
+  // NOTE:
+  // We don’t assume a specific SemanticColorTokens shape yet (project is early).
+  // So we derive safely with fallbacks; types stay strict on the output.
 
-  const textPrimary = pick(c.text?.primary, '#000000')
-  const textSecondary = pick(c.text?.secondary, textPrimary)
-  const textTertiary = pick(c.text?.tertiary, textSecondary)
-  const textDisabled = pick(c.text?.disabled, textSecondary)
-  const textInverse = pick(c.text?.inverse, '#ffffff')
-  const textMuted = textSecondary
+  const bgCanvas = (c?.bg?.canvas ?? c?.background?.canvas ?? '#000') as string
+  const bgSurface = (c?.bg?.surface ?? c?.background?.surface ?? bgCanvas) as string
+  const bgDefault = (c?.bg?.default ?? c?.background?.default ?? bgSurface) as string
+
+  const bgElevated = (c?.bg?.elevated ?? bgSurface) as string
+  const bgOverlay = (c?.bg?.overlay ?? bgElevated) as string
+
+  const textPrimary = (c?.text?.primary ?? c?.foreground?.primary ?? '#fff') as string
+  const textSecondary = (c?.text?.secondary ?? c?.foreground?.secondary ?? textPrimary) as string
+  const textTertiary = (c?.text?.tertiary ?? c?.foreground?.tertiary ?? textSecondary) as string
+  const textMuted = (c?.text?.muted ?? c?.foreground?.muted ?? textSecondary) as string
+  const textDisabled = (c?.text?.disabled ?? textMuted) as string
+  const textInverse = (c?.text?.inverse ?? c?.foreground?.inverse ?? '#000') as string
+
+  const accentDefault = (c?.accent?.default ?? c?.brand?.default ?? textPrimary) as string
+  const accentHover = (c?.accent?.hover ?? accentDefault) as string
+  const accentActive = (c?.accent?.active ?? accentHover) as string
+  const accentSubtle = (c?.accent?.subtle ?? accentDefault) as string
+
+  const borderDefault = (c?.border?.default ?? c?.stroke?.default ?? textMuted) as string
+  const borderSubtle = (c?.border?.subtle ?? borderDefault) as string
+  const borderStrong = (c?.border?.strong ?? borderDefault) as string
 
   return {
-    ...theme,
-    colors: theme.colors,
+    mode: theme.mode,
+
     bg: {
       canvas: bgCanvas,
       surface: bgSurface,
@@ -63,20 +92,30 @@ function toThemeTokens(theme: AircraftTheme): ThemeTokens {
       overlay: bgOverlay,
       default: bgDefault,
     },
+
     text: {
       primary: textPrimary,
       secondary: textSecondary,
       tertiary: textTertiary,
       disabled: textDisabled,
-      inverse: textInverse,
       muted: textMuted,
+      inverse: textInverse,
     },
+
     accent: {
-      ...theme.accent,
+      default: accentDefault,
+      hover: accentHover,
+      active: accentActive,
+      subtle: accentSubtle,
     },
+
     border: {
-      ...theme.border,
+      default: borderDefault,
+      subtle: borderSubtle,
+      strong: borderStrong,
     },
+
+    theme,
   }
 }
 
@@ -87,16 +126,21 @@ export type ThemeProviderProps = {
   readonly children: ReactNode
 }
 
-/** Provides ThemeTokens based on resolved mode. */
-export function ThemeProvider({ mode, children }: ThemeProviderProps): React.JSX.Element {
-  const tokens = useMemo<ThemeTokens>(
-    () => toThemeTokens(mode === 'dark' ? darkTheme : lightTheme),
-    [mode],
-  )
+export function ThemeProvider({ mode, children }: ThemeProviderProps): JSX.Element {
+  const tokens = useMemo<ThemeTokens>(() => {
+    const theme = mode === 'dark' ? darkTheme : lightTheme
+    return toThemeTokens(theme)
+  }, [mode])
+
   return <ThemeContext.Provider value={tokens}>{children}</ThemeContext.Provider>
 }
 
-/** Returns the active ThemeTokens from the nearest ThemeProvider. */
+/** Returns the active ThemeTokens (adapter) from the nearest ThemeProvider. */
 export function useThemeTokens(): ThemeTokens {
   return useContext(ThemeContext)
+}
+
+/** If any code needs the canonical AircraftTheme directly. */
+export function useAircraftTheme(): AircraftTheme {
+  return useContext(ThemeContext).theme
 }
