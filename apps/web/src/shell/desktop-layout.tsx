@@ -11,17 +11,39 @@ export type DesktopLayoutProps = {
 }
 
 export function DesktopLayout({
-  sidebar, toolbar, workspace, inspector, statusBar,
+  sidebar,
+  toolbar,
+  workspace,
+  inspector,
+  statusBar,
 }: DesktopLayoutProps) {
   const theme = useThemeTokens()
+
   return (
-    <div style=455>
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'auto 1fr auto',
+        height: '100dvh',
+        background: theme.colors.surface.default,
+      }}
+    >
       {sidebar}
-      <div style=456>
+
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateRows: 'auto 1fr auto',
+          minWidth: 0,
+          borderInlineStart: `1px solid ${theme.colors.border.default}`,
+          borderInlineEnd: `1px solid ${theme.colors.border.default}`,
+        }}
+      >
         {toolbar}
-        <div style=457>{workspace}</div>
+        <div style={{ minWidth: 0, overflow: 'auto' }}>{workspace}</div>
         {statusBar}
       </div>
+
       {inspector}
     </div>
   )
