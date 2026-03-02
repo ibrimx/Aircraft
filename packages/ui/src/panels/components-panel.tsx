@@ -61,7 +61,7 @@ export const ComponentsPanel: FC<ComponentsPanelProps> = ({
         <span style={{ fontSize: 12, fontWeight: 600, color: theme.colors.text.secondary, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Components</span>
       </div>
       <div style={{ paddingInline: SPACING[3], paddingBlock: SPACING[2], borderBlockEnd: `1px solid ${theme.colors.border.subtle}` }}>
-        <Input value={searchQuery} onChange={onSearch} placeholder="Search components…" />
+        <Input value={searchQuery} onChange={(e) => onSearch(e.target.value)} placeholder="Search components…" />
       </div>
       <ScrollArea style={{ flex: 1, minBlockSize: 0 }}>
         {loading ? (
