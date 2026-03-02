@@ -1,4 +1,4 @@
-import { type CSSProperties, useEffect, useState } from 'react';
+import { type CSSProperties, useEffect, useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useAuth, useI18n, useBreakpoint, ErrorFallback, Button } from '@aircraft/ui';
 import { useThemeTokens } from '@aircraft/design-tokens';
@@ -15,6 +15,27 @@ const PREVIEW_WIDTHS: Record<Preview, string> = {
   desktop: '100%',
 };
 
+// Create an object that matches what ErrorFallback expects (AircraftError-like),
+// without importing a non-exported type.
+function makeUiError(message: string) {
+  return {
+    name: 'AircraftError',
+    message,
+    // Required (based on TS error you saw)
+    code: 'BUILDER_NOT_FOUND',
+    category: 'routing',
+    severity: 'error',
+    userMessage: message,
+    // Extra commonly-required/handy fields (safe for structural typing)
+    status: 404,
+    retryable: false,
+    timestamp: new Date().toISOString(),
+    details: {},
+    cause: undefined,
+    stack: undefined,
+  };
+}
+
 export function BuilderPage(): React.JSX.Element {
   const params = useParams<{ projectId: string }>();
   const projectId = params?.projectId;
@@ -23,6 +44,7 @@ export function BuilderPage(): React.JSX.Element {
   const { t } = useI18n();
   const tk = useThemeTokens();
   const bp = useBreakpoint();
+
   const [preview, setPreview] = useState<Preview>('desktop');
   const [loading, setLoading] = useState(true);
   const [cmdOpen, setCmdOpen] = useState(false);
@@ -51,17 +73,22 @@ export function BuilderPage(): React.JSX.Element {
     return () => window.removeEventListener('keydown', h);
   }, []);
 
+  const notFoundError = useMemo(() => makeUiError(t('builder.notFound')), [t]);
+
   if (!isAuthenticated) return <></>;
 
-  if (!projectId)
+  if (!projectId) {
     return (
       <ErrorFallback
-        error={new Error(t('builder.notFound')) as unknown as import('@aircraft/ui').AircraftError}
+        // We intentionally avoid referencing a non-exported AircraftError type.
+        // Structural typing: provide the required fields.
+        error={notFoundError as any}
         resetErrorBoundary={() => router.push('/dashboard')}
       />
     );
+  }
 
-  if (loading)
+  if (loading) {
     return (
       <BuilderLayout>
         <div
@@ -87,6 +114,7 @@ export function BuilderPage(): React.JSX.Element {
         </div>
       </BuilderLayout>
     );
+  }
 
   return (
     <BuilderLayout>
