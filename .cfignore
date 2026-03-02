@@ -1,0 +1,5 @@
+cache/
+**/cache/**
+**/.next/cache/**
+**/webpack/**
+**/*.pack
