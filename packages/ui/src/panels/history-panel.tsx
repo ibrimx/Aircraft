@@ -65,10 +65,10 @@ export const HistoryPanel: FC<HistoryPanelProps> = ({
       <div style={{ display: 'flex', alignItems: 'center', padding: SPACING[2], gap: SPACING[1] }}>
         <span style={{ fontWeight: 600, fontSize: 13, color: theme.colors.text.primary, flex: 1 }}>History</span>
         <Tooltip content="Undo">
-          <IconButton size="sm" variant="ghost" onClick={onUndo} disabled={!canUndo} aria-label="Undo">↩</IconButton>
+          <IconButton size="sm" variant="ghost" onClick={onUndo} disabled={!canUndo} aria-label="Undo" icon={<span aria-hidden>↩</span>} />
         </Tooltip>
         <Tooltip content="Redo">
-          <IconButton size="sm" variant="ghost" onClick={onRedo} disabled={!canRedo} aria-label="Redo">↪</IconButton>
+          <IconButton size="sm" variant="ghost" onClick={onRedo} disabled={!canRedo} aria-label="Redo" icon={<span aria-hidden>↪</span>} />
         </Tooltip>
       </div>
       <ScrollArea style={{ flex: 1 }}>

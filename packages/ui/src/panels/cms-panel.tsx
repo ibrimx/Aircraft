@@ -6,6 +6,7 @@ import { ScrollArea } from '@aircraft/ui';
 import { Select } from '@aircraft/ui';
 import { Button, IconButton } from '@aircraft/ui';
 import { Badge } from '@aircraft/ui';
+import type { BadgeVariant } from '../primitives/badge';
 import { Skeleton } from '@aircraft/ui';
 import { Tooltip } from '@aircraft/ui';
 
@@ -51,8 +52,11 @@ export type CmsPanelProps = {
   style?: CSSProperties;
 };
 
-const STATUS_COLOR: Record<CmsSource['status'], string> = {
-  connected: 'green', syncing: 'yellow', error: 'red', disconnected: 'gray',
+const STATUS_VARIANT: Record<CmsSource['status'], BadgeVariant> = {
+  connected: 'success',
+  syncing: 'warning',
+  error: 'destructive',
+  disconnected: 'default',
 };
 
 const FIELD_ICONS: Record<CmsField['type'], string> = {
@@ -73,6 +77,9 @@ export const CmsPanel: FC<CmsPanelProps> = ({
 
   const selectedSource = sources.find((s) => s.id === selectedSourceId);
   const selectedCollection = collections.find((c) => c.id === selectedCollectionId);
+  const selectedSourceVariant: BadgeVariant = selectedSource
+    ? (STATUS_VARIANT[selectedSource.status] ?? 'default')
+    : 'default';
 
   const toggleRecord = (id: string) => {
     setExpandedRecords((prev) => {
@@ -98,7 +105,7 @@ export const CmsPanel: FC<CmsPanelProps> = ({
     <div className={className} style={{ background: theme.colors.surface.default, border: `1px solid ${theme.colors.border.subtle}`, display: 'flex', flexDirection: 'column', ...style }}>
       <div style={{ padding: `${SPACING[2]}px ${SPACING[3]}px`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBlockEnd: `1px solid ${theme.colors.border.subtle}` }}>
         <span style={{ fontSize: 12, fontWeight: 600, color: theme.colors.text.secondary, textTransform: 'uppercase', letterSpacing: '0.05em' }}>CMS</span>
-        <Tooltip content="Refresh"><IconButton size="sm" variant="ghost" onClick={onRefresh} aria-label="Refresh">↻</IconButton></Tooltip>
+        <Tooltip content="Refresh"><IconButton size="sm" variant="ghost" onClick={onRefresh} aria-label="Refresh" icon={<span aria-hidden>↻</span>} /></Tooltip>
       </div>
       <ScrollArea style={{ flex: 1, minBlockSize: 0 }}>
         <div style={{ padding: `0 ${SPACING[3]}px`, display: 'flex', flexDirection: 'column', gap: SPACING[3], paddingBlockEnd: SPACING[3] }}>
@@ -108,7 +115,7 @@ export const CmsPanel: FC<CmsPanelProps> = ({
             {loading && !selectedSourceId ? <Skeleton style={{ blockSize: 32, borderRadius: theme.radii.sm }} /> : (
               <div style={{ display: 'flex', alignItems: 'center', gap: SPACING[2] }}>
                 <div style={{ flex: 1, minInlineSize: 0 }}><Select options={sourceOptions} value={selectedSourceId ?? ''} onChange={onSelectSource} /></div>
-                {selectedSource && <Badge variant={STATUS_COLOR[selectedSource.status]}>{selectedSource.status}</Badge>}
+                {selectedSource && <Badge variant={selectedSourceVariant}>{selectedSource.status}</Badge>}
                 {selectedSource?.status === 'error' && <Button size="sm" variant="ghost">Reconnect</Button>}
                 {selectedSource?.status === 'disconnected' && <Button size="sm" variant="ghost">Connect</Button>}
               </div>
@@ -132,7 +139,7 @@ export const CmsPanel: FC<CmsPanelProps> = ({
                   <div key={field.id} onClick={() => onBindField(field)} draggable onDragStart={() => onDragField(field)} style={{ display: 'flex', alignItems: 'center', gap: SPACING[2], height: 32, paddingInline: SPACING[2], borderRadius: theme.radii.sm, cursor: 'grab', background: theme.colors.surface.raised, transition: 'background 150ms easeInOut' }}>
                     <span style={{ fontSize: 12, color: theme.colors.text.tertiary, inlineSize: 16, textAlign: 'center' }}>{FIELD_ICONS[field.type]}</span>
                     <span style={{ fontSize: 13, color: theme.colors.text.primary, flex: 1 }}>{field.name}</span>
-                    <Badge variant="gray">{field.type}</Badge>
+                    <Badge variant="default">{field.type}</Badge>
                   </div>
                 ))
               )}

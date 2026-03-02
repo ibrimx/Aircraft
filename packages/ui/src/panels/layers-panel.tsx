@@ -177,9 +177,8 @@ export const LayersPanel: FC<LayersPanelProps> = ({
                 variant="ghost"
                 onClick={(e: React.MouseEvent) => { e.stopPropagation(); onToggleVisibility(layer.id) }}
                 aria-label={layer.visible ? 'Hide layer' : 'Show layer'}
-              >
-                {'\uD83D\uDC41'}
-              </IconButton>
+                icon={<span aria-hidden>{'\uD83D\uDC41'}</span>}
+              />
             </Tooltip>
             <Tooltip content={layer.locked ? 'Unlock' : 'Lock'}>
               <IconButton
@@ -187,9 +186,8 @@ export const LayersPanel: FC<LayersPanelProps> = ({
                 variant="ghost"
                 onClick={(e: React.MouseEvent) => { e.stopPropagation(); onToggleLock(layer.id) }}
                 aria-label={layer.locked ? 'Unlock layer' : 'Lock layer'}
-              >
-                {layer.locked ? '\uD83D\uDD12' : '\uD83D\uDD13'}
-              </IconButton>
+                icon={<span aria-hidden>{layer.locked ? '\uD83D\uDD12' : '\uD83D\uDD13'}</span>}
+              />
             </Tooltip>
           </div>
         ))}
