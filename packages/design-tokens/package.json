@@ -18,10 +18,17 @@
       "types": "./dist/spacing.d.ts",
       "import": "./dist/spacing.js",
       "default": "./dist/spacing.js"
+
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "import": "./dist/*.js",
+      "default": "./dist/*.js"
+
     }
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "module": "./dist/index.js",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "build": "tsc -p tsconfig.json"
@@ -33,6 +40,5 @@
   "devDependencies": {
     "@types/react": "^18.3.1",
     "typescript": "^5.4.5"
-  },
-  "module": "./dist/index.js"
+  }
 }
