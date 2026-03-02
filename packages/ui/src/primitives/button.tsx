@@ -6,7 +6,7 @@
 import { forwardRef } from 'react'
 import type { ButtonHTMLAttributes, ReactNode, CSSProperties } from 'react'
 import { useThemeTokens, cssTransition } from '@aircraft/design-tokens'
-import type { AircraftTheme } from '@aircraft/design-tokens'
+import type { ThemeTokens } from '@aircraft/design-tokens'
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'destructive'
 export type ButtonSize = 'sm' | 'md' | 'lg'
@@ -73,7 +73,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   },
 )
 
-function getVariantStyle(variant: ButtonVariant, theme: AircraftTheme): CSSProperties {
+function getVariantStyle(variant: ButtonVariant, theme: ThemeTokens): CSSProperties {
   switch (variant) {
     case 'primary': return {
       background: theme.colors.accent.default, color: '#FFFFFF',

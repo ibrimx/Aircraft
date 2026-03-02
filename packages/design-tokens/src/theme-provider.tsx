@@ -13,6 +13,7 @@ function createThemeTokens(mode: ThemeMode): ThemeTokens {
     spacing: SPACING,
     spacingAlias: SPACING_ALIAS,
     radius: RADIUS,
+    radii: RADIUS,
     shadows: SHADOWS,
     textStyles: TEXT_STYLES,
     fontFamily: FONT_FAMILY,
