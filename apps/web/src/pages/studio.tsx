@@ -46,7 +46,7 @@ export function StudioPage(): React.JSX.Element {
 
   if (!isAuthenticated) return <></>;
 
-  if (docState === 'loading') {
+  if (docState === 'loading')
     return (
       <StudioLayout>
         <div
@@ -72,16 +72,14 @@ export function StudioPage(): React.JSX.Element {
         </div>
       </StudioLayout>
     );
-  }
 
-  if (docState === 'error') {
+  if (docState === 'error')
     return (
       <ErrorFallback
         message={t('studio.error')}
         onRetry={() => setDocState('loading')}
       />
     );
-  }
 
   if (docState === 'not-found') {
     router.push('/dashboard');
