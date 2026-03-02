@@ -1,4 +1,4 @@
-import React, { type CSSProperties, useEffect, useMemo } from 'react';
+import { type CSSProperties, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import {
   useAuth,
@@ -8,23 +8,12 @@ import {
   SourcePicker,
   CollectionBrowser,
   SyncStatus,
+  ErrorFallback,
   Button,
 } from '@aircraft/ui';
 import { useThemeTokens } from '@aircraft/design-tokens';
 
 const css = (s: CSSProperties): CSSProperties => s;
-
-type CmsSourceLike = { id?: string; key?: string; name?: string; type?: string } | unknown;
-
-function deriveIsLoading(ret: any, sources: unknown, error: unknown): boolean {
-  if (typeof ret?.isLoading === 'boolean') return ret.isLoading;
-  if (typeof ret?.loading === 'boolean') return ret.loading;
-  if (typeof ret?.status === 'string') return ret.status === 'loading' || ret.status === 'pending';
-  if (typeof ret?.state === 'string') return ret.state === 'loading' || ret.state === 'pending';
-
-  const arr = Array.isArray(sources) ? sources : [];
-  return !error && arr.length === 0;
-}
 
 export default function CmsPage(): React.JSX.Element {
   const router = useRouter();
@@ -35,22 +24,24 @@ export default function CmsPage(): React.JSX.Element {
   const tk = useThemeTokens();
   const bp = useBreakpoint();
 
-  // Defensive: لا تفترض shape ثابت
+  // NOTE: UseCmsSourceReturn doesn't have `loading` in your build output.
+  // We'll infer loading from data presence + error state.
   const cms = useCmsSource() as any;
 
-  const sources = useMemo(() => {
-    const s = cms?.sources ?? cms?.data ?? cms?.items ?? [];
-    return Array.isArray(s) ? (s as CmsSourceLike[]) : [];
-  }, [cms]);
+  const sources = (cms?.sources ?? []) as any[];
+  const error = cms?.error as unknown;
 
-  const error = cms?.error ?? null;
+  const isLoading = useMemo(() => {
+    // If hook exposes explicit flags in the future, prefer them.
+    if (typeof cms?.isLoading === 'boolean') return cms.isLoading as boolean;
+    if (typeof cms?.loading === 'boolean') return cms.loading as boolean;
 
-  const isLoading = useMemo(() => deriveIsLoading(cms, sources, error), [cms, sources, error]);
+    // Otherwise: loading when auth is ok, no error, and sources not populated yet.
+    return !error && !Array.isArray(sources);
+  }, [cms, error, sources]);
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      router.replace('/login');
-    }
+    if (!isAuthenticated) router.replace('/login');
   }, [isAuthenticated, router]);
 
   if (!isAuthenticated) return <></>;
@@ -61,52 +52,27 @@ export default function CmsPage(): React.JSX.Element {
         style={css({
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          blockSize: '100%',
           gap: 12,
           padding: 24,
-          background: tk.bg.canvas,
           color: tk.text.primary,
         })}
-        role="alert"
-        aria-label={t('cms.error') ?? 'CMS error'}
       >
-        <div style={css({ maxInlineSize: 560, textAlign: 'center' })}>
-          <div style={css({ fontWeight: 700, marginBottom: 8 })}>
-            {t('cms.error') ?? 'Something went wrong'}
-          </div>
-          <div style={css({ opacity: 0.85, marginBottom: 16 })}>
-            {t('cms.tryAgain') ?? 'Please try again.'}
-          </div>
-
-          <div style={css({ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap' })}>
-            <Button
-              onClick={() => router.push('/cms')}
-              style={css({
-                minBlockSize: 44,
-                paddingInline: 18,
-                borderRadius: 8,
-                border: 'none',
-                cursor: 'pointer',
-              })}
-            >
-              {t('common.retry') ?? 'Retry'}
-            </Button>
-
-            <Button
-              onClick={() => router.push('/dashboard')}
-              style={css({
-                minBlockSize: 44,
-                paddingInline: 18,
-                borderRadius: 8,
-                border: 'none',
-                cursor: 'pointer',
-              })}
-            >
-              {t('common.goToDashboard') ?? 'Go to dashboard'}
-            </Button>
-          </div>
+        <ErrorFallback />
+        <div>
+          <Button
+            onClick={() => router.push('/cms')}
+            style={css({
+              background: tk.accent.default,
+              color: tk.bg.canvas,
+              minBlockSize: 44,
+              paddingInline: 16,
+              borderRadius: 8,
+              border: 'none',
+              cursor: 'pointer',
+            })}
+          >
+            {t('cms.retry')}
+          </Button>
         </div>
       </div>
     );
@@ -121,10 +87,9 @@ export default function CmsPage(): React.JSX.Element {
           gap: 16,
           paddingBlock: 32,
           paddingInline: 24,
-          background: tk.bg.canvas,
         })}
         role="status"
-        aria-label={t('cms.loading') ?? 'Loading'}
+        aria-label={t('cms.loading')}
       >
         {Array.from({ length: 4 }, (_, i) => (
           <div
@@ -141,8 +106,9 @@ export default function CmsPage(): React.JSX.Element {
     );
   }
 
+  // No source selected yet
   if (!sourceId) {
-    if (sources.length === 0) {
+    if (Array.isArray(sources) && sources.length === 0) {
       return (
         <div
           style={css({
@@ -152,12 +118,12 @@ export default function CmsPage(): React.JSX.Element {
             justifyContent: 'center',
             blockSize: '100%',
             gap: 16,
-            padding: 24,
-            background: tk.bg.canvas,
             color: tk.text.secondary,
+            padding: 24,
+            textAlign: 'center',
           })}
         >
-          <p style={css({ margin: 0 })}>{t('cms.noSources') ?? 'No sources found.'}</p>
+          <p style={css({ margin: 0 })}>{t('cms.noSources')}</p>
 
           <Button
             onClick={() => router.push('/cms/add')}
@@ -171,7 +137,7 @@ export default function CmsPage(): React.JSX.Element {
               cursor: 'pointer',
             })}
           >
-            {t('cms.addSource') ?? 'Add source'}
+            {t('cms.addSource')}
           </Button>
         </div>
       );
@@ -180,13 +146,13 @@ export default function CmsPage(): React.JSX.Element {
     return <SourcePicker onSelect={(type) => router.push(`/cms/${type}`)} />;
   }
 
+  // Selected source view
   return (
     <div
       style={css({
         display: 'flex',
         flexDirection: bp.isMobile ? 'column' : 'row',
         blockSize: '100%',
-        background: tk.bg.canvas,
       })}
     >
       {!bp.isMobile && (
@@ -212,9 +178,11 @@ export default function CmsPage(): React.JSX.Element {
           overflowY: 'auto',
         })}
       >
-        {/* ✅ Fix: SyncStatus requires syncStatus prop */}
+        {/* SyncStatus requires `syncStatus` prop */}
         <SyncStatus syncStatus={(cms?.syncStatus ?? cms?.status ?? cms?.sync ?? {}) as any} />
-        <CollectionBrowser sourceId={sourceId} />
+
+        {/* CollectionBrowser expects `source` (not sourceId) */}
+        <CollectionBrowser source={sourceId} />
       </main>
     </div>
   );
