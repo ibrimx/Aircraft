@@ -1,7 +1,8 @@
 import { createHash, randomUUID } from 'node:crypto'
-import type { AuthUser, Invite, InviteId, PermissionSet, RoleId, Session, SessionId, UserId, WorkspaceId } from '@aircraft/shared-types'
+import type { AuthUser, Invite, InviteId, PermissionSet, RoleId, Session, UserId, WorkspaceId } from '@aircraft/shared-types'
 import type { PermissionMergeStrategy } from './permission-types'
 import type { SessionManager, CreateSessionInput } from '../session/session-types'
+import { toISODateString } from './iso-date'
 
 const DEFAULT_EXPIRES_IN_DAYS = 7
 const MERGE_STRATEGY: PermissionMergeStrategy = 'role_override'
@@ -52,7 +53,7 @@ export class InviteServiceImpl implements InviteService {
     const now = new Date(); const expiresAt = new Date(now)
     expiresAt.setDate(now.getDate() + (req.expiresInDays || DEFAULT_EXPIRES_IN_DAYS))
     const inviteToken = this.createJwtLikeToken(inviteId)
-    const invite: PersistableInvite = { id: inviteId, workspaceId: req.workspaceId, createdBy: req.createdBy, email: req.email, roleId: req.roleId, permissions: MERGE_STRATEGY === 'role_override' ? req.permissions : req.permissions, expiresAt: expiresAt.toISOString(), status: 'pending', acceptedBy: null, acceptedAt: null, createdAt: now.toISOString(), tokenHash: this.hashToken(inviteToken) }
+    const invite: PersistableInvite = { id: inviteId, workspaceId: req.workspaceId, createdBy: req.createdBy, email: req.email, roleId: req.roleId, permissions: MERGE_STRATEGY === 'role_override' ? req.permissions : req.permissions, expiresAt: toISODateString(expiresAt), status: 'pending', acceptedBy: null, acceptedAt: null, createdAt: toISODateString(now), tokenHash: this.hashToken(inviteToken) }
     await this.repository.save(invite)
     const inviteUrl = `https://aircraft.app/join?token=${encodeURIComponent(inviteToken)}`
     return { invite, inviteUrl, inviteToken }
@@ -84,8 +85,8 @@ export class InviteServiceImpl implements InviteService {
     if (invite.status !== 'pending') throw new Error('Invite cannot be accepted: invalid_token')
     if (Date.parse(invite.expiresAt) <= Date.now()) throw new Error('Invite cannot be accepted: expired')
     const acceptedBy = randomUUID() as UserId
-    await this.repository.update({ ...invite, status: 'accepted', acceptedBy, acceptedAt: new Date().toISOString() })
-    const user: AuthUser = { id: acceptedBy, email: invite.email ?? `${acceptedBy}@invite.local`, name: req.name, avatarUrl: null, workspaceId: invite.workspaceId, roleId: invite.roleId, permissions: invite.permissions, locale: 'en', createdAt: new Date().toISOString() }
+    await this.repository.update({ ...invite, status: 'accepted', acceptedBy, acceptedAt: toISODateString(new Date()) })
+    const user: AuthUser = { id: acceptedBy, email: invite.email ?? `${acceptedBy}@invite.local`, name: req.name, avatarUrl: null, workspaceId: invite.workspaceId, roleId: invite.roleId, permissions: invite.permissions, locale: 'en', createdAt: toISODateString(new Date()) }
     const sessionInput: CreateSessionInput = { userId: acceptedBy as string, workspaceId: invite.workspaceId as string }
     const sessionResult = await this.sessionManager.createSession(sessionInput)
     if (!sessionResult.ok) throw new Error(`Session creation failed: ${sessionResult.error}`)
