@@ -2,6 +2,7 @@ import { type CSSProperties, useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useAuth, useI18n, ErrorFallback } from '@aircraft/ui';
 import { useThemeTokens } from '@aircraft/design-tokens';
+import type { AircraftError } from '@aircraft/shared-types';
 
 import { CommandPalette } from '../shell/command-palette';
 import { StudioLayout } from '../layouts/studio-layout';
@@ -55,7 +56,7 @@ export function StudioPage(): React.JSX.Element {
             alignItems: 'center',
             justifyContent: 'center',
             blockSize: '100%',
-            background: tk.bg.canvas,
+            background: tk.colors.background.primary,
           })}
           role="status"
           aria-label={t('studio.loading')}
@@ -65,7 +66,7 @@ export function StudioPage(): React.JSX.Element {
               inlineSize: 200,
               blockSize: 16,
               borderRadius: 8,
-              background: tk.bg.surface,
+              background: tk.colors.surface.default,
               animation: 'pulse 1.5s ease-in-out infinite',
             })}
           />
@@ -73,8 +74,20 @@ export function StudioPage(): React.JSX.Element {
       </StudioLayout>
     );
 
-  if (docState === 'error')
-    return <ErrorFallback message={t('studio.error')} onRetry={() => setDocState('loading')} />;
+  if (docState === 'error') {
+    const error: AircraftError = {
+      code: 'studio/load-failed',
+      category: 'system',
+      severity: 'recoverable',
+      message: t('studio.error'),
+      userMessage: null,
+      context: {},
+      timestamp: new Date().toISOString() as AircraftError['timestamp'],
+      recoveryAction: 'retry',
+    };
+
+    return <ErrorFallback error={error} onRetry={() => setDocState('loading')} />;
+  }
 
   if (docState === 'not-found') {
     router.push('/dashboard');
@@ -89,8 +102,8 @@ export function StudioPage(): React.JSX.Element {
           alignItems: 'center',
           justifyContent: 'center',
           blockSize: '100%',
-          background: tk.bg.canvas,
-          color: tk.text.primary,
+          background: tk.colors.background.primary,
+          color: tk.colors.text.primary,
         })}
       >
         {t('studio.placeholder')}

@@ -37,7 +37,7 @@ export default function DashboardPage(): React.JSX.Element {
       <div
         style={css({
           minBlockSize: '100vh',
-          background: tk.bg.canvas,
+          background: tk.colors.background.primary,
           paddingBlock: 32,
           paddingInline: 24,
         })}
@@ -51,14 +51,14 @@ export default function DashboardPage(): React.JSX.Element {
             marginBlockEnd: 32,
           })}
         >
-          <h1 style={css({ fontSize: 24, fontWeight: 700, color: tk.text.primary })}>
+          <h1 style={css({ fontSize: 24, fontWeight: 700, color: tk.colors.text.primary })}>
             {t('dashboard.welcome', { name: user?.name ?? '' })}
           </h1>
 
           <Button
             style={css({
-              background: tk.accent.default,
-              color: tk.bg.canvas,
+              background: tk.colors.accent.default,
+              color: tk.colors.background.primary,
               minBlockSize: 44,
               paddingInline: 20,
               borderRadius: 8,
@@ -87,7 +87,7 @@ export default function DashboardPage(): React.JSX.Element {
                 style={css({
                   blockSize: 160,
                   borderRadius: 16,
-                  background: tk.bg.surface,
+                  background: tk.colors.surface.default,
                   animation: 'pulse 1.5s ease-in-out infinite',
                 })}
               />
@@ -105,14 +105,14 @@ export default function DashboardPage(): React.JSX.Element {
               justifyContent: 'center',
               paddingBlock: 80,
               gap: 16,
-              color: tk.text.secondary,
+              color: tk.colors.text.secondary,
             })}
           >
             <p>{t('dashboard.empty')}</p>
             <Button
               style={css({
-                background: tk.accent.default,
-                color: tk.bg.canvas,
+                background: tk.colors.accent.default,
+                color: tk.colors.background.primary,
                 minBlockSize: 44,
                 paddingInline: 24,
                 borderRadius: 8,
@@ -138,21 +138,21 @@ export default function DashboardPage(): React.JSX.Element {
               <Link key={i} href={`/studio/project-${i}`} style={css({ textDecoration: 'none' })}>
                 <div
                   style={css({
-                    background: tk.bg.surface,
+                    background: tk.colors.surface.default,
                     borderRadius: 16,
                     overflow: 'hidden',
                     transition: 'filter 0.2s ease-in-out',
                   })}
                 >
-                  <div style={css({ blockSize: 120, background: tk.bg.surface })} />
+                  <div style={css({ blockSize: 120, background: tk.colors.surface.default })} />
                   <div style={css({ paddingBlock: 16, paddingInline: 16 })}>
-                    <h3 style={css({ fontSize: 16, fontWeight: 600, color: tk.text.primary })}>
+                    <h3 style={css({ fontSize: 16, fontWeight: 600, color: tk.colors.text.primary })}>
                       {t('dashboard.project', { index: String(i + 1) })}
                     </h3>
                     <p
                       style={css({
                         fontSize: 13,
-                        color: tk.text.tertiary,
+                        color: tk.colors.text.tertiary,
                         marginBlockStart: 4,
                       })}
                     >

@@ -71,7 +71,7 @@ export default function CmsPage(): React.JSX.Element {
           flexDirection: 'column',
           gap: 12,
           padding: 24,
-          color: tk.text.primary,
+          color: tk.colors.text.primary,
         })}
       >
         <ErrorFallback error={resolvedError} onRetry={() => router.reload()} />
@@ -79,8 +79,8 @@ export default function CmsPage(): React.JSX.Element {
           <Button
             onClick={() => router.push('/cms')}
             style={css({
-              background: tk.accent.default,
-              color: tk.bg.canvas,
+              background: tk.colors.accent.default,
+              color: tk.colors.background.primary,
               minBlockSize: 44,
               paddingInline: 16,
               borderRadius: 8,
@@ -114,7 +114,7 @@ export default function CmsPage(): React.JSX.Element {
             style={css({
               blockSize: 120,
               borderRadius: 12,
-              background: tk.bg.surface,
+              background: tk.colors.surface.default,
               animation: 'pulse 1.5s ease-in-out infinite',
             })}
           />
@@ -135,7 +135,7 @@ export default function CmsPage(): React.JSX.Element {
             justifyContent: 'center',
             blockSize: '100%',
             gap: 16,
-            color: tk.text.secondary,
+            color: tk.colors.text.secondary,
             padding: 24,
             textAlign: 'center',
           })}
@@ -145,8 +145,8 @@ export default function CmsPage(): React.JSX.Element {
           <Button
             onClick={() => router.push('/cms/add')}
             style={css({
-              background: tk.accent.default,
-              color: tk.bg.canvas,
+              background: tk.colors.accent.default,
+              color: tk.colors.background.primary,
               minBlockSize: 44,
               paddingInline: 24,
               borderRadius: 8,
@@ -176,8 +176,8 @@ export default function CmsPage(): React.JSX.Element {
         <aside
           style={css({
             inlineSize: 240,
-            borderInlineEnd: `1px solid ${tk.border.default}`,
-            background: tk.bg.surface,
+            borderInlineEnd: `1px solid ${tk.colors.border.default}`,
+            background: tk.colors.surface.default,
             paddingBlock: 16,
             paddingInline: 12,
             overflowY: 'auto',
