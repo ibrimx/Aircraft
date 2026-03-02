@@ -18,12 +18,11 @@
       "types": "./dist/spacing.d.ts",
       "import": "./dist/spacing.js",
       "default": "./dist/spacing.js"
-
+    },
     "./*": {
       "types": "./dist/*.d.ts",
       "import": "./dist/*.js",
       "default": "./dist/*.js"
-
     }
   },
   "main": "./dist/index.js",
