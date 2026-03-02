@@ -5,7 +5,6 @@
  * Canonical theme is AircraftTheme (light-theme.ts / dark-theme.ts).
  * UI consumes ThemeTokens (adapter) to support tk.bg/text/accent/border shape.
  */
-
 import React, { createContext, useContext, useMemo, type ReactNode } from 'react'
 import type { ThemeMode } from '@aircraft/shared-types'
 import type { AircraftTheme } from './light-theme'
@@ -19,90 +18,64 @@ import { darkTheme } from './dark-theme'
  */
 export type ThemeTokens = AircraftTheme & {
   readonly colors: AircraftTheme['colors']
-
-  readonly bg: {
-    readonly canvas: string
-    readonly surface: string
+  readonly bg: AircraftTheme['bg'] & {
     readonly default: string
   }
-
-  readonly text: {
-    readonly primary: string
-    readonly secondary: string
-    readonly tertiary: string
+  readonly text: AircraftTheme['text'] & {
     readonly muted: string
-    readonly inverse: string
   }
-
-  readonly accent: {
-    readonly default: string
-  }
-
-  readonly border: {
-    readonly default: string
-    readonly subtle: string
-  }
+  readonly accent: AircraftTheme['accent']
+  readonly border: AircraftTheme['border']
 }
 
 /**
  * Map SemanticColorTokens => ThemeTokens.
- *
- * NOTE: Because we don't have the exact semantic key names for your `SemanticColorTokens`,
- * we map defensively:
- * - prefer common keys if present
- * - fall back to safe equivalents
- *
- * This keeps builds green while you normalize semantic naming later.
  */
 function toThemeTokens(theme: AircraftTheme): ThemeTokens {
-  const c: any = theme.colors
-
+  const c = theme.colors
+  
   // Helpers: pick first defined string
   const pick = (...vals: unknown[]): string => {
     for (const v of vals) if (typeof v === 'string' && v.length) return v
     return '#000000'
   }
 
-  const bgCanvas = pick(c.bg?.canvas, c.background?.canvas, c.surface?.canvas, c.bg?.default, c.background?.default, c.surface?.default)
-  const bgSurface = pick(c.bg?.surface, c.background?.surface, c.surface?.surface, c.bg?.default, c.background?.default, c.surface?.default, bgCanvas)
-  const bgDefault = pick(c.bg?.default, c.background?.default, c.surface?.default, bgSurface)
+  const bgCanvas = pick(c.background?.primary, c.surface?.default)
+  const bgSurface = pick(c.surface?.default, c.background?.primary)
+  const bgElevated = pick(c.surface?.raised, bgSurface)
+  const bgOverlay = pick(c.surface?.overlay, 'rgba(0,0,0,0.4)')
+  const bgDefault = bgSurface
 
-  const textPrimary = pick(c.text?.primary, c.foreground?.primary, c.content?.primary, c.text?.default)
-  const textSecondary = pick(c.text?.secondary, c.foreground?.secondary, c.content?.secondary, c.text?.muted, textPrimary)
-  // ✅ web currently uses tk.text.tertiary — ensure it exists
-  const textTertiary = pick(c.text?.tertiary, c.foreground?.tertiary, c.content?.tertiary, c.text?.muted, textSecondary)
-  const textMuted = pick(c.text?.muted, c.foreground?.muted, c.content?.muted, textSecondary)
-  const textInverse = pick(c.text?.inverse, c.foreground?.inverse, c.content?.inverse, bgCanvas)
-
-  const accentDefault = pick(c.accent?.default, c.brand?.primary, c.primary?.default, c.primary, textPrimary)
-  const borderDefault = pick(c.border?.default, c.outline?.default, c.stroke?.default, c.border?.muted, textMuted)
-  const borderSubtle = pick(c.border?.subtle, c.outline?.subtle, c.stroke?.subtle, borderDefault)
+  const textPrimary = pick(c.text?.primary, '#000000')
+  const textSecondary = pick(c.text?.secondary, textPrimary)
+  const textTertiary = pick(c.text?.tertiary, textSecondary)
+  const textDisabled = pick(c.text?.disabled, textSecondary)
+  const textInverse = pick(c.text?.inverse, '#ffffff')
+  const textMuted = textSecondary
 
   return {
     ...theme,
     colors: theme.colors,
-
     bg: {
       canvas: bgCanvas,
       surface: bgSurface,
+      elevated: bgElevated,
+      overlay: bgOverlay,
       default: bgDefault,
     },
-
     text: {
       primary: textPrimary,
       secondary: textSecondary,
       tertiary: textTertiary,
-      muted: textMuted,
+      disabled: textDisabled,
       inverse: textInverse,
+      muted: textMuted,
     },
-
     accent: {
-      default: accentDefault,
+      ...theme.accent,
     },
-
     border: {
-      default: borderDefault,
-      subtle: borderSubtle,
+      ...theme.border,
     },
   }
 }
@@ -120,7 +93,6 @@ export function ThemeProvider({ mode, children }: ThemeProviderProps): React.JSX
     () => toThemeTokens(mode === 'dark' ? darkTheme : lightTheme),
     [mode],
   )
-
   return <ThemeContext.Provider value={tokens}>{children}</ThemeContext.Provider>
 }
 
