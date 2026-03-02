@@ -1,6 +1,6 @@
 // P65 — orientation-layout.tsx
 import { type ReactNode, type CSSProperties, useMemo } from 'react';
-import { useOrientation, type Orientation } from './orientation-handler';
+import { useOrientation } from './orientation-handler';
 
 /* ── Types ─────────────────────────────────────────────── */
 

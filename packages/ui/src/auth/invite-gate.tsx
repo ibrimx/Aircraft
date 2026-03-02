@@ -72,12 +72,12 @@ export function InviteGate({ invite, onAccept, onDecline, accepting = false, err
     return (
       <div className={className} style={wrapStyle}>
         <Surface variant="raised" style={cardStyle}>
-          <Skeleton width="48px" height="48px" borderRadius="50%" />
+          <Skeleton width="48px" height="48px" circle />
           <Skeleton width="70%" height="20px" />
           <Skeleton width="90%" height="16px" />
           <div style={{ display: 'flex', gap: SPACING[2], marginBlockStart: SPACING[2], width: '100%', justifyContent: 'center' }}>
-            <Skeleton width="120px" height="36px" borderRadius="6px" />
-            <Skeleton width="90px" height="36px" borderRadius="6px" />
+            <Skeleton width="120px" height="36px" />
+            <Skeleton width="90px" height="36px" />
           </div>
         </Surface>
       </div>

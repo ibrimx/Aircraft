@@ -1,7 +1,6 @@
 // P55 — mobile-layers.tsx
 import { type ReactNode, type CSSProperties } from 'react';
 import { useThemeTokens } from '@aircraft/design-tokens';
-import { Z_INDEX } from '@aircraft/design-tokens';
 import { BottomSheet } from '@aircraft/ui';
 
 /* ── Types ─────────────────────────────────────────────── */

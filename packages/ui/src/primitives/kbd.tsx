@@ -16,7 +16,7 @@ export function Kbd({ children, className, style }: KbdProps) {
       className={className}
       style={{
         display: 'inline-flex', alignItems: 'center',
-        padding: `2px ${theme.spacing[1.5]}`,
+        padding: `2px ${theme.spacing[1]}`,
         borderRadius: theme.radius.sm,
         background: theme.colors.surface.sunken,
         border: `1px solid ${theme.colors.border.default}`,

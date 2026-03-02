@@ -1,7 +1,7 @@
 import { useMemo, type CSSProperties, type FC } from 'react';
 import { useThemeTokens } from '@aircraft/design-tokens';
 import { SPACING } from '@aircraft/design-tokens';
-import { cssTransition, EASING } from '@aircraft/design-tokens';
+import { cssTransition } from '@aircraft/design-tokens';
 import { ScrollArea } from '@aircraft/ui';
 import { IconButton } from '@aircraft/ui';
 import { Tooltip } from '@aircraft/ui';
@@ -52,7 +52,7 @@ export const HistoryPanel: FC<HistoryPanelProps> = ({
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       height: 36, paddingInline: SPACING[2], cursor: 'pointer',
       background: entry.isCurrent ? theme.colors.accent.subtle : 'transparent',
-      transition: cssTransition('background', EASING.easeInOut),
+      transition: cssTransition('background', 'fast', 'easeInOut'),
       color: entry.isCurrent
         ? theme.colors.accent.default
         : isFuture ? theme.colors.text.tertiary : theme.colors.text.primary,

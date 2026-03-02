@@ -6,7 +6,6 @@ import { useThemeTokens } from '@aircraft/design-tokens'
 export type ScrollAreaProps = {
   maxHeight?: string | number
   orientation?: 'vertical' | 'horizontal' | 'both'
-  autoHide?: boolean
   children: ReactNode
   className?: string
   style?: CSSProperties
@@ -16,7 +15,7 @@ let scrollStyleInjected = false
 
 export function ScrollArea({
   maxHeight = '100%', orientation = 'vertical',
-  autoHide = true, children, className, style,
+  children, className, style,
 }: ScrollAreaProps) {
   const theme = useThemeTokens()
   const ref = useRef<HTMLDivElement>(null)

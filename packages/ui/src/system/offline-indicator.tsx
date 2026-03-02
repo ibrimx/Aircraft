@@ -73,7 +73,7 @@ export function OfflineIndicator({
     justifyContent: 'center',
     gap: SPACING[2],
     background: bg,
-    color: tokens.colors.text.onColor,
+    color: tokens.colors.text.inverse,
     ...TEXT_STYLES.body,
     transition: prefersReduced ? 'none' : cssTransition('opacity, transform', 'normal', 'easeOut'),
     opacity: 1,

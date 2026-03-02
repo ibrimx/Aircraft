@@ -48,3 +48,6 @@ export * from './auth/index'
 export * from './system/offline-indicator'
 export * from './system/error-fallback'
 export * from './system/recovery-prompt'
+
+// ─── Mobile ───────────────────────────────────────────────────────────────────
+export * from './mobile/index'

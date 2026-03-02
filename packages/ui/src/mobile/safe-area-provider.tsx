@@ -1,12 +1,10 @@
 // P65 — safe-area-provider.tsx
 import {
   type ReactNode,
-  type CSSProperties,
   createContext,
   useContext,
   useState,
   useEffect,
-  useMemo,
 } from 'react';
 
 /* ── Types ─────────────────────────────────────────────── */

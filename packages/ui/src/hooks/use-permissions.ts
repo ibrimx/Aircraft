@@ -32,11 +32,11 @@ export function usePermissions(): UsePermissionsReturn {
     ): boolean => {
       if (!isAuthenticated || !user) return false; // deny-by-default
       if (isAdmin) return true;                    // admin short-circuit
-      if (isViewer && action !== 'view') return false;
+      if (isViewer && action !== 'read') return false;
       return true; // delegate to full resolver at provider level
     };
 
-    const canSystem = (permission: SystemPermission): boolean => {
+    const canSystem = (_permission: SystemPermission): boolean => {
       if (!isAuthenticated || !user) return false; // deny-by-default
       if (isAdmin) return true;                    // admin short-circuit
       return false;                                // non-admin: deny system perms

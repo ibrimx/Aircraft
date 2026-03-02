@@ -74,7 +74,7 @@ export function withLegacyAliases(mode: ThemeMode, colors: SemanticColorTokens):
     surfaceSecondary: colors.surface.raised,
     shadowElevated: SHADOWS.md,
     radii: RADIUS,
-    zIndex: { ...Z_INDEX, panel: Z_INDEX.sticky },
+    zIndex: Z_INDEX,
     shadows: SHADOWS,
     spacing: SPACING,
     spacingAlias: SPACING_ALIAS,

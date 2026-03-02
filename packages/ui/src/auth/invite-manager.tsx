@@ -1,4 +1,4 @@
-import { type CSSProperties, useMemo } from 'react'
+import { type CSSProperties } from 'react'
 import { Surface, ScrollArea, Button, IconButton, Tooltip, Badge, Skeleton } from '@aircraft/ui'
 import { useThemeTokens, SPACING, cssTransition } from '@aircraft/design-tokens'
 
@@ -67,12 +67,12 @@ export function InviteManager({ invites, loading = false, onRevoke, onResend, on
       <Surface className={className} style={{ padding: SPACING[4], ...style }}>
         <div style={headerStyle}>
           <Skeleton width="120px" height="20px" />
-          <Skeleton width="100px" height="32px" borderRadius="6px" />
+          <Skeleton width="100px" height="32px" />
         </div>
         {Array.from({ length: 4 }, (_, i) => (
           <div key={i} style={{ ...rowStyle, animationDelay: `${i * 50}ms` }}>
             <Skeleton width="40%" height="16px" />
-            <Skeleton width="60px" height="20px" borderRadius="9999px" />
+            <Skeleton width="60px" height="20px" />
             <Skeleton width="60px" height="14px" />
           </div>
         ))}
@@ -108,17 +108,17 @@ export function InviteManager({ invites, loading = false, onRevoke, onResend, on
                 <div style={{ display: 'flex', gap: SPACING[1] }}>
                   {inv.status === 'pending' && (
                     <Tooltip content="Resend invite">
-                      <IconButton size="sm" onClick={() => onResend(inv.id)}><span aria-hidden="true">↺</span></IconButton>
+                      <IconButton size="sm" onClick={() => onResend(inv.id)} icon={<span aria-hidden="true">↺</span>} aria-label="Resend invite" />
                     </Tooltip>
                   )}
                   {inv.status === 'expired' && (
                     <Tooltip content="Resend as new invite">
-                      <IconButton size="sm" onClick={() => onResend(inv.id)}><span aria-hidden="true">↺</span></IconButton>
+                      <IconButton size="sm" onClick={() => onResend(inv.id)} icon={<span aria-hidden="true">↺</span>} aria-label="Resend invite" />
                     </Tooltip>
                   )}
                   {(inv.status === 'pending' || inv.status === 'expired') && (
                     <Tooltip content="Revoke invite">
-                      <IconButton size="sm" variant="destructive" onClick={() => onRevoke(inv.id)}><span aria-hidden="true">×</span></IconButton>
+                      <IconButton size="sm" variant="destructive" onClick={() => onRevoke(inv.id)} icon={<span aria-hidden="true">×</span>} aria-label="Revoke invite" />
                     </Tooltip>
                   )}
                 </div>

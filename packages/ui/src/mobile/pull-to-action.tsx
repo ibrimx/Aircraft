@@ -1,15 +1,11 @@
 // P63 — pull-to-action.tsx
 import {
   type ReactNode,
-  type CSSProperties,
   useState,
   useCallback,
   useRef,
-  useMemo,
 } from 'react';
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
-import { useThemeTokens } from '@aircraft/design-tokens';
-import { EASING, DURATION } from '@aircraft/design-tokens';
 import { PullToActionIndicator } from './pull-to-action-indicator';
 
 /* ── Types ─────────────────────────────────────────────── */
@@ -41,7 +37,6 @@ export function PullToAction(props: PullToActionProps) {
     disabled = false,
   } = props;
 
-  const tokens = useThemeTokens();
   const [state, setState] = useState<PullState>('idle');
   const pullY = useMotionValue(0);
   const startYRef = useRef(0);
@@ -73,23 +68,20 @@ export function PullToAction(props: PullToActionProps) {
     const current = pullY.get();
     if (current >= threshold) {
       setState('loading');
-      animate(pullY, threshold, SPRING_BACK);
+      animate(pullY.get(), threshold, SPRING_BACK);
       try {
         await onAction();
       } finally {
-        animate(pullY, 0, SPRING_BACK);
+        animate(pullY.get(), 0, SPRING_BACK);
         setState('idle');
       }
     } else {
-      animate(pullY, 0, SPRING_BACK);
+      animate(pullY.get(), 0, SPRING_BACK);
       setState('idle');
     }
   }, [disabled, onAction, pullY, state, threshold]);
 
-  const wrapStyle: CSSProperties = useMemo(
-    () => ({ position: 'relative' as const, overflow: 'hidden', touchAction: 'pan-x' }),
-    [],
-  );
+  const wrapStyle = { position: 'relative' as const, overflow: 'hidden', touchAction: 'pan-x' };
 
   // Extract motion style to avoid inline double-brace corruption
   const contentMotionStyle = { y: pullY };

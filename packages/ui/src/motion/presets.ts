@@ -1,6 +1,5 @@
 // P36 · presets.ts — motion presets & spring configs
 import { DURATION, EASING } from '@aircraft/design-tokens'
-import type { DurationKey, EasingKey } from '@aircraft/design-tokens'
 
 export type SpringConfig = {
   mass: number
@@ -14,6 +13,8 @@ export const SPRING_CONFIGS = {
   stiff:    { mass: 1, stiffness: 500, damping: 30 },
   molasses: { mass: 1, stiffness: 40,  damping: 20 },
 } as const
+
+export const SPRING_PRESETS = SPRING_CONFIGS
 
 export type SpringConfigKey = keyof typeof SPRING_CONFIGS
 

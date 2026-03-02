@@ -27,7 +27,7 @@ export function SpringDrag({
   const pos = useRef({ x: 0, y: 0 })
   const vel = useRef({ x: 0, y: 0 })
   const dragging = useRef(false)
-  const rafRef = useRef<number>()
+  const rafRef = useRef<number | null>(null)
   const spring = SPRING_CONFIGS[springConfig]
 
   const clamp = useCallback((val: number, min: number, max: number) =>

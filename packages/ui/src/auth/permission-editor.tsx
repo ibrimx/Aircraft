@@ -24,10 +24,10 @@ export function PermissionBadge({ level, label, size = 'sm', showIcon = false, c
   const theme = useThemeTokens()
 
   const colorMap: Record<PermissionLevel, { bg: string; text: string }> = {
-    admin: { bg: theme.accent.default, text: '#FFFFFF' },
-    editor: { bg: theme.success.default, text: '#FFFFFF' },
-    viewer: { bg: theme.bg.surface ?? theme.surface?.sunken ?? theme.border.default, text: theme.text.secondary },
-    custom: { bg: theme.warning.default, text: theme.text.primary },
+    admin: { bg: theme.colors.accent.default, text: '#FFFFFF' },
+    editor: { bg: theme.colors.success.default, text: '#FFFFFF' },
+    viewer: { bg: theme.colors.surface.sunken, text: theme.colors.text.secondary },
+    custom: { bg: theme.colors.warning.default, text: theme.colors.text.primary },
   }
 
   const colors = colorMap[level]

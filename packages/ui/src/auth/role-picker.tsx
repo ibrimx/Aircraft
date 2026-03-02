@@ -1,5 +1,5 @@
 import { type CSSProperties } from 'react'
-import { Surface, Badge } from '@aircraft/ui'
+import { Badge } from '@aircraft/ui'
 import { useThemeTokens, SPACING, cssTransition } from '@aircraft/design-tokens'
 
 export type RoleInfo = {
@@ -79,9 +79,7 @@ export function RolePicker({ roles, selectedId, onSelect, disabled = false, comp
         const extraCount = role.permissions.length - 3
 
         return (
-          <Surface
-            key={role.id}
-            as="button"
+          <div key={role.id}><button
             role="radio"
             aria-checked={selected}
             disabled={disabled}
@@ -115,11 +113,11 @@ export function RolePicker({ roles, selectedId, onSelect, disabled = false, comp
             </span>
             {visiblePerms.length > 0 && (
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: SPACING[1] }}>
-                {visiblePerms.map((p) => <Badge key={p} variant="default" size="sm">{p}</Badge>)}
-                {extraCount > 0 && <Badge variant="default" size="sm">+{extraCount} more</Badge>}
+                {visiblePerms.map((p) => <Badge key={p} variant="default">{p}</Badge>)}
+                {extraCount > 0 && <Badge variant="default">+{extraCount} more</Badge>}
               </div>
             )}
-          </Surface>
+          </button></div>
         )
       })}
     </div>

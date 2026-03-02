@@ -1,6 +1,6 @@
 // P56 — mobile-layers-reorder.tsx
 import { type ReactNode, type CSSProperties, useCallback, useRef, useState } from 'react';
-import { motion, Reorder } from 'framer-motion';
+import { Reorder } from 'framer-motion';
 import { useThemeTokens } from '@aircraft/design-tokens';
 import { SPRING_PRESETS } from '@aircraft/ui';
 import { Z_INDEX } from '@aircraft/design-tokens';
@@ -72,7 +72,7 @@ export function MobileLayersReorder({
   const draggingCSS: CSSProperties = {
     ...itemBaseCSS,
     transform: 'scale(1.02)',
-    boxShadow: tokens.shadowElevated,
+    boxShadow: tokens.shadows.md,
     zIndex: Z_INDEX.popover,
     backgroundColor: tokens.surfaceSecondary,
   };

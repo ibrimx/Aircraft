@@ -18,7 +18,7 @@ export function LayoutTransition({
 }: LayoutTransitionProps) {
   const ref = useRef<HTMLDivElement>(null)
   const prevRect = useRef<DOMRect | null>(null)
-  const rafRef = useRef<number>()
+  const rafRef = useRef<number | null>(null)
 
   // Record rect before render (First)
   useEffect(() => {

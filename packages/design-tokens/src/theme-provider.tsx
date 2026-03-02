@@ -17,6 +17,15 @@ function createThemeTokens(mode: ThemeMode): ThemeTokens {
     shadows: SHADOWS,
     textStyles: TEXT_STYLES,
     fontFamily: FONT_FAMILY,
+    color: getSemanticColors(mode),
+    textPrimary: getSemanticColors(mode).text.primary,
+    textSecondary: getSemanticColors(mode).text.secondary,
+    textOnAccent: getSemanticColors(mode).text.inverse,
+    accentPrimary: getSemanticColors(mode).accent.default,
+    errorText: getSemanticColors(mode).destructive.default,
+    surfacePrimary: getSemanticColors(mode).surface.default,
+    surfaceSecondary: getSemanticColors(mode).surface.raised,
+    border: getSemanticColors(mode).border.default,
   }
 }
 

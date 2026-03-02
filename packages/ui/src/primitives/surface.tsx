@@ -29,7 +29,7 @@ export function Surface({
   children,
   className,
   style,
-  as: Component = 'div',
+  as: Component = 'div'
 }: SurfaceProps): JSX.Element {
   const theme = useThemeTokens()
 

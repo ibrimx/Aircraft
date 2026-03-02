@@ -2,7 +2,7 @@
 import { useCallback, useState, type CSSProperties, type ReactNode } from 'react';
 import { useThemeTokens } from '@aircraft/design-tokens';
 import { Z_INDEX } from '@aircraft/design-tokens';
-import { MOBILE_TOUCH_TARGET, MOBILE_REDUCED_MOTION } from '@aircraft/design-tokens';
+import { MOBILE_REDUCED_MOTION } from '@aircraft/design-tokens';
 import { GlassPanel } from '@aircraft/ui';
 
 export interface ToolbarItem {
@@ -76,7 +76,7 @@ export function MobileToolbar({
   const sepCSS: CSSProperties = {
     inlineSize: 1,
     blockSize: 24,
-    background: tokens.color.borderSubtle,
+    background: tokens.colors.border.subtle,
     flexShrink: 0,
     marginInline: 4,
   };
@@ -96,14 +96,14 @@ export function MobileToolbar({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                inlineSize: MOBILE_TOUCH_TARGET - 4,
-                blockSize: MOBILE_TOUCH_TARGET - 4,
+                inlineSize: 40,
+                blockSize: 40,
                 borderRadius: tokens.radius.md,
                 cursor: item.disabled ? 'default' : 'pointer',
                 opacity: item.disabled ? 0.4 : 1,
                 pointerEvents: item.disabled ? 'none' : 'auto',
-                background: isActive ? tokens.color.accentSubtle : 'transparent',
-                color: isActive ? tokens.color.accent : tokens.color.textPrimary,
+                background: isActive ? tokens.colors.accent.subtle : 'transparent',
+                color: isActive ? tokens.colors.accent.default : tokens.colors.text.primary,
                 transform: isPressed && !noMotion ? 'scale(0.92)' : 'scale(1)',
                 transition: noMotion ? 'none' : 'transform 0.1s ease-in-out',
                 flexShrink: 0,

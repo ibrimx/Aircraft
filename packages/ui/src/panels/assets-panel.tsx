@@ -45,7 +45,7 @@ export type AssetsPanelProps = {
 
 export const AssetsPanel: FC<AssetsPanelProps> = ({
   assets, loading = false, selectedId, onSelect, onDragStart,
-  onUpload, onDelete, className, style,
+  onUpload, className, style,
 }) => {
   const theme = useThemeTokens();
   const [search, setSearch] = useState('');

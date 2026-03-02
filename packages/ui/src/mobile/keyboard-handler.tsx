@@ -1,5 +1,5 @@
 // P65 — keyboard-handler.tsx
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 /* ── Types ─────────────────────────────────────────────── */
 
@@ -14,8 +14,9 @@ export function useKeyboardState(): KeyboardState {
   const [state, setState] = useState<KeyboardState>({ visible: false, height: 0 });
 
   const handleResize = useCallback(() => {
-    if (typeof visualViewport === 'undefined') return;
-    const vpHeight = visualViewport.height;
+    const viewport = window.visualViewport;
+    if (!viewport) return;
+    const vpHeight = viewport.height;
     const windowHeight = window.innerHeight;
     const diff = windowHeight - vpHeight;
     const isVisible = diff > 100;
@@ -23,12 +24,13 @@ export function useKeyboardState(): KeyboardState {
   }, []);
 
   useEffect(() => {
-    if (typeof visualViewport === 'undefined') return;
-    visualViewport.addEventListener('resize', handleResize);
-    visualViewport.addEventListener('scroll', handleResize);
+    const viewport = window.visualViewport;
+    if (!viewport) return;
+    viewport.addEventListener('resize', handleResize);
+    viewport.addEventListener('scroll', handleResize);
     return () => {
-      visualViewport.removeEventListener('resize', handleResize);
-      visualViewport.removeEventListener('scroll', handleResize);
+      viewport.removeEventListener('resize', handleResize);
+      viewport.removeEventListener('scroll', handleResize);
     };
   }, [handleResize]);
 
@@ -37,7 +39,7 @@ export function useKeyboardState(): KeyboardState {
 
 /* ── Utility ───────────────────────────────────────────── */
 
-export function scrollInputIntoView(input: HTMLElement, extraPadding = 16): void {
+export function scrollInputIntoView(input: HTMLElement): void {
   requestAnimationFrame(() => {
     input.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });

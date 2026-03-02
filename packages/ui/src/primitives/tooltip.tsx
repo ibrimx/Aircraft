@@ -1,5 +1,5 @@
 // P31
-import { useState, useRef, useCallback, useEffect, cloneElement } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import type { ReactElement, CSSProperties } from 'react'
 import { useThemeTokens } from '@aircraft/design-tokens'
@@ -24,8 +24,8 @@ export function Tooltip({
   const theme = useThemeTokens()
   const [visible, setVisible] = useState(false)
   const [coords, setCoords] = useState({ top: 0, left: 0 })
-  const triggerRef = useRef<HTMLElement>(null)
-  const timerRef = useRef<ReturnType<typeof setTimeout>>()
+  const triggerRef = useRef<HTMLSpanElement>(null)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const show = useCallback(() => {
     timerRef.current = setTimeout(() => {
@@ -38,19 +38,24 @@ export function Tooltip({
   }, [delay, placement])
 
   const hide = useCallback(() => {
-    clearTimeout(timerRef.current)
+    if (timerRef.current) clearTimeout(timerRef.current)
     setVisible(false)
   }, [])
 
-  useEffect(() => () => clearTimeout(timerRef.current), [])
+  useEffect(() => () => { if (timerRef.current) clearTimeout(timerRef.current) }, [])
 
   return (
     <>
-      {cloneElement(children, {
-        ref: triggerRef,
-        onMouseEnter: show, onMouseLeave: hide,
-        onFocus: show, onBlur: hide,
-      })}
+      <span
+        ref={triggerRef}
+        onMouseEnter={show}
+        onMouseLeave={hide}
+        onFocus={show}
+        onBlur={hide}
+        style={{ display: 'inline-flex' }}
+      >
+        {children}
+      </span>
       {visible && createPortal(
         <div
           role="tooltip" className={className}

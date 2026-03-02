@@ -32,7 +32,7 @@ export function GlassPanel({
   children,
   className,
   style,
-  as: Component = 'div',
+  as: Component = 'div'
 }: GlassPanelProps): JSX.Element {
   const theme = useThemeTokens()
 
