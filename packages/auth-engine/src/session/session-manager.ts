@@ -6,7 +6,7 @@
 
 import { createId } from '@aircraft/shared-types';
 import type { SessionId } from '@aircraft/shared-types';
-import type { ISODateString, Result } from '@aircraft/shared-types';
+import type { ISODateString, Result, UserId, WorkspaceId } from '@aircraft/shared-types';
 import type { Session } from '@aircraft/shared-types';
 import { createError, ERROR_CODES } from '@aircraft/shared-types';
 import type {
@@ -30,6 +30,14 @@ export class SessionManagerImpl implements SessionManager {
     private readonly tokenService: TokenService,
   ) {}
 
+  private asUserId(value: string): UserId {
+    return value as UserId;
+  }
+
+  private asWorkspaceId(value: string): WorkspaceId {
+    return value as WorkspaceId;
+  }
+
   // ── Create ────────────────────────────────────────────────
 
   async createSession(
@@ -52,8 +60,8 @@ export class SessionManagerImpl implements SessionManager {
 
     const session: Session = {
       id: sessionId,
-      userId: input.userId,
-      workspaceId: input.workspaceId,
+      userId: this.asUserId(input.userId),
+      workspaceId: this.asWorkspaceId(input.workspaceId),
       token: accessToken as string,
       refreshToken: refreshToken as string,
       expiresAt,

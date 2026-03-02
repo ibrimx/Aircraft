@@ -11,6 +11,7 @@ import {
   DEFAULT_EDITOR_PERMISSIONS,
   DEFAULT_VIEWER_PERMISSIONS,
 } from './permission-types'
+import { toISODateString } from './iso-date'
 
 /** Input used to create custom roles only. */
 export type CreateRoleInput = {
@@ -123,7 +124,7 @@ export class RoleEngineImpl implements RoleEngine {
       name,
       isSystem: false,
       permissions: input.permissions,
-      createdAt: new Date().toISOString(),
+      createdAt: toISODateString(new Date()),
     }
     await this.repository.save(role)
     return role
@@ -209,7 +210,7 @@ export class RoleEngineImpl implements RoleEngine {
         name: roleName,
         isSystem: true,
         permissions: this.getDefaultRoleForType(roleName),
-        createdAt: new Date().toISOString(),
+        createdAt: toISODateString(new Date()),
       }
       await this.repository.save(created)
       roles.push(created)

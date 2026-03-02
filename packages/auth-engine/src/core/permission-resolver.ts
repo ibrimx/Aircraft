@@ -8,6 +8,7 @@ import type {
   WorkspaceId,
 } from '@aircraft/shared-types'
 import type { PermissionCheckRequest, PermissionCheckResult } from './permission-types'
+import { toISODateString } from './iso-date'
 
 /** Debug payload that explains one permission resolution decision. */
 export type PermissionExplanation = {
@@ -149,7 +150,7 @@ export class PermissionResolverImpl implements PermissionResolver {
     return {
       allowed,
       reason,
-      checkedAt: new Date().toISOString(),
+      checkedAt: toISODateString(new Date()),
       resource: request.resource,
       action: request.action,
       resourceId: request.resourceId,
@@ -174,7 +175,7 @@ export class PermissionResolverImpl implements PermissionResolver {
     return {
       allowed,
       reason,
-      checkedAt: new Date().toISOString(),
+      checkedAt: toISODateString(new Date()),
       resource: 'studio_file',
       action: 'read',
       resourceId: null,
