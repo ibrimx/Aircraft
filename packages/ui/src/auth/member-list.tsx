@@ -1,14 +1,6 @@
 import { type CSSProperties, useMemo } from 'react'
-import { Surface } from '@aircraft/ui/primitives/surface'
-import { ScrollArea } from '@aircraft/ui/primitives/scroll-area'
-import { Input } from '@aircraft/ui/primitives/input'
-import { IconButton } from '@aircraft/ui/primitives/button'
-import { Tooltip } from '@aircraft/ui/primitives/tooltip'
-import { Badge } from '@aircraft/ui/primitives/badge'
-import { Skeleton } from '@aircraft/ui/primitives/skeleton'
-import { useThemeTokens } from '@aircraft/design-tokens/theme-provider'
-import { SPACING } from '@aircraft/design-tokens/spacing'
-import { cssTransition } from '@aircraft/design-tokens/motion-tokens'
+import { Surface, ScrollArea, Input, IconButton, Tooltip, Badge, Skeleton } from '@aircraft/ui'
+import { useThemeTokens, SPACING, cssTransition } from '@aircraft/design-tokens'
 import { PermissionBadge, type PermissionLevel } from './permission-badge'
 
 export type MemberInfo = {
@@ -73,13 +65,13 @@ export function MemberList({ members, loading = false, searchQuery = '', onSearc
     minHeight: 64,
     paddingInline: SPACING[3],
     paddingBlock: SPACING[2],
-    borderBlockEnd: `1px solid ${theme.border.default}`,
-    transition: cssTransition('fast'),
+    borderBlockEnd: `1px solid ${theme.colors.border.default}`,
+    transition: cssTransition('all', 'fast', 'easeInOut'),
   }
 
   if (loading) {
     return (
-      <Surface className={className} style= paddingBlock: SPACING[4], paddingInline: SPACING[4], ...style >
+      <Surface className={className} style={{ paddingBlock: SPACING[4], paddingInline: SPACING[4], ...style }}>
         <Skeleton width="100%" height="36px" borderRadius="6px" />
         {Array.from({ length: 4 }, (_, i) => (
           <div key={i} style={{ ...rowStyle, animationDelay: `${i * 30}ms` }}>
@@ -93,10 +85,10 @@ export function MemberList({ members, loading = false, searchQuery = '', onSearc
   }
 
   return (
-    <Surface className={className} style= paddingBlock: SPACING[4], paddingInline: SPACING[4], ...style >
-      <div style= display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBlockEnd: SPACING[3] >
-        <div style= display: 'flex', alignItems: 'center', gap: SPACING[2] >
-          <h3 style= fontSize: 16, fontWeight: 600, color: theme.text.primary, margin: 0 >Members</h3>
+    <Surface className={className} style={{ paddingBlock: SPACING[4], paddingInline: SPACING[4], ...style }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBlockEnd: SPACING[3] }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: SPACING[2] }}>
+          <h3 style={{ fontSize: 16, fontWeight: 600, color: theme.colors.text.primary, margin: 0 }}>Members</h3>
           <Badge variant="default">{members.length}</Badge>
         </div>
       </div>
@@ -106,13 +98,13 @@ export function MemberList({ members, loading = false, searchQuery = '', onSearc
         value={searchQuery}
         onChange={onSearch}
         aria-label="Search members"
-        style= marginBlockEnd: SPACING[3] 
+        style={{ marginBlockEnd: SPACING[3] }}
       />
 
       {filtered.length === 0 ? (
-        <p style= textAlign: 'center', color: theme.text.secondary, paddingBlock: SPACING[6] >No members found</p>
+        <p style={{ textAlign: 'center', color: theme.colors.text.secondary, paddingBlock: SPACING[6] }}>No members found</p>
       ) : (
-        <ScrollArea style= maxHeight: 400 >
+        <ScrollArea style={{ maxHeight: 400 }}>
           {filtered.map((m, idx) => {
             const isSelf = m.id === currentUserId
             const isOnlyAdmin = isSelf && m.permissionLevel === 'admin' && adminCount <= 1
@@ -120,40 +112,40 @@ export function MemberList({ members, loading = false, searchQuery = '', onSearc
             return (
               <div key={m.id} style={{ ...rowStyle, animationDelay: `${idx * 30}ms` }}>
                 {m.avatarUrl ? (
-                  <img src={m.avatarUrl} alt="" style= width: 40, height: 40, borderRadius: '50%', objectFit: 'cover', flexShrink: 0  />
+                  <img src={m.avatarUrl} alt="" style={{ width: 40, height: 40, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />
                 ) : (
-                  <span style=
+                  <span style={{
                     width: 40, height: 40, borderRadius: '50%',
                     background: avatarBg(m.name),
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     color: '#FFF', fontWeight: 600, fontSize: 16, flexShrink: 0,
-                  >
+                  }}>
                     {m.name.charAt(0).toUpperCase()}
                   </span>
                 )}
 
-                <div style= flex: 1, minWidth: 0 >
-                  <span style= fontSize: 14, fontWeight: 600, color: theme.text.primary, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'block' >
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <span style={{ fontSize: 14, fontWeight: 600, color: theme.colors.text.primary, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'block' }}>
                     {m.name}{isSelf ? ' (You)' : ''}
                   </span>
-                  <span style= fontSize: 12, color: theme.text.secondary, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'block' >
+                  <span style={{ fontSize: 12, color: theme.colors.text.secondary, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'block' }}>
                     {m.email}
                   </span>
                 </div>
 
                 <PermissionBadge level={m.permissionLevel} />
 
-                <span style= fontSize: 12, color: theme.text.tertiary, whiteSpace: 'nowrap', flexShrink: 0 >
+                <span style={{ fontSize: 12, color: theme.colors.text.tertiary, whiteSpace: 'nowrap', flexShrink: 0 }}>
                   {m.lastActiveAt ? relativeTime(m.lastActiveAt) : 'Never'}
                 </span>
 
-                <div style= display: 'flex', gap: SPACING[1], flexShrink: 0 >
+                <div style={{ display: 'flex', gap: SPACING[1], flexShrink: 0 }}>
                   <Tooltip content="Change role">
-                    <IconButton icon="settings" size="sm" onClick={() => onChangeRole(m.id, m.role)} />
+                    <IconButton size="sm" onClick={() => onChangeRole(m.id, m.role)}><span aria-hidden="true">⚙️</span></IconButton>
                   </Tooltip>
                   {!isSelf && !isOnlyAdmin && (
                     <Tooltip content="Remove member">
-                      <IconButton icon="x" size="sm" variant="destructive" onClick={() => onRemove(m.id)} />
+                      <IconButton size="sm" variant="destructive" onClick={() => onRemove(m.id)}><span aria-hidden="true">×</span></IconButton>
                     </Tooltip>
                   )}
                 </div>
@@ -164,7 +156,7 @@ export function MemberList({ members, loading = false, searchQuery = '', onSearc
       )}
 
       {searchQuery && (
-        <p style= fontSize: 12, color: theme.text.tertiary, marginBlockStart: SPACING[2], textAlign: 'center' >
+        <p style={{ fontSize: 12, color: theme.colors.text.tertiary, marginBlockStart: SPACING[2], textAlign: 'center' }}>
           Showing {filtered.length} of {members.length}
         </p>
       )}

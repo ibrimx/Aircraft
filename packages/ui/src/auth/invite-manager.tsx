@@ -1,13 +1,6 @@
 import { type CSSProperties, useMemo } from 'react'
-import { Surface } from '@aircraft/ui/primitives/surface'
-import { ScrollArea } from '@aircraft/ui/primitives/scroll-area'
-import { Button, IconButton } from '@aircraft/ui/primitives/button'
-import { Tooltip } from '@aircraft/ui/primitives/tooltip'
-import { Badge } from '@aircraft/ui/primitives/badge'
-import { Skeleton } from '@aircraft/ui/primitives/skeleton'
-import { useThemeTokens } from '@aircraft/design-tokens/theme-provider'
-import { SPACING } from '@aircraft/design-tokens/spacing'
-import { cssTransition } from '@aircraft/design-tokens/motion-tokens'
+import { Surface, ScrollArea, Button, IconButton, Tooltip, Badge, Skeleton } from '@aircraft/ui'
+import { useThemeTokens, SPACING, cssTransition } from '@aircraft/design-tokens'
 
 export type InviteRecord = {
   id: string
@@ -54,7 +47,7 @@ export function InviteManager({ invites, loading = false, onRevoke, onResend, on
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingBlockEnd: SPACING[3],
-    borderBlockEnd: `1px solid ${theme.border.default}`,
+    borderBlockEnd: `1px solid ${theme.colors.border.default}`,
     marginBlockEnd: SPACING[3],
   }
 
@@ -65,13 +58,13 @@ export function InviteManager({ invites, loading = false, onRevoke, onResend, on
     minHeight: 56,
     paddingInline: SPACING[3],
     paddingBlock: SPACING[2],
-    borderBlockEnd: `1px solid ${theme.border.default}`,
-    transition: cssTransition('fast'),
+    borderBlockEnd: `1px solid ${theme.colors.border.default}`,
+    transition: cssTransition('all', 'fast', 'easeInOut'),
   }
 
   if (loading) {
     return (
-      <Surface className={className} style= padding: SPACING[4], ...style >
+      <Surface className={className} style={{ padding: SPACING[4], ...style }}>
         <div style={headerStyle}>
           <Skeleton width="120px" height="20px" />
           <Skeleton width="100px" height="32px" borderRadius="6px" />
@@ -88,51 +81,51 @@ export function InviteManager({ invites, loading = false, onRevoke, onResend, on
   }
 
   return (
-    <Surface className={className} style= padding: SPACING[4], ...style >
+    <Surface className={className} style={{ padding: SPACING[4], ...style }}>
       <div style={headerStyle}>
-        <h3 style= fontSize: 16, fontWeight: 600, color: theme.text.primary, margin: 0 >Invitations</h3>
+        <h3 style={{ fontSize: 16, fontWeight: 600, color: theme.colors.text.primary, margin: 0 }}>Invitations</h3>
         <Button variant="primary" onClick={onCreateNew}>New Invite</Button>
       </div>
 
       {invites.length === 0 ? (
-        <div style= textAlign: 'center', paddingBlock: SPACING[8], color: theme.text.secondary >
-          <p style= marginBlockEnd: SPACING[3] >No invitations sent yet</p>
+        <div style={{ textAlign: 'center', paddingBlock: SPACING[8], color: theme.colors.text.secondary }}>
+          <p style={{ marginBlockEnd: SPACING[3] }}>No invitations sent yet</p>
           <Button variant="secondary" onClick={onCreateNew}>Send your first invite</Button>
         </div>
       ) : (
         <>
-          <ScrollArea style= maxHeight: 400 >
+          <ScrollArea style={{ maxHeight: 400 }}>
             {invites.map((inv, idx) => (
               <div key={inv.id} style={{ ...rowStyle, animationDelay: `${idx * 50}ms` }}>
-                <div style= flex: 1, minWidth: 0 >
-                  <span style= fontSize: 13, fontWeight: 600, color: theme.text.primary, display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' >{inv.email}</span>
-                  <span style= fontSize: 12, color: theme.text.secondary >{inv.role}</span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: theme.colors.text.primary, display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{inv.email}</span>
+                  <span style={{ fontSize: 12, color: theme.colors.text.secondary }}>{inv.role}</span>
                 </div>
                 <Badge variant={STATUS_VARIANT[inv.status]}>{inv.status}</Badge>
-                <span style= fontSize: 12, color: theme.text.tertiary, whiteSpace: 'nowrap' >
+                <span style={{ fontSize: 12, color: theme.colors.text.tertiary, whiteSpace: 'nowrap' }}>
                   {inv.status === 'accepted' && inv.acceptedAt ? `Accepted ${relativeTime(inv.acceptedAt)}` : `Sent ${relativeTime(inv.createdAt)}`}
                 </span>
-                <div style= display: 'flex', gap: SPACING[1] >
+                <div style={{ display: 'flex', gap: SPACING[1] }}>
                   {inv.status === 'pending' && (
                     <Tooltip content="Resend invite">
-                      <IconButton icon="refresh" size="sm" onClick={() => onResend(inv.id)} />
+                      <IconButton size="sm" onClick={() => onResend(inv.id)}><span aria-hidden="true">↺</span></IconButton>
                     </Tooltip>
                   )}
                   {inv.status === 'expired' && (
                     <Tooltip content="Resend as new invite">
-                      <IconButton icon="refresh" size="sm" onClick={() => onResend(inv.id)} />
+                      <IconButton size="sm" onClick={() => onResend(inv.id)}><span aria-hidden="true">↺</span></IconButton>
                     </Tooltip>
                   )}
                   {(inv.status === 'pending' || inv.status === 'expired') && (
                     <Tooltip content="Revoke invite">
-                      <IconButton icon="x" size="sm" variant="destructive" onClick={() => onRevoke(inv.id)} />
+                      <IconButton size="sm" variant="destructive" onClick={() => onRevoke(inv.id)}><span aria-hidden="true">×</span></IconButton>
                     </Tooltip>
                   )}
                 </div>
               </div>
             ))}
           </ScrollArea>
-          <p style= fontSize: 12, color: theme.text.tertiary, marginBlockStart: SPACING[2] >Showing {invites.length} invitation{invites.length !== 1 ? 's' : ''}</p>
+          <p style={{ fontSize: 12, color: theme.colors.text.tertiary, marginBlockStart: SPACING[2] }}>Showing {invites.length} invitation{invites.length !== 1 ? 's' : ''}</p>
         </>
       )}
     </Surface>

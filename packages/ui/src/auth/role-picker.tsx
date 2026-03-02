@@ -1,9 +1,6 @@
 import { type CSSProperties } from 'react'
-import { Surface } from '@aircraft/ui/primitives/surface'
-import { Badge } from '@aircraft/ui/primitives/badge'
-import { useThemeTokens } from '@aircraft/design-tokens/theme-provider'
-import { SPACING } from '@aircraft/design-tokens/spacing'
-import { cssTransition } from '@aircraft/design-tokens/motion-tokens'
+import { Surface, Badge } from '@aircraft/ui'
+import { useThemeTokens, SPACING, cssTransition } from '@aircraft/design-tokens'
 
 export type RoleInfo = {
   id: string
@@ -29,7 +26,7 @@ export function RolePicker({ roles, selectedId, onSelect, disabled = false, comp
 
   if (compact) {
     return (
-      <div className={className} style= display: 'flex', flexDirection: 'column', gap: SPACING[1], ...style  role="radiogroup" aria-label="Role selection">
+      <div className={className} style={{ display: 'flex', flexDirection: 'column', gap: SPACING[1], ...style }} role="radiogroup" aria-label="Role selection">
         {roles.map((role) => {
           const selected = role.id === selectedId
           return (
@@ -39,7 +36,7 @@ export function RolePicker({ roles, selectedId, onSelect, disabled = false, comp
               aria-checked={selected}
               disabled={disabled}
               onClick={() => onSelect(role.id)}
-              style=
+              style={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: SPACING[3],
@@ -48,25 +45,25 @@ export function RolePicker({ roles, selectedId, onSelect, disabled = false, comp
                 minHeight: 44,
                 border: 'none',
                 borderRadius: 6,
-                background: selected ? theme.accent.subtle : 'transparent',
-                color: theme.text.primary,
+                background: selected ? theme.colors.accent.subtle : 'transparent',
+                color: theme.colors.text.primary,
                 cursor: disabled ? 'default' : 'pointer',
                 opacity: disabled ? 0.4 : 1,
-                transition: cssTransition('fast'),
+                transition: cssTransition('all', 'fast', 'easeInOut'),
                 width: '100%',
                 textAlign: 'start',
                 fontSize: 13,
-              
+              }}
             >
               <span style={{
                 width: 16, height: 16, borderRadius: '50%',
-                border: `2px solid ${selected ? theme.accent.default : theme.border.strong}`,
-                background: selected ? theme.accent.default : 'transparent',
+                border: `2px solid ${selected ? theme.colors.accent.default : theme.colors.border.strong}`,
+                background: selected ? theme.colors.accent.default : 'transparent',
                 flexShrink: 0,
-                transition: cssTransition('fast'),
+                transition: cssTransition('all', 'fast', 'easeInOut'),
               }} />
-              <span style= fontWeight: 500, flex: 1 >{role.name}</span>
-              <span style= fontSize: 12, color: theme.text.tertiary >{role.memberCount} member{role.memberCount !== 1 ? 's' : ''}</span>
+              <span style={{ fontWeight: 500, flex: 1 }}>{role.name}</span>
+              <span style={{ fontSize: 12, color: theme.colors.text.tertiary }}>{role.memberCount} member{role.memberCount !== 1 ? 's' : ''}</span>
             </button>
           )
         })}
@@ -75,7 +72,7 @@ export function RolePicker({ roles, selectedId, onSelect, disabled = false, comp
   }
 
   return (
-    <div className={className} style= display: 'flex', flexDirection: 'column', gap: SPACING[2], ...style  role="radiogroup" aria-label="Role selection">
+    <div className={className} style={{ display: 'flex', flexDirection: 'column', gap: SPACING[2], ...style }} role="radiogroup" aria-label="Role selection">
       {roles.map((role) => {
         const selected = role.id === selectedId
         const visiblePerms = role.permissions.slice(0, 3)
@@ -95,29 +92,29 @@ export function RolePicker({ roles, selectedId, onSelect, disabled = false, comp
               gap: SPACING[2],
               paddingInline: SPACING[4],
               paddingBlock: SPACING[3],
-              border: `2px solid ${selected ? theme.accent.default : theme.border.default}`,
+              border: `2px solid ${selected ? theme.colors.accent.default : theme.colors.border.default}`,
               borderRadius: 8,
-              background: selected ? theme.accent.subtle : undefined,
+              background: selected ? theme.colors.accent.subtle : undefined,
               cursor: disabled ? 'default' : 'pointer',
               opacity: disabled ? 0.4 : 1,
-              transition: cssTransition('fast'),
+              transition: cssTransition('all', 'fast', 'easeInOut'),
               textAlign: 'start',
               width: '100%',
               transform: selected ? 'scale(1.02)' : 'scale(1)',
             }}
           >
-            <div style= display: 'flex', alignItems: 'center', gap: SPACING[2] >
-              <span style= fontWeight: 600, fontSize: 14, color: theme.text.primary >{role.name}</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: SPACING[2] }}>
+              <span style={{ fontWeight: 600, fontSize: 14, color: theme.colors.text.primary }}>{role.name}</span>
               {role.isSystem && <Badge variant="default">System</Badge>}
             </div>
             {role.description && (
-              <span style= fontSize: 12, color: theme.text.secondary, lineHeight: '16px' >{role.description}</span>
+              <span style={{ fontSize: 12, color: theme.colors.text.secondary, lineHeight: '16px' }}>{role.description}</span>
             )}
-            <span style= fontSize: 12, color: theme.text.tertiary >
+            <span style={{ fontSize: 12, color: theme.colors.text.tertiary }}>
               {role.memberCount > 0 ? `${role.memberCount} member${role.memberCount !== 1 ? 's' : ''}` : 'No members'}
             </span>
             {visiblePerms.length > 0 && (
-              <div style= display: 'flex', flexWrap: 'wrap', gap: SPACING[1] >
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: SPACING[1] }}>
                 {visiblePerms.map((p) => <Badge key={p} variant="default" size="sm">{p}</Badge>)}
                 {extraCount > 0 && <Badge variant="default" size="sm">+{extraCount} more</Badge>}
               </div>

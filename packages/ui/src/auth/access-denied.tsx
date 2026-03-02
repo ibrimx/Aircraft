@@ -1,10 +1,6 @@
 import { type CSSProperties } from 'react'
-import { Surface } from '@aircraft/ui/primitives/surface'
-import { Button } from '@aircraft/ui/primitives/button'
-import { Badge } from '@aircraft/ui/primitives/badge'
-import { useThemeTokens } from '@aircraft/design-tokens/theme-provider'
-import { SPACING } from '@aircraft/design-tokens/spacing'
-import { cssTransition } from '@aircraft/design-tokens/motion-tokens'
+import { Surface, Button, Badge } from '@aircraft/ui'
+import { useThemeTokens, SPACING, cssTransition } from '@aircraft/design-tokens'
 
 export type DeniedReason = 'no_permission' | 'not_authenticated' | 'not_member' | 'role_insufficient'
 
@@ -61,35 +57,35 @@ export function AccessDenied({ reason, requiredPermission, requiredRole, onGoBac
     alignItems: 'center',
     gap: SPACING[4],
     textAlign: 'center',
-    animation: cssTransition('gentle'),
+    animation: cssTransition('all', 'normal', 'easeInOut'),
   }
 
   return (
     <div className={className} style={wrapStyle}>
       <Surface variant="raised" style={cardStyle}>
-        <span style= fontSize: 64, lineHeight: 1, color: theme.text.tertiary  aria-hidden>\uD83D\uDD12</span>
+        <span style={{ fontSize: 64, lineHeight: 1, color: theme.colors.text.tertiary }} aria-hidden>🔒</span>
 
-        <h2 style= fontSize: 20, fontWeight: 600, color: theme.text.primary, margin: 0 >
+        <h2 style={{ fontSize: 20, fontWeight: 600, color: theme.colors.text.primary, margin: 0 }}>
           {config.title}
         </h2>
 
-        <p style= fontSize: 14, color: theme.text.secondary, margin: 0, lineHeight: 1.5 >
+        <p style={{ fontSize: 14, color: theme.colors.text.secondary, margin: 0, lineHeight: 1.5 }}>
           {config.description}
         </p>
 
         {reason === 'no_permission' && requiredPermission && (
-          <p style= fontSize: 13, color: theme.text.tertiary, margin: 0 >
-            Required: <code style= background: theme.border.default, paddingInline: 6, paddingBlock: 2, borderRadius: 4, fontSize: 12 >{requiredPermission}</code>
+          <p style={{ fontSize: 13, color: theme.colors.text.tertiary, margin: 0 }}>
+            Required: <code style={{ background: theme.colors.border.default, paddingInline: 6, paddingBlock: 2, borderRadius: 4, fontSize: 12 }}>{requiredPermission}</code>
           </p>
         )}
 
         {reason === 'role_insufficient' && requiredRole && (
-          <p style= fontSize: 13, color: theme.text.tertiary, margin: 0 >
+          <p style={{ fontSize: 13, color: theme.colors.text.tertiary, margin: 0 }}>
             Required role: <Badge variant="warning">{requiredRole}</Badge>
           </p>
         )}
 
-        <div style= display: 'flex', gap: SPACING[3], marginBlockStart: SPACING[2] >
+        <div style={{ display: 'flex', gap: SPACING[3], marginBlockStart: SPACING[2] }}>
           {onGoBack && <Button variant="secondary" onClick={onGoBack}>Go Back</Button>}
           {reason === 'not_authenticated' && onLogin && (
             <Button variant="primary" onClick={onLogin}>Log In</Button>
