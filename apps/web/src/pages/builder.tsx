@@ -56,7 +56,7 @@ export function BuilderPage(): React.JSX.Element {
   if (!projectId)
     return (
       <ErrorFallback
-        error={new Error(t('builder.notFound'))}
+        error={new Error(t('builder.notFound')) as unknown as import('@aircraft/ui').AircraftError}
         resetErrorBoundary={() => router.push('/dashboard')}
       />
     );
