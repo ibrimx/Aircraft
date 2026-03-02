@@ -84,7 +84,7 @@ export function BuilderPage(): React.JSX.Element {
             alignItems: 'center',
             justifyContent: 'center',
             blockSize: '100%',
-            background: tk.bg.canvas,
+            background: tk.colors.background.primary,
             padding: 24,
           })}
         >
@@ -126,7 +126,7 @@ export function BuilderPage(): React.JSX.Element {
             alignItems: 'center',
             justifyContent: 'center',
             blockSize: '100%',
-            background: tk.bg.canvas,
+            background: tk.colors.background.primary,
           })}
           role="status"
           aria-label={t('builder.loading')}
@@ -136,7 +136,7 @@ export function BuilderPage(): React.JSX.Element {
               inlineSize: 300,
               blockSize: 16,
               borderRadius: 8,
-              background: tk.bg.surface,
+              background: tk.colors.surface.default,
               animation: 'pulse 1.5s ease-in-out infinite',
             })}
           />
@@ -165,8 +165,8 @@ export function BuilderPage(): React.JSX.Element {
               onClick={() => setPreview(p)}
               aria-pressed={preview === p}
               style={css({
-                background: preview === p ? tk.accent.default : tk.bg.surface,
-                color: preview === p ? tk.bg.canvas : tk.text.primary,
+                background: preview === p ? tk.colors.accent.default : tk.colors.surface.default,
+                color: preview === p ? tk.colors.background.primary : tk.colors.text.primary,
                 minBlockSize: 44,
                 paddingInline: 16,
                 borderRadius: 8,
@@ -185,11 +185,11 @@ export function BuilderPage(): React.JSX.Element {
           maxInlineSize: PREVIEW_WIDTHS[preview],
           marginInline: 'auto',
           blockSize: '100%',
-          background: tk.bg.canvas,
+          background: tk.colors.background.primary,
           transition: 'max-inline-size 0.3s ease-in-out',
         })}
       >
-        <div style={css({ paddingBlock: 32, paddingInline: 24, color: tk.text.primary })}>
+        <div style={css({ paddingBlock: 32, paddingInline: 24, color: tk.colors.text.primary })}>
           {t('builder.placeholder')}
         </div>
       </div>

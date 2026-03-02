@@ -55,7 +55,7 @@ export function HomePage(): React.JSX.Element {
   const bp = useBreakpoint();
 
   return (
-    <div style={css({ color: tk.text.primary, background: tk.bg.canvas })}>
+    <div style={css({ color: tk.colors.text.primary, background: tk.colors.background.primary })}>
       <nav
         style={css({
           position: 'fixed',
@@ -67,14 +67,14 @@ export function HomePage(): React.JSX.Element {
           justifyContent: 'space-between',
           blockSize: 64,
           paddingInline: 24,
-          background: `${tk.bg.canvas}cc`,
+          background: `${tk.colors.background.primary}cc`,
           backdropFilter: 'blur(12px)',
         })}
       >
         <Link
           href="/"
           style={css({
-            color: tk.text.primary,
+            color: tk.colors.text.primary,
             textDecoration: 'none',
             fontWeight: 700,
             fontSize: 20,
@@ -87,13 +87,13 @@ export function HomePage(): React.JSX.Element {
             <>
               <Link
                 href="/features"
-                style={css({ color: tk.text.secondary, textDecoration: 'none' })}
+                style={css({ color: tk.colors.text.secondary, textDecoration: 'none' })}
               >
                 {t('home.nav.features')}
               </Link>
               <Link
                 href="/pricing"
-                style={css({ color: tk.text.secondary, textDecoration: 'none' })}
+                style={css({ color: tk.colors.text.secondary, textDecoration: 'none' })}
               >
                 {t('home.nav.pricing')}
               </Link>
@@ -102,8 +102,8 @@ export function HomePage(): React.JSX.Element {
           <Link href="/login">
             <Button
               style={css({
-                background: tk.accent.default,
-                color: tk.bg.canvas,
+                background: tk.colors.accent.default,
+                color: tk.colors.background.primary,
                 minBlockSize: 44,
                 paddingInline: 20,
                 borderRadius: 8,
@@ -128,7 +128,7 @@ export function HomePage(): React.JSX.Element {
             paddingBlockStart: 64,
             paddingInline: 24,
             textAlign: 'center',
-            background: `radial-gradient(ellipse at 50% 0%, ${tk.accent.subtle} 0%, transparent 70%)`,
+            background: `radial-gradient(ellipse at 50% 0%, ${tk.colors.accent.subtle} 0%, transparent 70%)`,
           })}
         >
           <h1
@@ -145,7 +145,7 @@ export function HomePage(): React.JSX.Element {
           <p
             style={css({
               fontSize: 18,
-              color: tk.text.secondary,
+              color: tk.colors.text.secondary,
               maxInlineSize: 600,
               marginBlockEnd: 32,
             })}
@@ -163,8 +163,8 @@ export function HomePage(): React.JSX.Element {
             <Link href="/login">
               <Button
                 style={css({
-                  background: tk.accent.default,
-                  color: tk.bg.canvas,
+                  background: tk.colors.accent.default,
+                  color: tk.colors.background.primary,
                   minBlockSize: 48,
                   paddingInline: 32,
                   borderRadius: 12,
@@ -180,11 +180,11 @@ export function HomePage(): React.JSX.Element {
               <Button
                 style={css({
                   background: 'transparent',
-                  color: tk.text.primary,
+                  color: tk.colors.text.primary,
                   minBlockSize: 48,
                   paddingInline: 32,
                   borderRadius: 12,
-                  border: `1px solid ${tk.border.default}`,
+                  border: `1px solid ${tk.colors.border.default}`,
                   fontSize: 16,
                   cursor: 'pointer',
                 })}
@@ -198,7 +198,7 @@ export function HomePage(): React.JSX.Element {
 
       <Reveal>
         <section style={css({ paddingBlock: 48, paddingInline: 24, textAlign: 'center' })}>
-          <p style={css({ color: tk.text.tertiary, marginBlockEnd: 24, fontSize: 14 })}>
+          <p style={css({ color: tk.colors.text.tertiary, marginBlockEnd: 24, fontSize: 14 })}>
             {t('home.social.title')}
           </p>
           <div style={css({ display: 'flex', gap: 32, justifyContent: 'center', flexWrap: 'wrap' })}>
@@ -209,7 +209,7 @@ export function HomePage(): React.JSX.Element {
                   inlineSize: 80,
                   blockSize: 32,
                   borderRadius: 4,
-                  background: tk.bg.surface,
+                  background: tk.colors.surface.default,
                   opacity: 0.6,
                 })}
                 aria-hidden="true"
@@ -229,7 +229,7 @@ export function HomePage(): React.JSX.Element {
               <div
                 key={i}
                 style={css({
-                  background: tk.bg.surface,
+                  background: tk.colors.surface.default,
                   borderRadius: 16,
                   paddingBlock: 32,
                   paddingInline: 24,
@@ -240,7 +240,7 @@ export function HomePage(): React.JSX.Element {
                 <h3 style={css({ fontSize: 18, fontWeight: 600, marginBlockEnd: 8 })}>
                   {t(`home.features.card${i}.title`)}
                 </h3>
-                <p style={css({ color: tk.text.secondary, fontSize: 14 })}>
+                <p style={css({ color: tk.colors.text.secondary, fontSize: 14 })}>
                   {t(`home.features.card${i}.desc`)}
                 </p>
               </div>
@@ -256,9 +256,9 @@ export function HomePage(): React.JSX.Element {
               inlineSize: '100%',
               maxInlineSize: 900,
               borderRadius: 16,
-              border: `1px solid ${tk.border.default}`,
+              border: `1px solid ${tk.colors.border.default}`,
               overflow: 'hidden',
-              background: tk.bg.surface,
+              background: tk.colors.surface.default,
             })}
           >
             <div
@@ -268,8 +268,8 @@ export function HomePage(): React.JSX.Element {
                 gap: 6,
                 paddingBlock: 12,
                 paddingInline: 16,
-                background: tk.bg.default,
-                borderBlockEnd: `1px solid ${tk.border.default}`,
+                background: tk.colors.surface.default,
+                borderBlockEnd: `1px solid ${tk.colors.border.default}`,
               })}
             >
               {[0, 1, 2].map((i) => (
@@ -279,7 +279,7 @@ export function HomePage(): React.JSX.Element {
                     inlineSize: 12,
                     blockSize: 12,
                     borderRadius: '50%',
-                    background: tk.text.tertiary,
+                    background: tk.colors.text.tertiary,
                     opacity: 0.4,
                   })}
                   aria-hidden="true"
@@ -292,7 +292,7 @@ export function HomePage(): React.JSX.Element {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: tk.text.tertiary,
+                color: tk.colors.text.tertiary,
               })}
             >
               {t('home.showcase.placeholder')}
@@ -319,7 +319,7 @@ export function HomePage(): React.JSX.Element {
                 <h3 style={css({ fontSize: 22, fontWeight: 700, marginBlockEnd: 12 })}>
                   {t(`home.scale.block${i}.title`)}
                 </h3>
-                <p style={css({ color: tk.text.secondary, fontSize: 15 })}>
+                <p style={css({ color: tk.colors.text.secondary, fontSize: 15 })}>
                   {t(`home.scale.block${i}.desc`)}
                 </p>
               </div>
@@ -329,7 +329,7 @@ export function HomePage(): React.JSX.Element {
                   minInlineSize: 260,
                   blockSize: 200,
                   borderRadius: 16,
-                  background: tk.bg.surface,
+                  background: tk.colors.surface.default,
                 })}
                 aria-hidden="true"
               />
@@ -344,7 +344,7 @@ export function HomePage(): React.JSX.Element {
             paddingBlock: 80,
             paddingInline: 24,
             textAlign: 'center',
-            background: `linear-gradient(180deg, transparent, ${tk.accent.subtle})`,
+            background: `linear-gradient(180deg, transparent, ${tk.colors.accent.subtle})`,
           })}
         >
           <h2 style={css({ fontSize: 32, fontWeight: 800, marginBlockEnd: 16 })}>
@@ -352,7 +352,7 @@ export function HomePage(): React.JSX.Element {
           </h2>
           <p
             style={css({
-              color: tk.text.secondary,
+              color: tk.colors.text.secondary,
               marginBlockEnd: 32,
               maxInlineSize: 500,
               marginInline: 'auto',
@@ -363,8 +363,8 @@ export function HomePage(): React.JSX.Element {
           <Link href="/login">
             <Button
               style={css({
-                background: tk.accent.default,
-                color: tk.bg.canvas,
+                background: tk.colors.accent.default,
+                color: tk.colors.background.primary,
                 minBlockSize: 48,
                 paddingInline: 32,
                 borderRadius: 12,
@@ -384,8 +384,8 @@ export function HomePage(): React.JSX.Element {
           paddingBlock: 32,
           paddingInline: 24,
           textAlign: 'center',
-          borderBlockStart: `1px solid ${tk.border.default}`,
-          color: tk.text.tertiary,
+          borderBlockStart: `1px solid ${tk.colors.border.default}`,
+          color: tk.colors.text.tertiary,
           fontSize: 13,
         })}
       >

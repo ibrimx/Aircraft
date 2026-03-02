@@ -41,7 +41,7 @@ export function LoginPage(): React.JSX.Element {
         alignItems: 'center',
         justifyContent: 'center',
         minBlockSize: '100vh',
-        background: tk.bg.canvas,
+        background: tk.colors.background.primary,
         paddingInline: 24,
       })}
     >
@@ -53,7 +53,7 @@ export function LoginPage(): React.JSX.Element {
           gap: 16,
           inlineSize: '100%',
           maxInlineSize: 380,
-          background: tk.bg.surface,
+          background: tk.colors.surface.default,
           paddingBlock: 40,
           paddingInline: 32,
           borderRadius: 16,
@@ -64,7 +64,7 @@ export function LoginPage(): React.JSX.Element {
             fontSize: 24,
             fontWeight: 700,
             textAlign: 'center',
-            color: tk.text.primary,
+            color: tk.colors.text.primary,
             marginBlockEnd: 8,
           })}
         >
@@ -74,8 +74,8 @@ export function LoginPage(): React.JSX.Element {
           <p
             role="alert"
             style={css({
-              color: tk.text.primary,
-              background: tk.accent.subtle,
+              color: tk.colors.text.primary,
+              background: tk.colors.accent.subtle,
               paddingBlock: 8,
               paddingInline: 12,
               borderRadius: 8,
@@ -96,9 +96,9 @@ export function LoginPage(): React.JSX.Element {
             minBlockSize: 44,
             paddingInline: 12,
             borderRadius: 8,
-            border: `1px solid ${tk.border.default}`,
-            background: tk.bg.default,
-            color: tk.text.primary,
+            border: `1px solid ${tk.colors.border.default}`,
+            background: tk.colors.surface.default,
+            color: tk.colors.text.primary,
           })}
         />
         <Input
@@ -112,9 +112,9 @@ export function LoginPage(): React.JSX.Element {
             minBlockSize: 44,
             paddingInline: 12,
             borderRadius: 8,
-            border: `1px solid ${tk.border.default}`,
-            background: tk.bg.default,
-            color: tk.text.primary,
+            border: `1px solid ${tk.colors.border.default}`,
+            background: tk.colors.surface.default,
+            color: tk.colors.text.primary,
           })}
         />
         <Button
@@ -124,8 +124,8 @@ export function LoginPage(): React.JSX.Element {
             minBlockSize: 44,
             borderRadius: 8,
             border: 'none',
-            background: tk.accent.default,
-            color: tk.bg.canvas,
+            background: tk.colors.accent.default,
+            color: tk.colors.background.primary,
             fontSize: 16,
             cursor: loading ? 'wait' : 'pointer',
             opacity: loading ? 0.6 : 1,
