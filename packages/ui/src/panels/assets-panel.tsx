@@ -90,7 +90,7 @@ export const AssetsPanel: FC<AssetsPanelProps> = ({
     <div className={className} style={{ background: theme.colors.surface.default, border: `1px solid ${theme.colors.border.subtle}`, display: 'flex', flexDirection: 'column', ...style }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingInline: SPACING[3], paddingBlock: SPACING[2], borderBlockEnd: `1px solid ${theme.colors.border.subtle}` }}>
         <span style={{ fontSize: 12, fontWeight: 600, color: theme.colors.text.secondary, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Assets</span>
-        <IconButton size="sm" variant="ghost" onClick={handleUploadClick} aria-label="Upload asset">⬆</IconButton>
+        <IconButton size="sm" variant="ghost" onClick={handleUploadClick} aria-label="Upload asset" icon={<span aria-hidden>⬆</span>} />
         <input ref={fileRef} type="file" accept="image/*,video/*" multiple hidden onChange={handleFileChange} />
       </div>
       <div style={{ paddingInline: SPACING[3], paddingBlock: SPACING[2], borderBlockEnd: `1px solid ${theme.colors.border.subtle}` }}>
