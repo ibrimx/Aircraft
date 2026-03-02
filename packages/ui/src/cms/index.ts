@@ -4,6 +4,12 @@ export type { CollectionBrowserProps } from './collection-browser'
 export { RecordCard } from './record-card'
 export type { RecordCardProps } from './record-card'
 
+export { RecordList } from './record-list'
+export type { RecordListProps } from './record-list'
+
+export { CollectionList } from './collection-list'
+export type { CollectionListProps } from './collection-list'
+
 export { SourcePicker } from './source-picker'
 export type { SourcePickerProps } from './source-picker'
 
