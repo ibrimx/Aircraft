@@ -5,7 +5,6 @@
  */
 
 import { createHmac, randomUUID } from 'node:crypto';
-import { createId } from '@aircraft/shared-types';
 import type { SessionId } from '@aircraft/shared-types';
 import type { ISODateString, Result } from '@aircraft/shared-types';
 import { createError, ERROR_CODES } from '@aircraft/shared-types';
@@ -100,7 +99,8 @@ export class TokenServiceImpl implements TokenService {
       const accessToken = `${header}.${body}.${signature}` as AccessToken;
 
       // Refresh token is an opaque random string
-      const refreshToken = randomUUID() as RefreshToken;
+      const refreshExp = now + this.refreshTtl;
+      const refreshToken = base64url(`${randomUUID()}.${refreshExp}`) as RefreshToken;
 
       const expiresAt = epochToISO(accessExp);
 

@@ -13,7 +13,6 @@ import type {
 } from '@aircraft/shared-types';
 import type {
   PermissionCheckResult,
-  PermissionCheckRequest,
 } from '../core/permission-types';
 import type { PermissionResolver } from '../core/permission-resolver';
 

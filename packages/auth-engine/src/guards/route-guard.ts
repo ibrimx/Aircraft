@@ -4,13 +4,34 @@
  * Dependencies: permission-types.ts, permission-resolver.ts
  */
 
-import type { UserId, WorkspaceId, ISODateString } from '@aircraft/shared-types';
+import type {
+  ActionPermission,
+  SystemPermission,
+  UserId,
+  WorkspaceId,
+} from '@aircraft/shared-types';
 import type {
   PermissionCheckResult,
   ProtectedRoute,
 } from '../core/permission-types';
 import { PROTECTED_ROUTES } from '../core/permission-types';
 import type { PermissionResolver } from '../core/permission-resolver';
+import { toISODateString } from '../core/iso-date';
+
+function isActionPermission(
+  permission: ActionPermission | SystemPermission,
+): permission is ActionPermission {
+  return (
+    permission === 'create' ||
+    permission === 'read' ||
+    permission === 'update' ||
+    permission === 'delete' ||
+    permission === 'publish' ||
+    permission === 'export' ||
+    permission === 'share' ||
+    permission === 'invite'
+  );
+}
 
 // ─── Helpers ─────────────────────────────────────────────────
 
@@ -90,7 +111,7 @@ export function canAccessRoute(
     return {
       allowed: false,
       reason: `Route '${path}' is not in PROTECTED_ROUTES — denied by default`,
-      checkedAt: new Date().toISOString() as ISODateString,
+      checkedAt: toISODateString(new Date()),
       resource: 'studio_file',
       action: 'read',
       resourceId: null,
@@ -105,6 +126,32 @@ export function canAccessRoute(
   const resourceId = route.resourceIdParam
     ? allParams[route.resourceIdParam] ?? null
     : null;
+
+  if (route.requiredResource === null) {
+    if (!isActionPermission(route.requiredAction)) {
+      return resolver.checkSystem(userId, workspaceId, route.requiredAction);
+    }
+
+    return {
+      allowed: false,
+      reason: `Route '${path}' has no resource for action '${route.requiredAction}'`,
+      checkedAt: toISODateString(new Date()),
+      resource: 'studio_file',
+      action: 'read',
+      resourceId: null,
+    };
+  }
+
+  if (!isActionPermission(route.requiredAction)) {
+    return {
+      allowed: false,
+      reason: `Route '${path}' requires system permission '${route.requiredAction}' with a resource`,
+      checkedAt: toISODateString(new Date()),
+      resource: route.requiredResource,
+      action: 'read',
+      resourceId,
+    };
+  }
 
   return resolver.check({
     userId,
