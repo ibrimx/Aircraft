@@ -14,16 +14,40 @@ export function JoinPage(): React.JSX.Element {
 
   if (!token) {
     return (
-      <div style={css({ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minBlockSize: '100vh', background: tk.bg.canvas, color: tk.text.primary, gap: 16, paddingInline: 24 })}>
+      <div
+        style={css({
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minBlockSize: '100vh',
+          background: tk.bg.canvas,
+          color: tk.text.primary,
+          gap: 16,
+          paddingInline: 24,
+        })}
+      >
         <p>{t('join.invalidLink')}</p>
-        <Link href="/login" style={css({ color: tk.accent.default })}>{t('join.goToLogin')}</Link>
+        <Link href="/login" style={css({ color: tk.accent.default })}>
+          {t('join.goToLogin')}
+        </Link>
       </div>
     );
   }
 
   return (
-    <div style={css({ display: 'flex', alignItems: 'center', justifyContent: 'center', minBlockSize: '100vh', background: tk.bg.canvas })}>
+    <div
+      style={css({
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minBlockSize: '100vh',
+        background: tk.bg.canvas,
+      })}
+    >
       <InviteGate token={token} />
     </div>
   );
 }
+
+export default JoinPage;

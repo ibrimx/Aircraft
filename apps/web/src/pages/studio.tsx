@@ -74,12 +74,7 @@ export function StudioPage(): React.JSX.Element {
     );
 
   if (docState === 'error')
-    return (
-      <ErrorFallback
-        message={t('studio.error')}
-        onRetry={() => setDocState('loading')}
-      />
-    );
+    return <ErrorFallback message={t('studio.error')} onRetry={() => setDocState('loading')} />;
 
   if (docState === 'not-found') {
     router.push('/dashboard');
@@ -104,3 +99,5 @@ export function StudioPage(): React.JSX.Element {
     </StudioLayout>
   );
 }
+
+export default StudioPage;
