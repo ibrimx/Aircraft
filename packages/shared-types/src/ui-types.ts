@@ -89,3 +89,13 @@ export type KeyboardShortcut = {
   label: string
   action: string
 }
+
+/** Gesture directions detected by pointer/touch gesture hooks. */
+export type GestureDirection = 'left' | 'right' | 'up' | 'down'
+
+/** Haptic feedback pattern payload used by UI mobile haptic helpers. */
+export type HapticPattern =
+  | { kind: 'impact'; style: 'light' | 'medium' | 'heavy' }
+  | { kind: 'notification'; type: 'success' | 'warning' | 'error' }
+  | { kind: 'selection' }
+

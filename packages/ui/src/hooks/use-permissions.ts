@@ -4,7 +4,7 @@ import type {
   ActionPermission,
   ResourceType,
   SystemPermission,
-} from '@aircraft/auth-engine';
+} from '@aircraft/shared-types';
 import { useAuth } from './use-auth';
 
 // ── Types ────────────────────────────────────────────────
