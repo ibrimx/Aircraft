@@ -17,7 +17,7 @@
     "skipLibCheck": true,
     "paths": {
       "@aircraft/shared-types": [
-        "./packages/shared-types/src"
+        "./packages/shared-types/dist"
       ],
       "@aircraft/studio-engine": [
         "./packages/studio-engine/dist"
@@ -62,10 +62,10 @@
         "./packages/a11y/dist"
       ],
       "@aircraft/ui": [
-        "./packages/ui/src"
+        "./packages/ui/dist"
       ],
       "@aircraft/design-tokens": [
-        "./packages/design-tokens/src"
+        "./packages/design-tokens/dist"
       ]
     },
     "baseUrl": "."
