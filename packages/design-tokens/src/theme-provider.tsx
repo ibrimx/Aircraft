@@ -3,7 +3,7 @@
  * @package @aircraft/design-tokens
  * Prompt: P21 · Phase 1.A — Design Tokens
  *
- * Provides the active BrimairTheme to the entire component tree.
+ * Provides the active AircraftTheme to the entire component tree.
  * Default context value is lightTheme, but Brimair is dark-first:
  * the root <ThemeProvider mode="dark"> wraps the app.
  *
@@ -17,11 +17,11 @@
 
 import { createContext, useContext, useMemo, type ReactNode } from 'react'
 import type { ThemeMode } from '@aircraft/shared-types'
-import type { BrimairTheme } from './light-theme'
+import type { AircraftTheme } from './light-theme'
 import { lightTheme } from './light-theme'
 import { darkTheme } from './dark-theme'
 
-const ThemeContext = createContext<BrimairTheme>(lightTheme)
+const ThemeContext = createContext<AircraftTheme>(lightTheme)
 
 export type ThemeProviderProps = {
   readonly mode: ThemeMode
@@ -30,7 +30,7 @@ export type ThemeProviderProps = {
 
 /** Provides lightTheme or darkTheme based on the resolved mode. */
 export function ThemeProvider({ mode, children }: ThemeProviderProps): JSX.Element {
-  const theme = useMemo<BrimairTheme>(
+  const theme = useMemo<AircraftTheme>(
     () => (mode === 'dark' ? darkTheme : lightTheme),
     [mode],
   )
@@ -38,7 +38,7 @@ export function ThemeProvider({ mode, children }: ThemeProviderProps): JSX.Eleme
   return <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>
 }
 
-/** Returns the active BrimairTheme from the nearest ThemeProvider. */
-export function useThemeTokens(): BrimairTheme {
+/** Returns the active AircraftTheme from the nearest ThemeProvider. */
+export function useThemeTokens(): AircraftTheme {
   return useContext(ThemeContext)
 }

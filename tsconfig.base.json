@@ -60,6 +60,12 @@
       ],
       "@aircraft/a11y": [
         "./packages/a11y/src"
+      ],
+      "@aircraft/ui": [
+        "./packages/ui/src"
+      ],
+      "@aircraft/design-tokens": [
+        "./packages/design-tokens/src"
       ]
     }
   }
