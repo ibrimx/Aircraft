@@ -46,6 +46,41 @@ export function RecordList({
     })
   }, [records, search, titleField])
 
+  const headerLabelStyle: CSSProperties = {
+    fontSize: theme.textStyles.body.fontSize,
+    fontWeight: theme.textStyles.bodyBold.fontWeight,
+    color: theme.colors.text.primary,
+  }
+
+  const headerMetaStyle: CSSProperties = {
+    fontSize: theme.textStyles.caption.fontSize,
+    color: theme.colors.text.tertiary,
+  }
+
+  const searchWrapStyle: CSSProperties = {
+    paddingBlock: theme.spacingAlias.sm,
+    paddingInline: theme.spacingAlias.md,
+    borderBlockEnd: `1px solid ${theme.colors.border.subtle}`,
+    background: theme.colors.surface.default,
+  }
+
+  const listStyle: CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing[1],
+    paddingBlock: theme.spacingAlias.sm,
+    paddingInline: theme.spacingAlias.md,
+    maxHeight: '420px',
+    overflowY: 'auto',
+    background: theme.colors.surface.default,
+  }
+
+  const emptyStyle: CSSProperties = {
+    paddingBlock: theme.spacingAlias.md,
+    color: theme.colors.text.tertiary,
+    fontSize: theme.textStyles.body.fontSize,
+  }
+
   return (
     <div
       className={className}
@@ -68,25 +103,18 @@ export function RecordList({
           paddingBlock: theme.spacingAlias.sm,
           paddingInline: theme.spacingAlias.md,
           borderBlockEnd: `1px solid ${theme.colors.border.subtle}`,
+          background: theme.colors.surface.default,
         }}
       >
-        <span
-          style=458
-        >
-          {collection.name}
-        </span>
-        <span
-          style=459
-        >
-          {records.length} records
-        </span>
+        <span style={headerLabelStyle}>{collection.name}</span>
+        <span style={headerMetaStyle}>{records.length} records</span>
       </div>
 
       {/* Search */}
-      <div style=460>
+      <div style={searchWrapStyle}>
         <input
           type="search"
-          placeholder="Search records\u2026"
+          placeholder="Search records…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           style={{
@@ -107,19 +135,11 @@ export function RecordList({
       </div>
 
       {/* Records */}
-      <div
-        style=461
-      >
+      <div style={listStyle}>
         {loading && records.length === 0 ? (
-          <div
-            style=462
-          >
-            Loading records\u2026
-          </div>
+          <div style={emptyStyle}>Loading records…</div>
         ) : filtered.length === 0 ? (
-          <div
-            style=462
-          >
+          <div style={emptyStyle}>
             {search ? 'No matching records' : 'No records in collection'}
           </div>
         ) : (
@@ -143,6 +163,7 @@ export function RecordList({
             paddingBlock: theme.spacingAlias.sm,
             paddingInline: theme.spacingAlias.md,
             borderBlockStart: `1px solid ${theme.colors.border.subtle}`,
+            background: theme.colors.surface.default,
           }}
         >
           <button
