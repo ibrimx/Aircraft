@@ -2,9 +2,12 @@
   "name": "@aircraft/local-draft",
   "version": "0.0.1",
   "private": true,
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "dependencies": {
     "idb": "^8.0.3"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
   }
 }

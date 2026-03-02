@@ -47,3 +47,6 @@ export const lightTheme: AircraftTheme = {
   duration: DURATION,
   easing: EASING,
 }
+
+/** Backward-compatible alias kept for older imports. */
+export type BrimairTheme = AircraftTheme
