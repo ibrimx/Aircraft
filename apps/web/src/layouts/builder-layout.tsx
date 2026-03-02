@@ -1,14 +1,14 @@
-import type { ReactNode, JSX } from 'react';
-import {
-  AppShell,
-  DesktopLayout,
-  MobileLayout,
-  Sidebar,
-  Toolbar,
-  StatusBar,
-  Inspector,
-  useBreakpoint,
-} from '@aircraft/ui';
+import type { JSX, ReactNode } from 'react';
+
+import { useBreakpoint } from '@aircraft/ui';
+
+import { AppShell } from '../shell/app-shell';
+import { DesktopLayout } from '../shell/desktop-layout';
+import { Inspector } from '../shell/inspector';
+import { MobileLayout } from '../shell/mobile-layout';
+import { Sidebar } from '../shell/sidebar';
+import { StatusBar } from '../shell/status-bar';
+import { Toolbar } from '../shell/toolbar';
 
 export type BuilderLayoutProps = {
   children: ReactNode;
