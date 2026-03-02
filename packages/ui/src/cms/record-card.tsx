@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
-import type { CSSProperties, ReactNode } from 'react'
-import { useThemeTokens } from '@aircraft/design-tokens'
-import { cssTransition } from '@aircraft/design-tokens'
+import type { CSSProperties } from 'react'
+import { useThemeTokens, cssTransition } from '@aircraft/design-tokens'
 import type { CmsRecord, CmsFieldSchema, CmsFieldValue } from '@aircraft/shared-types'
 
 export type RecordCardProps = {
@@ -77,7 +76,7 @@ export function RecordCard({
     >
       {/* Title */}
       <span
-        style=
+        style={{
           fontSize: theme.textStyles.body.fontSize,
           fontWeight: theme.textStyles.bodyBold.fontWeight,
           color: theme.colors.text.primary,
@@ -86,35 +85,35 @@ export function RecordCard({
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap',
           maxWidth: '100%',
-        
+        }}
       >
         {title}
       </span>
 
       {/* Preview fields */}
       {previewFields.length > 0 && (
-        <div style= display: 'flex', flexDirection: 'column', gap: theme.spacing[1] >
+        <div style={{ display: 'flex', flexDirection: 'column', gap: theme.spacing[1] }}>
           {previewFields.map((f) => (
             <div
               key={f.name}
-              style=
+              style={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: theme.spacing[2],
                 fontSize: theme.textStyles.caption.fontSize,
                 lineHeight: theme.textStyles.caption.lineHeight,
-              
+              }}
             >
-              <span style= color: theme.colors.text.tertiary, flexShrink: 0 >
+              <span style={{ color: theme.colors.text.tertiary, flexShrink: 0 }}>
                 {f.name}
               </span>
               <span
-                style=
+                style={{
                   color: theme.colors.text.secondary,
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
-                
+                }}
               >
                 {f.value || '\u2014'}
               </span>

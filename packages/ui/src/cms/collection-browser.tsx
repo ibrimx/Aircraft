@@ -1,9 +1,7 @@
 import { useState, useMemo } from 'react'
 import type { CSSProperties } from 'react'
-import { useThemeTokens } from '@aircraft/design-tokens'
-import { cssTransition } from '@aircraft/design-tokens'
+import { useThemeTokens, cssTransition } from '@aircraft/design-tokens'
 import type { CmsCollection, CmsSource } from '@aircraft/shared-types'
-import { CollectionList } from './collection-list'
 
 export type CollectionBrowserProps = {
   source: CmsSource
@@ -60,23 +58,23 @@ export function CollectionBrowser({
           borderBlockEnd: `1px solid ${theme.colors.border.subtle}`,
         }}
       >
-        <div style= display: 'flex', flexDirection: 'column', gap: theme.spacing[0.5] >
+        <div style={{ display: 'flex', flexDirection: 'column', gap: theme.spacing[0.5] }}>
           <span
-            style=
+            style={{
               fontSize: theme.textStyles.subtitle.fontSize,
               fontWeight: theme.textStyles.subtitle.fontWeight,
               fontFamily: theme.fontFamily.sans,
               color: theme.colors.text.primary,
-            
+            }}
           >
             Collections
           </span>
           <span
-            style=
+            style={{
               fontSize: theme.textStyles.caption.fontSize,
               fontFamily: theme.fontFamily.sans,
               color: theme.colors.text.tertiary,
-            
+            }}
           >
             {source.name} · {collections.length} collections
           </span>
@@ -107,7 +105,7 @@ export function CollectionBrowser({
       </div>
 
       {/* Search */}
-      <div style= paddingInline: theme.spacingAlias.md >
+      <div style={{ paddingInline: theme.spacingAlias.md }}>
         <input
           type="search"
           placeholder="Search collections…"
@@ -133,34 +131,66 @@ export function CollectionBrowser({
       {/* Collection list */}
       {loading ? (
         <div
-          style=
+          style={{
             paddingBlock: theme.spacingAlias.xl,
             textAlign: 'center',
             fontSize: theme.textStyles.body.fontSize,
             fontFamily: theme.fontFamily.sans,
             color: theme.colors.text.tertiary,
-          
+          }}
         >
           Loading collections…
         </div>
       ) : filtered.length === 0 ? (
         <div
-          style=
+          style={{
             paddingBlock: theme.spacingAlias.xl,
             textAlign: 'center',
             fontSize: theme.textStyles.body.fontSize,
             fontFamily: theme.fontFamily.sans,
             color: theme.colors.text.tertiary,
-          
+          }}
         >
           {search ? 'No matching collections' : 'No collections found'}
         </div>
       ) : (
-        <CollectionList
-          collections={filtered}
-          selectedId={selectedId}
-          onSelect={onSelect}
-        />
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          {filtered.map((collection) => (
+            <button
+              key={collection.id}
+              type="button"
+              onClick={() => onSelect(collection)}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: theme.spacing[3],
+                paddingBlock: theme.spacing[2],
+                paddingInline: theme.spacingAlias.md,
+                background:
+                  collection.id === selectedId
+                    ? theme.colors.accent.subtle
+                    : 'transparent',
+                border: 'none',
+                borderBlockEnd: `1px solid ${theme.colors.border.subtle}`,
+                color: theme.colors.text.primary,
+                fontSize: theme.textStyles.body.fontSize,
+                fontFamily: theme.fontFamily.sans,
+                cursor: 'pointer',
+                textAlign: 'start' as const,
+                transition: cssTransition('background', 'fast', 'easeInOut'),
+              }}
+            >
+              <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {collection.name}
+              </span>
+              {collection.recordCount !== undefined && (
+                <span style={{ fontSize: theme.textStyles.caption.fontSize, color: theme.colors.text.tertiary, flexShrink: 0 }}>
+                  {collection.recordCount}
+                </span>
+              )}
+            </button>
+          ))}
+        </div>
       )}
     </div>
   )

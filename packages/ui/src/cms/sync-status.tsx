@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
 import type { CSSProperties } from 'react'
-import { useThemeTokens } from '@aircraft/design-tokens'
-import { cssTransition } from '@aircraft/design-tokens'
+import { useThemeTokens, cssTransition } from '@aircraft/design-tokens'
 import type { CmsSyncStatus } from '@aircraft/shared-types'
 
 export type SyncStatusProps = {
@@ -26,29 +25,13 @@ export function SyncStatus({
   const statusConfig = useMemo(() => {
     switch (syncStatus.status) {
       case 'idle':
-        return {
-          color: theme.colors.text.secondary,
-          label: 'Idle',
-          icon: '\u23f8',
-        }
+        return { color: theme.colors.text.secondary, label: 'Idle', icon: '\u23f8' }
       case 'syncing':
-        return {
-          color: theme.colors.warning.default,
-          label: 'Syncing\u2026',
-          icon: '\u21bb',
-        }
+        return { color: theme.colors.warning.default, label: 'Syncing\u2026', icon: '\u21bb' }
       case 'success':
-        return {
-          color: theme.colors.success.default,
-          label: 'Synced',
-          icon: '\u2713',
-        }
+        return { color: theme.colors.success.default, label: 'Synced', icon: '\u2713' }
       case 'error':
-        return {
-          color: theme.colors.destructive.default,
-          label: 'Error',
-          icon: '\u2717',
-        }
+        return { color: theme.colors.destructive.default, label: 'Error', icon: '\u2717' }
     }
   }, [syncStatus.status, theme])
 
@@ -56,29 +39,24 @@ export function SyncStatus({
     return (
       <div
         className={className}
-        style=
+        style={{
           display: 'inline-flex',
           alignItems: 'center',
           gap: theme.spacing[1],
           fontFamily: theme.fontFamily.sans,
           ...style,
-        
+        }}
       >
         <span
-          style=
+          style={{
             width: '8px',
             height: '8px',
             borderRadius: theme.radius.pill,
             background: statusConfig.color,
             flexShrink: 0,
-          
+          }}
         />
-        <span
-          style=
-            fontSize: theme.textStyles.caption.fontSize,
-            color: theme.colors.text.secondary,
-          
-        >
+        <span style={{ fontSize: theme.textStyles.caption.fontSize, color: theme.colors.text.secondary }}>
           {statusConfig.label}
         </span>
       </div>
@@ -102,22 +80,22 @@ export function SyncStatus({
       }}
     >
       {/* Status header */}
-      <div style= display: 'flex', alignItems: 'center', gap: theme.spacing[2] >
+      <div style={{ display: 'flex', alignItems: 'center', gap: theme.spacing[2] }}>
         <span
-          style=
+          style={{
             width: '10px',
             height: '10px',
             borderRadius: theme.radius.pill,
             background: statusConfig.color,
             flexShrink: 0,
-          
+          }}
         />
         <span
-          style=
+          style={{
             fontSize: theme.textStyles.body.fontSize,
             fontWeight: theme.textStyles.bodyBold.fontWeight,
             color: theme.colors.text.primary,
-          
+          }}
         >
           {statusConfig.icon} {statusConfig.label}
         </span>
@@ -125,30 +103,26 @@ export function SyncStatus({
 
       {/* Stats */}
       <div
-        style=
+        style={{
           display: 'flex',
           gap: theme.spacingAlias.lg,
           fontSize: theme.textStyles.caption.fontSize,
           color: theme.colors.text.secondary,
-        
+        }}
       >
         <span>Records synced: {syncStatus.recordsSynced}</span>
         {syncStatus.lastSync && (
-          <span>
-            Last: {new Date(syncStatus.lastSync).toLocaleString()}
-          </span>
+          <span>Last: {new Date(syncStatus.lastSync).toLocaleString()}</span>
         )}
         {syncStatus.nextSync && (
-          <span>
-            Next: {new Date(syncStatus.nextSync).toLocaleString()}
-          </span>
+          <span>Next: {new Date(syncStatus.nextSync).toLocaleString()}</span>
         )}
       </div>
 
       {/* Errors */}
       {syncStatus.errors.length > 0 && (
         <div
-          style=
+          style={{
             display: 'flex',
             flexDirection: 'column',
             gap: theme.spacing[1],
@@ -156,21 +130,15 @@ export function SyncStatus({
             paddingInline: theme.spacingAlias.sm,
             background: theme.colors.destructive.subtle,
             borderRadius: theme.radius.md,
-          
+          }}
         >
-          <div
-            style=
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            
-          >
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <span
-              style=
+              style={{
                 fontSize: theme.textStyles.caption.fontSize,
                 fontWeight: theme.textStyles.bodyBold.fontWeight,
                 color: theme.colors.destructive.default,
-              
+              }}
             >
               {syncStatus.errors.length} error{syncStatus.errors.length > 1 ? 's' : ''}
             </span>
@@ -178,7 +146,7 @@ export function SyncStatus({
               <button
                 type="button"
                 onClick={onDismissErrors}
-                style=
+                style={{
                   background: 'transparent',
                   border: 'none',
                   color: theme.colors.text.secondary,
@@ -186,7 +154,7 @@ export function SyncStatus({
                   cursor: 'pointer',
                   fontFamily: theme.fontFamily.sans,
                   paddingInline: theme.spacing[2],
-                
+                }}
               >
                 Dismiss
               </button>
@@ -195,22 +163,17 @@ export function SyncStatus({
           {syncStatus.errors.slice(0, 5).map((err, i) => (
             <span
               key={i}
-              style=
+              style={{
                 fontSize: theme.textStyles.caption.fontSize,
                 color: theme.colors.destructive.default,
                 fontFamily: theme.fontFamily.mono,
-              
+              }}
             >
               {err}
             </span>
           ))}
           {syncStatus.errors.length > 5 && (
-            <span
-              style=
-                fontSize: theme.textStyles.caption.fontSize,
-                color: theme.colors.text.tertiary,
-              
-            >
+            <span style={{ fontSize: theme.textStyles.caption.fontSize, color: theme.colors.text.tertiary }}>
               +{syncStatus.errors.length - 5} more
             </span>
           )}
@@ -222,7 +185,7 @@ export function SyncStatus({
         <button
           type="button"
           onClick={onRetry}
-          style=
+          style={{
             height: '36px',
             paddingInline: theme.spacingAlias.md,
             background: theme.colors.accent.default,
@@ -234,7 +197,7 @@ export function SyncStatus({
             cursor: 'pointer',
             transition: cssTransition('background', 'normal', 'easeInOut'),
             alignSelf: 'flex-start',
-          
+          }}
         >
           Retry Sync
         </button>

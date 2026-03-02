@@ -1,7 +1,6 @@
 import { useState, useCallback } from 'react'
 import type { CSSProperties } from 'react'
-import { useThemeTokens } from '@aircraft/design-tokens'
-import { cssTransition } from '@aircraft/design-tokens'
+import { useThemeTokens, cssTransition } from '@aircraft/design-tokens'
 import type { CmsSource, CmsSourceStatus } from '@aircraft/shared-types'
 
 export type SourceSettingsProps = {
@@ -23,6 +22,8 @@ const SYNC_INTERVALS: readonly SyncOption[] = [
   { value: 3600, label: 'Every hour' },
   { value: 86400, label: 'Daily' },
 ] as const
+
+type ThemeTokens = ReturnType<typeof useThemeTokens>
 
 export function SourceSettings({
   source,
@@ -84,33 +85,33 @@ export function SourceSettings({
       }}
     >
       {/* Status indicator */}
-      <div style= display: 'flex', alignItems: 'center', gap: theme.spacing[2] >
+      <div style={{ display: 'flex', alignItems: 'center', gap: theme.spacing[2] }}>
         <span
-          style=
+          style={{
             width: '8px',
             height: '8px',
             borderRadius: theme.radius.pill,
             background: statusColor,
             flexShrink: 0,
-          
+          }}
         />
         <span
-          style=
+          style={{
             fontSize: theme.textStyles.caption.fontSize,
             fontFamily: theme.fontFamily.sans,
             color: theme.colors.text.secondary,
-          
+          }}
         >
           {statusLabel}
         </span>
         {source.lastSync && (
           <span
-            style=
+            style={{
               fontSize: theme.textStyles.caption.fontSize,
               color: theme.colors.text.tertiary,
               marginInlineStart: 'auto',
               fontFamily: theme.fontFamily.sans,
-            
+            }}
           >
             Last sync: {new Date(source.lastSync).toLocaleString()}
           </span>
@@ -133,7 +134,7 @@ export function SourceSettings({
         <select
           value={syncInterval}
           onChange={(e) => setSyncInterval(Number(e.target.value))}
-          style= ...fieldStyle, cursor: 'pointer' 
+          style={{ ...fieldStyle, cursor: 'pointer' }}
         >
           {SYNC_INTERVALS.map((opt) => (
             <option key={opt.value} value={opt.value}>
@@ -146,25 +147,25 @@ export function SourceSettings({
       {/* Error message */}
       {source.lastError && (
         <div
-          style=
+          style={{
             padding: theme.spacingAlias.sm,
             background: theme.colors.destructive.subtle,
             borderRadius: theme.radius.md,
             fontSize: theme.textStyles.caption.fontSize,
             color: theme.colors.destructive.default,
             fontFamily: theme.fontFamily.sans,
-          
+          }}
         >
           {source.lastError}
         </div>
       )}
 
       {/* Actions */}
-      <div style= display: 'flex', gap: theme.spacing[2], marginBlockStart: theme.spacing[2] >
+      <div style={{ display: 'flex', gap: theme.spacing[2], marginBlockStart: theme.spacing[2] }}>
         <button
           type="button"
           onClick={handleSave}
-          style=
+          style={{
             flex: 1,
             height: '40px',
             background: theme.colors.accent.default,
@@ -176,7 +177,7 @@ export function SourceSettings({
             fontWeight: theme.textStyles.bodyBold.fontWeight,
             cursor: 'pointer',
             transition: cssTransition('background', 'normal', 'easeInOut'),
-          
+          }}
         >
           Save
         </button>
@@ -223,10 +224,7 @@ export function SourceSettings({
   )
 }
 
-function getStatusColor(
-  status: CmsSourceStatus,
-  theme: ReturnType<typeof import('@aircraft/design-tokens').useThemeTokens>,
-): string {
+function getStatusColor(status: CmsSourceStatus, theme: ThemeTokens): string {
   switch (status) {
     case 'connected': return theme.colors.success.default
     case 'syncing': return theme.colors.warning.default
