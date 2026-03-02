@@ -32,7 +32,6 @@ export function HomePage(): React.JSX.Element {
 
   return (
     <div style={css({ color: tk.text.primary, background: tk.bg.canvas })}>
-      {/* Navbar */}
       <nav style={css({ position: 'fixed', insetBlockStart: 0, insetInline: 0, zIndex: Z_INDEX.sticky, display: 'flex', alignItems: 'center', justifyContent: 'space-between', blockSize: 64, paddingInline: 24, background: `${tk.bg.canvas}cc`, backdropFilter: 'blur(12px)' })}>
         <Link href="/" style={css({ color: tk.text.primary, textDecoration: 'none', fontWeight: 700, fontSize: 20 })}>{t('home.brand')}</Link>
         <div style={css({ display: 'flex', gap: 24, alignItems: 'center' })}>
@@ -48,7 +47,6 @@ export function HomePage(): React.JSX.Element {
         </div>
       </nav>
 
-      {/* Hero */}
       <Reveal>
         <section style={css({ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minBlockSize: '100vh', paddingBlockStart: 64, paddingInline: 24, textAlign: 'center', background: `radial-gradient(ellipse at 50% 0%, ${tk.accent.subtle} 0%, transparent 70%)` })}>
           <h1 style={css({ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 800, lineHeight: 1.1, maxInlineSize: 800, marginBlockEnd: 16 })}>{t('home.hero.title')}</h1>
@@ -64,7 +62,6 @@ export function HomePage(): React.JSX.Element {
         </section>
       </Reveal>
 
-      {/* Social Proof */}
       <Reveal>
         <section style={css({ paddingBlock: 48, paddingInline: 24, textAlign: 'center' })}>
           <p style={css({ color: tk.text.tertiary, marginBlockEnd: 24, fontSize: 14 })}>{t('home.social.title')}</p>
@@ -76,7 +73,6 @@ export function HomePage(): React.JSX.Element {
         </section>
       </Reveal>
 
-      {/* Features Grid */}
       <Reveal>
         <section style={css({ paddingBlock: 64, paddingInline: 24, maxInlineSize: 1100, marginInline: 'auto' })}>
           <h2 style={css({ textAlign: 'center', marginBlockEnd: 40, fontSize: 28, fontWeight: 700 })}>{t('home.features.title')}</h2>
@@ -91,7 +87,6 @@ export function HomePage(): React.JSX.Element {
         </section>
       </Reveal>
 
-      {/* Product Showcase */}
       <Reveal>
         <section style={css({ paddingBlock: 64, paddingInline: 24, display: 'flex', justifyContent: 'center' })}>
           <div style={css({ inlineSize: '100%', maxInlineSize: 900, borderRadius: 16, border: `1px solid ${tk.border.default}`, overflow: 'hidden', background: tk.bg.surface })}>
@@ -105,7 +100,6 @@ export function HomePage(): React.JSX.Element {
         </section>
       </Reveal>
 
-      {/* Scale Section */}
       <Reveal>
         <section style={css({ paddingBlock: 64, paddingInline: 24, maxInlineSize: 1100, marginInline: 'auto' })}>
           {[0, 1, 2].map((i) => (
@@ -120,7 +114,6 @@ export function HomePage(): React.JSX.Element {
         </section>
       </Reveal>
 
-      {/* Final CTA */}
       <Reveal>
         <section style={css({ paddingBlock: 80, paddingInline: 24, textAlign: 'center', background: `linear-gradient(180deg, transparent, ${tk.accent.subtle})` })}>
           <h2 style={css({ fontSize: 32, fontWeight: 800, marginBlockEnd: 16 })}>{t('home.finalCta.title')}</h2>
@@ -131,7 +124,6 @@ export function HomePage(): React.JSX.Element {
         </section>
       </Reveal>
 
-      {/* Footer */}
       <footer style={css({ paddingBlock: 32, paddingInline: 24, textAlign: 'center', borderBlockStart: `1px solid ${tk.border.default}`, color: tk.text.tertiary, fontSize: 13 })}>
         <p>{t('home.footer.copy')}</p>
       </footer>
