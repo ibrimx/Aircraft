@@ -35,14 +35,15 @@ export function CmsPage(): React.JSX.Element {
         <Button onClick={() => router.push('/cms/add')} style={css({ background: tk.accent.default, color: tk.bg.canvas, minBlockSize: 44, paddingInline: 24, borderRadius: 8, border: 'none', cursor: 'pointer' })}>{t('cms.addSource')}</Button>
       </div>
     );
-    return <SourcePicker sources={sources} onSelect={(id: string) => router.push(`/cms/${id}`)} />;
+
+    return <SourcePicker onSelect={(type) => router.push(`/cms/${type}`)} />;
   }
 
   return (
     <div style={css({ display: 'flex', flexDirection: bp.isMobile ? 'column' : 'row', blockSize: '100%' })}>
       {!bp.isMobile && (
         <aside style={css({ inlineSize: 240, borderInlineEnd: `1px solid ${tk.border.default}`, background: tk.bg.surface, paddingBlock: 16, paddingInline: 12, overflowY: 'auto' })}>
-          <SourcePicker sources={sources} onSelect={(id: string) => router.push(`/cms/${id}`)} />
+          <SourcePicker onSelect={(type) => router.push(`/cms/${type}`)} />
         </aside>
       )}
       <main style={css({ flex: 1, paddingBlock: 16, paddingInline: 24, overflowY: 'auto' })}>
