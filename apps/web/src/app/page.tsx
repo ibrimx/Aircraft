@@ -1,6 +1,7 @@
 // apps/web/src/app/page.tsx
-import { AppShell } from '@aircraft/ui';
-import { DashboardPage } from '../dashboard'; // مسار حسب المشروع
+
+import { AppShell } from '../shell/app-shell';
+import { DashboardPage } from '../dashboard';
 
 export const runtime = 'edge';
 
