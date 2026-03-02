@@ -4,10 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "pnpm --filter @aircraft/shared-types build && pnpm --filter @aircraft/design-tokens build && pnpm --filter @aircraft/ui build && next build",
-    "export": "next export",
-    "postexport": "node -e \"const fs=require('fs'); const rm=p=>fs.existsSync(p)&&fs.rmSync(p,{recursive:true,force:true}); rm('out/cache'); rm('out/.next');\"",
-    "pages:build": "pnpm --filter @aircraft/web build && pnpm --filter @aircraft/web export && pnpm --filter @aircraft/web postexport",
+    "build": "next build",
+    "pages:build": "pnpm --filter @aircraft/shared-types build && pnpm --filter @aircraft/design-tokens build && pnpm --filter @aircraft/ui build && pnpm --filter @aircraft/web build",
     "build:cf": "next-on-pages",
     "preview": "wrangler pages dev",
     "lint": "next lint",
