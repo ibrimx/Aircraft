@@ -1,79 +1,51 @@
 import { type CSSProperties } from 'react'
-import { ScrollArea } from '@aircraft/ui/primitives/scroll-area'
-import { Toggle } from '@aircraft/ui/primitives/toggle'
-import { Tooltip } from '@aircraft/ui/primitives/tooltip'
 import { Badge } from '@aircraft/ui/primitives/badge'
-import { Separator } from '@aircraft/ui/primitives/separator'
 import { useThemeTokens } from '@aircraft/design-tokens/theme-provider'
-import { SPACING } from '@aircraft/design-tokens/spacing'
 
-export type PermissionItem = {
-  key: string
-  label: string
-  description?: string
-  enabled: boolean
-  locked?: boolean
-}
+export type PermissionLevel = 'admin' | 'editor' | 'viewer' | 'custom'
 
-export type PermissionCategory = {
-  name: string
-  permissions: PermissionItem[]
-}
-
-export type PermissionEditorProps = {
-  categories: PermissionCategory[]
-  onChange: (key: string, enabled: boolean) => void
-  readOnly?: boolean
+export type PermissionBadgeProps = {
+  level: PermissionLevel
+  label?: string
+  size?: 'sm' | 'md'
+  showIcon?: boolean
   className?: string
   style?: CSSProperties
 }
 
-export function PermissionEditor({ categories, onChange, readOnly = false, className, style }: PermissionEditorProps) {
+const LEVEL_ICON: Record<PermissionLevel, string> = {
+  admin: '\uD83D\uDD11',
+  editor: '\u270F\uFE0F',
+  viewer: '\uD83D\uDC41',
+  custom: '\u2699\uFE0F',
+}
+
+export function PermissionBadge({ level, label, size = 'sm', showIcon = false, className, style }: PermissionBadgeProps) {
   const theme = useThemeTokens()
 
-  const visibleCategories = categories
-    .filter((c) => c.permissions.length > 0)
-    .sort((a, b) => a.name.localeCompare(b.name))
+  const colorMap: Record<PermissionLevel, { bg: string; text: string }> = {
+    admin: { bg: theme.accent.default, text: '#FFFFFF' },
+    editor: { bg: theme.success.default, text: '#FFFFFF' },
+    viewer: { bg: theme.bg.surface ?? theme.surface?.sunken ?? theme.border.default, text: theme.text.secondary },
+    custom: { bg: theme.warning.default, text: theme.text.primary },
+  }
+
+  const colors = colorMap[level]
+  const displayLabel = label ?? level.charAt(0).toUpperCase() + level.slice(1)
 
   return (
-    <ScrollArea className={className} style=474>
-      {visibleCategories.map((cat, catIdx) => (
-        <div key={cat.name} style=475>
-          <div style=476>
-            <span style=477>{cat.name}</span>
-            <Badge variant="default" size="sm">{cat.permissions.length}</Badge>
-          </div>
-          {catIdx > 0 && <Separator style=478 />}
-
-          {cat.permissions.map((perm) => (
-            <div
-              key={perm.key}
-              style=479
-            >
-              <div style= flex: 1, minWidth: 0 >
-                <span style=480>{perm.label}</span>
-                {perm.description && (
-                  <p style=481>{perm.description}</p>
-                )}
-              </div>
-
-              <div style=482>
-                {perm.locked && (
-                  <Tooltip content="System permission">
-                    <span style=483 aria-label="Locked">🔒</span>
-                  </Tooltip>
-                )}
-                <Toggle
-                  checked={perm.enabled}
-                  onChange={(val) => onChange(perm.key, val)}
-                  disabled={readOnly || perm.locked}
-                  aria-label={perm.label}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-      ))}
-    </ScrollArea>
+    <Badge
+      className={className}
+      style={{
+        background: colors.bg,
+        color: colors.text,
+        fontSize: size === 'sm' ? 12 : 13,
+        fontWeight: 500,
+        ...style,
+      }}
+    >
+      {showIcon && <span style={{ marginInlineEnd: 4 }}>{LEVEL_ICON[level]}</span>}
+      {displayLabel}
+    </Badge>
   )
 }
