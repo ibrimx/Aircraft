@@ -49,7 +49,7 @@ export {
 
 // Themes
 export { lightTheme } from './light-theme'
-export type { BrimairTheme } from './light-theme'
+export type { AircraftTheme } from './light-theme'
 
 export { darkTheme } from './dark-theme'
 
