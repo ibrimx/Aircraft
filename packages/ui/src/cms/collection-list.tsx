@@ -25,13 +25,13 @@ export function CollectionList({
       className={className}
       role="listbox"
       aria-label="CMS collections"
-      style=
+      style={{
         display: 'flex',
         flexDirection: 'column',
         overflowY: 'auto',
         maxHeight: '360px',
         ...style,
-      
+      }}
     >
       {collections.map((collection) => {
         const isSelected = collection.id === selectedId
@@ -63,9 +63,17 @@ export function CollectionList({
               width: '100%',
             }}
           >
-            <div style= display: 'flex', flexDirection: 'column', gap: theme.spacing[0.5], flex: 1, minWidth: 0 >
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: theme.spacing[0.5],
+                flex: 1,
+                minWidth: 0,
+              }}
+            >
               <span
-                style=
+                style={{
                   fontSize: theme.textStyles.body.fontSize,
                   fontWeight: isSelected
                     ? theme.textStyles.bodyBold.fontWeight
@@ -76,26 +84,26 @@ export function CollectionList({
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
-                
+                }}
               >
                 {collection.name}
               </span>
               <span
-                style=
+                style={{
                   fontSize: theme.textStyles.caption.fontSize,
                   color: theme.colors.text.tertiary,
-                
+                }}
               >
                 {collection.schema.length} fields · {collection.recordCount} records
               </span>
             </div>
             {!collection.syncEnabled && (
               <span
-                style=
+                style={{
                   fontSize: theme.textStyles.caption.fontSize,
                   color: theme.colors.warning.default,
                   flexShrink: 0,
-                
+                }}
               >
                 Sync off
               </span>
