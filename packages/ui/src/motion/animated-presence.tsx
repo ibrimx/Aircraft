@@ -14,7 +14,7 @@ export function AnimatedPresence({
 }: AnimatedPresenceProps) {
   const [mounted, setMounted] = useState(present)
   const [phase, setPhase] = useState<'enter' | 'exit' | 'idle'>('idle')
-  const rafRef = useRef<number>()
+  const rafRef = useRef<number | null>(null)
   const reducedMotion = useRef(false)
 
   useEffect(() => {

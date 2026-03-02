@@ -1,7 +1,6 @@
 import { type CSSProperties, type ReactNode, useEffect } from 'react'
 import { Skeleton } from '@aircraft/ui/primitives/skeleton'
 import { Surface } from '@aircraft/ui/primitives/surface'
-import { useThemeTokens } from '@aircraft/design-tokens/theme-provider'
 import { SPACING } from '@aircraft/design-tokens/spacing'
 import { AccessDenied } from './access-denied'
 
@@ -19,7 +18,6 @@ export type RouteGuardProps = {
 }
 
 function DefaultFallback() {
-  const theme = useThemeTokens()
   return (
     <div
       style={{

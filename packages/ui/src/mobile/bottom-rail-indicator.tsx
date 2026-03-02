@@ -2,7 +2,6 @@
 import { type CSSProperties } from 'react';
 import { useThemeTokens } from '@aircraft/design-tokens';
 import { MOBILE_REDUCED_MOTION } from '@aircraft/design-tokens';
-import { SPRING_PRESETS } from '@aircraft/ui';
 
 export interface BottomRailIndicatorProps {
   readonly activeIndex: number;
@@ -28,7 +27,7 @@ export function BottomRailIndicator({
     blockSize: 3,
     inlineSize: `calc(100% / ${itemCount} - 16px)`,
     borderRadius: 9999,
-    background: tokens.color.accent,
+    background: tokens.colors.accent.default,
     marginInline: 8,
     transform: `translateX(calc(${pct}% + ${activeIndex} * 100% / ${itemCount} * 0 + ${activeIndex * 16}px))`,
     insetInlineStart: `calc(${activeIndex} * 100% / ${itemCount})`,

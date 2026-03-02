@@ -25,7 +25,7 @@ export function GestureWrapper({
 }: GestureWrapperProps) {
   const ref = useRef<HTMLDivElement>(null)
   const startPos = useRef({ x: 0, y: 0 })
-  const longPressTimer = useRef<ReturnType<typeof setTimeout>>()
+  const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const initialPinchDist = useRef<number | null>(null)
 
   const handlePointerDown = useCallback((e: React.PointerEvent) => {
@@ -39,11 +39,11 @@ export function GestureWrapper({
   const handlePointerMove = useCallback((e: React.PointerEvent) => {
     const dx = Math.abs(e.clientX - startPos.current.x)
     const dy = Math.abs(e.clientY - startPos.current.y)
-    if (dx > 10 || dy > 10) clearTimeout(longPressTimer.current)
+    if (dx > 10 || dy > 10) if (longPressTimer.current) clearTimeout(longPressTimer.current)
   }, [])
 
   const handlePointerUp = useCallback((e: React.PointerEvent) => {
-    clearTimeout(longPressTimer.current)
+    if (longPressTimer.current) clearTimeout(longPressTimer.current)
     if (disabled) return
     const dx = e.clientX - startPos.current.x
     const dy = e.clientY - startPos.current.y
@@ -93,7 +93,7 @@ export function GestureWrapper({
     }
   }, [disabled, onPinch])
 
-  useEffect(() => () => clearTimeout(longPressTimer.current), [])
+  useEffect(() => () => { if (longPressTimer.current) clearTimeout(longPressTimer.current) }, [])
 
   return (
     <div

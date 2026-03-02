@@ -1,14 +1,14 @@
 // P63 — pull-to-action-indicator.tsx
 import { type CSSProperties, useMemo } from 'react';
-import { motion, type MotionValue } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useThemeTokens } from '@aircraft/design-tokens';
 
 /* ── Types ─────────────────────────────────────────────── */
 
 export type PullToActionIndicatorProps = {
-  pullY: MotionValue<number>;
-  opacity: MotionValue<number>;
-  rotation: MotionValue<number>;
+  pullY: { get(): number; set(v: number): void };
+  opacity: unknown;
+  rotation: unknown;
   isLoading: boolean;
 };
 
@@ -41,10 +41,10 @@ export function PullToActionIndicator(props: PullToActionIndicatorProps) {
       inlineSize: INDICATOR_SIZE,
       blockSize: INDICATOR_SIZE,
       borderRadius: '50%',
-      border: `2px solid ${tokens.border}`,
-      borderTopColor: tokens.accentPrimary,
+      border: `2px solid ${tokens.colors.border.default}`,
+      borderTopColor: tokens.colors.accent.default,
     }),
-    [tokens.border, tokens.accentPrimary],
+    [tokens.colors.border.default, tokens.colors.accent.default],
   );
 
   const spinAnimate = isLoading

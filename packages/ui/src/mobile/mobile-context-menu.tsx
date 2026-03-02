@@ -128,7 +128,7 @@ export function MobileContextMenu({
             style={posStyle}
             initial={scaleOrigin}
             animate={scaleOrigin}
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
           >
             <motion.div
               initial={SCALE_IN}

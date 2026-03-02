@@ -1,7 +1,6 @@
 // P38 · slide-panel.tsx — directional slide with RTL + backdrop
 import type { ReactNode, CSSProperties } from 'react'
 import { AnimatedPresence } from './animated-presence'
-import { TRANSITION_PRESETS } from './presets'
 import { useThemeTokens, Z_INDEX, cssTransition } from '@aircraft/design-tokens'
 
 export type SlidePanelDirection = 'left' | 'right' | 'top' | 'bottom'

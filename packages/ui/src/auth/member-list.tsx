@@ -72,12 +72,12 @@ export function MemberList({ members, loading = false, searchQuery = '', onSearc
   if (loading) {
     return (
       <Surface className={className} style={{ paddingBlock: SPACING[4], paddingInline: SPACING[4], ...style }}>
-        <Skeleton width="100%" height="36px" borderRadius="6px" />
+        <Skeleton width="100%" height="36px" />
         {Array.from({ length: 4 }, (_, i) => (
           <div key={i} style={{ ...rowStyle, animationDelay: `${i * 30}ms` }}>
-            <Skeleton width="40px" height="40px" borderRadius="50%" />
+            <Skeleton width="40px" height="40px" circle />
             <Skeleton width="50%" height="16px" />
-            <Skeleton width="60px" height="20px" borderRadius="9999px" />
+            <Skeleton width="60px" height="20px" />
           </div>
         ))}
       </Surface>
@@ -141,11 +141,11 @@ export function MemberList({ members, loading = false, searchQuery = '', onSearc
 
                 <div style={{ display: 'flex', gap: SPACING[1], flexShrink: 0 }}>
                   <Tooltip content="Change role">
-                    <IconButton size="sm" onClick={() => onChangeRole(m.id, m.role)}><span aria-hidden="true">⚙️</span></IconButton>
+                    <IconButton size="sm" onClick={() => onChangeRole(m.id, m.role)} icon={<span aria-hidden="true">⚙️</span>} aria-label="Change role" />
                   </Tooltip>
                   {!isSelf && !isOnlyAdmin && (
                     <Tooltip content="Remove member">
-                      <IconButton size="sm" variant="destructive" onClick={() => onRemove(m.id)}><span aria-hidden="true">×</span></IconButton>
+                      <IconButton size="sm" variant="destructive" onClick={() => onRemove(m.id)} icon={<span aria-hidden="true">×</span>} aria-label="Remove member" />
                     </Tooltip>
                   )}
                 </div>

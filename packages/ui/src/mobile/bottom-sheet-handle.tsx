@@ -25,7 +25,7 @@ export function BottomSheetHandle({ className, style }: BottomSheetHandleProps) 
     inlineSize: 32,
     blockSize: 4,
     borderRadius: 9999,
-    background: tokens.color.borderStrong,
+    background: tokens.colors.border.strong,
     transition: 'opacity 0.12s ease-out',
   };
 

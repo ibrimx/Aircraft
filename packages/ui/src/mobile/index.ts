@@ -59,11 +59,5 @@ export { AdaptiveInputToolbar } from './adaptive-input-toolbar';
 // P65: Utilities
 export { triggerHaptic } from './haptic-feedback';
 export type { HapticPattern } from './haptic-feedback';
-export { SafeAreaProvider, useSafeAreaInsets } from './safe-area-provider';
-export type { SafeAreaInsets } from './safe-area-provider';
-export { useOrientation } from './orientation-handler';
-export type { Orientation } from './orientation-handler';
 export { OrientationLayout } from './orientation-layout';
 export type { OrientationLayoutProps } from './orientation-layout';
-export { useKeyboardState, scrollInputIntoView } from './keyboard-handler';
-export type { KeyboardState } from './keyboard-handler';

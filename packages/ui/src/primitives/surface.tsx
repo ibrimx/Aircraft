@@ -6,13 +6,13 @@
  * 📖 FRAMER §5 Micro-interactions (hover scale, focus ring)
  */
 
-import type { ReactNode, ElementType, CSSProperties, HTMLAttributes } from 'react'
+import type { ReactNode, ElementType, CSSProperties } from 'react'
 import { useThemeTokens } from '@aircraft/design-tokens'
 import type { SpacingAlias, RadiusKey } from '@aircraft/design-tokens'
 
 export type SurfaceVariant = 'flat' | 'raised' | 'sunken'
 
-export type SurfaceProps = HTMLAttributes<HTMLElement> & {
+export type SurfaceProps = {
   variant?: SurfaceVariant
   padding?: SpacingAlias
   radius?: RadiusKey
@@ -20,7 +20,6 @@ export type SurfaceProps = HTMLAttributes<HTMLElement> & {
   className?: string
   style?: CSSProperties
   as?: ElementType
-  disabled?: boolean
 }
 
 export function Surface({
@@ -30,8 +29,7 @@ export function Surface({
   children,
   className,
   style,
-  as: Component = 'div',
-  ...rest
+  as: Component = 'div'
 }: SurfaceProps): JSX.Element {
   const theme = useThemeTokens()
 
@@ -46,7 +44,6 @@ export function Surface({
   return (
     <Component
       className={className}
-      {...rest}
       style={{
         background: v.background,
         boxShadow: v.boxShadow,

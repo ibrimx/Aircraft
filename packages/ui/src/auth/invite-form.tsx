@@ -36,7 +36,7 @@ export function InviteForm({ roles, onSubmit, onCancel, submitting = false, erro
 
   return (
     <Surface variant="raised" className={className} style={{ padding: SPACING[4], maxWidth: 400, width: '100%', ...style }}>
-      <h3 style={{ fontSize: 16, fontWeight: 600, color: theme.text.primary, margin: 0, marginBlockEnd: SPACING[4] }}>Send Invitation</h3>
+      <h3 style={{ fontSize: 16, fontWeight: 600, color: theme.colors.text.primary, margin: 0, marginBlockEnd: SPACING[4] }}>Send Invitation</h3>
 
       <div style={fieldGap}>
         <Input
@@ -63,12 +63,12 @@ export function InviteForm({ roles, onSubmit, onCancel, submitting = false, erro
         )}
       </div>
 
-      <p style={{ fontSize: 12, color: theme.text.secondary, marginBlockEnd: SPACING[4] }}>
+      <p style={{ fontSize: 12, color: theme.colors.text.secondary, marginBlockEnd: SPACING[4] }}>
         The invited person will receive an email with a join link
       </p>
 
       {error && (
-        <p style={{ fontSize: 13, color: theme.destructive.default, marginBlockEnd: SPACING[3] }}>{error}</p>
+        <p style={{ fontSize: 13, color: theme.colors.destructive.default, marginBlockEnd: SPACING[3] }}>{error}</p>
       )}
 
       <div style={{ display: 'flex', gap: SPACING[2], justifyContent: 'flex-end' }}>

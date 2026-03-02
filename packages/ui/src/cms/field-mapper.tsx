@@ -1,7 +1,6 @@
 import { useCallback } from 'react'
 import type { CSSProperties } from 'react'
 import { useThemeTokens } from '@aircraft/design-tokens'
-import { cssTransition } from '@aircraft/design-tokens'
 import type { CmsFieldSchema, CmsFieldType } from '@aircraft/shared-types'
 
 export type FieldMapping = {

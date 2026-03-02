@@ -89,7 +89,7 @@ export const BrandPanel: FC<BrandPanelProps> = ({
               {colors.map((c) => (
                 <div key={c.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: SPACING[1], cursor: 'pointer' }} onClick={() => onApplyColor(c)}>
                   <Tooltip content={c.hex}>
-                    <ColorSwatch color={c.hex} size={32} />
+                    <ColorSwatch color={c.hex} size="md" />
                   </Tooltip>
                   {c.role && <span style={{ fontSize: 10, color: theme.colors.text.tertiary, textTransform: 'capitalize' }}>{c.role}</span>}
                 </div>

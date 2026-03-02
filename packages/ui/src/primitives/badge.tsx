@@ -6,14 +6,13 @@ export type BadgeVariant = 'default' | 'accent' | 'success' | 'warning' | 'destr
 
 export type BadgeProps = {
   variant?: BadgeVariant
-  size?: 'sm' | 'md'
   children: ReactNode
   className?: string
   style?: CSSProperties
 }
 
 export function Badge({
-  variant = 'default', size = 'md', children, className, style,
+  variant = 'default', children, className, style,
 }: BadgeProps) {
   const theme = useThemeTokens()
 
@@ -32,10 +31,10 @@ export function Badge({
       className={className}
       style={{
         display: 'inline-flex', alignItems: 'center',
-        padding: size === 'sm' ? `1px ${theme.spacing[1]}` : `2px ${theme.spacing[2]}`,
+        padding: `2px ${theme.spacing[2]}`,
         borderRadius: theme.radius.pill,
         background: v.bg, color: v.color,
-        fontSize: size === 'sm' ? 11 : theme.textStyles.caption.fontSize,
+        fontSize: theme.textStyles.caption.fontSize,
         fontFamily: theme.fontFamily.sans,
         fontWeight: theme.textStyles.caption.fontWeight,
         lineHeight: 1,

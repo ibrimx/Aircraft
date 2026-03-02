@@ -7,9 +7,8 @@ import {
   useCallback,
   useRef,
   useMemo,
-  useEffect,
 } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import { useThemeTokens } from '@aircraft/design-tokens';
 import { EASING, DURATION } from '@aircraft/design-tokens';
 import { AdaptiveInputToolbar } from './adaptive-input-toolbar';

@@ -1,6 +1,6 @@
 // P61 — mobile-toast.tsx
 import { type CSSProperties, useEffect, useCallback, useMemo } from 'react';
-import { motion, useMotionValue, type PanInfo } from 'framer-motion';
+import { motion, type PanInfo } from 'framer-motion';
 import { useThemeTokens } from '@aircraft/design-tokens';
 import { Z_INDEX } from '@aircraft/design-tokens';
 import { SPRING_PRESETS } from '@aircraft/ui';
@@ -65,7 +65,6 @@ export function MobileToast({
   onDismiss,
 }: MobileToastProps) {
   const tokens = useThemeTokens();
-  const x = useMotionValue(0);
 
   useEffect(() => {
     const timer = setTimeout(() => onDismiss(id), autoDismissMs);

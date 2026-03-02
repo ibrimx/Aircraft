@@ -22,8 +22,10 @@ const RECOVERY_MAP: Record<RecoveryAction, { label: string; action: string }> = 
   retry: { label: '\u0625\u0639\u0627\u062F\u0629 \u0627\u0644\u0645\u062D\u0627\u0648\u0644\u0629', action: 'retry' },
   reload: { label: '\u0625\u0639\u0627\u062F\u0629 \u062A\u062D\u0645\u064A\u0644 \u0627\u0644\u0635\u0641\u062D\u0629', action: 'reload' },
   login: { label: '\u062A\u0633\u062C\u064A\u0644 \u0627\u0644\u062F\u062E\u0648\u0644', action: 'login' },
-  contact_support: { label: '\u062A\u0648\u0627\u0635\u0644 \u0645\u0639 \u0627\u0644\u062F\u0639\u0645', action: 'contact_support' },
-  dismiss: { label: '\u0625\u063A\u0644\u0627\u0642', action: 'dismiss' },
+  revert: { label: 'Revert', action: 'revert' },
+  cleanup: { label: 'Cleanup', action: 'cleanup' },
+  'contact-support': { label: '\u062A\u0648\u0627\u0635\u0644 \u0645\u0639 \u0627\u0644\u062F\u0639\u0645', action: 'contact-support' },
+  ignore: { label: '\u0625\u063A\u0644\u0627\u0642', action: 'ignore' },
 };
 
 export function ErrorFallback({
@@ -35,7 +37,7 @@ export function ErrorFallback({
   style,
 }: ErrorFallbackProps) {
   const tokens = useThemeTokens();
-  const recovery = error.recovery ?? 'retry';
+  const recovery = error.recoveryAction ?? 'retry';
   const mapping = RECOVERY_MAP[recovery] ?? RECOVERY_MAP.retry;
   const prefersReduced = typeof window !== 'undefined'
     ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -46,8 +48,10 @@ export function ErrorFallback({
       case 'retry': onRetry?.(); break;
       case 'reload': window.location.reload(); break;
       case 'login': window.location.assign('/login'); break;
-      case 'contact_support': window.location.assign('mailto:support@aircraft.app'); break;
-      case 'dismiss': onReset?.(); break;
+      case 'contact-support': window.location.assign('mailto:support@aircraft.app'); break;
+      case 'revert': onReset?.(); break;
+      case 'cleanup': onReset?.(); break;
+      case 'ignore': onReset?.(); break;
     }
   };
 
@@ -86,7 +90,7 @@ export function ErrorFallback({
           {error.code}
         </span>
         <Button variant="primary" onClick={handleAction}>{mapping.label}</Button>
-        {onReset && recovery !== 'dismiss' && (
+        {onReset && recovery !== 'ignore' && (
           <Button variant="ghost" onClick={onReset}>\u0625\u063A\u0644\u0627\u0642</Button>
         )}
       </Surface>

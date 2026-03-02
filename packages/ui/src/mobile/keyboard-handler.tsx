@@ -39,7 +39,7 @@ export function useKeyboardState(): KeyboardState {
 
 /* ── Utility ───────────────────────────────────────────── */
 
-export function scrollInputIntoView(input: HTMLElement, extraPadding = 16): void {
+export function scrollInputIntoView(input: HTMLElement): void {
   requestAnimationFrame(() => {
     input.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });

@@ -19,7 +19,7 @@ export function StaggerList({
   enabled = true, className, style,
 }: StaggerListProps) {
   const [visibleCount, setVisibleCount] = useState(enabled ? 0 : children.length)
-  const timerRef = useRef<ReturnType<typeof setTimeout>>()
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const preset = TRANSITION_PRESETS[animationPreset]
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export function StaggerList({
       }
     }
     reveal()
-    return () => clearTimeout(timerRef.current)
+    return () => { if (timerRef.current) clearTimeout(timerRef.current) }
   }, [children.length, staggerDelay, enabled])
 
   return (

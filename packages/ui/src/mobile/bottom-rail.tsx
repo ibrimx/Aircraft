@@ -39,8 +39,8 @@ export function BottomRail({ items, activeId, onSelect, className, style }: Bott
     zIndex: Z_INDEX.nav,
     display: 'flex',
     flexDirection: 'column',
-    background: tokens.color.surfaceNav,
-    borderBlockStart: `1px solid ${tokens.color.borderSubtle}`,
+    background: tokens.colors.surface.raised,
+    borderBlockStart: `1px solid ${tokens.colors.border.subtle}`,
     paddingBlockEnd: 'env(safe-area-inset-bottom)',
     ...style,
   };
@@ -69,7 +69,7 @@ export function BottomRail({ items, activeId, onSelect, className, style }: Bott
             flex: 1,
             minBlockSize: MOBILE_TOUCH_TARGET.minSize,
             cursor: 'pointer',
-            color: isActive ? tokens.color.accent : tokens.color.textSecondary,
+            color: isActive ? tokens.colors.accent.default : tokens.colors.text.secondary,
             transform: scale,
             transition: noMotion ? 'none' : 'transform 0.12s ease-in-out',
           };

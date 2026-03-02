@@ -65,12 +65,6 @@ function clamp(val: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, val));
 }
 
-function rubberBand(raw: number, boundary: number, factor: number): number {
-  if (Math.abs(raw) <= Math.abs(boundary)) return raw;
-  const over = raw - boundary;
-  return boundary + over * factor;
-}
-
 /* ── Component ─────────────────────────────────────────── */
 
 export function SwipePanel(props: SwipePanelProps) {
@@ -99,7 +93,7 @@ export function SwipePanel(props: SwipePanelProps) {
     (next: number) => {
       const clamped = clamp(next, 0, count - 1);
       const w = getWidth();
-      animate(x, -(clamped * (w + gap)), SPRING_SNAP);
+      animate(x.get(), -(clamped * (w + gap)), SPRING_SNAP);
       setInternalIndex(clamped);
       onIndexChange?.(clamped);
     },
@@ -154,10 +148,10 @@ export function SwipePanel(props: SwipePanelProps) {
       inlineSize: INDICATOR_SIZE,
       blockSize: INDICATOR_SIZE,
       borderRadius: '50%',
-      backgroundColor: tokens.accentPrimary,
-      transition: `background-color ${DURATION.normal}ms ${EASING.easeInOut}`,
+      backgroundColor: tokens.colors.accent.default,
+      transition: `background-color ${DURATION.normal} ${EASING.easeInOut}`,
     }),
-    [tokens.accentPrimary],
+    [tokens.colors.accent.default],
   );
 
   const dotInactiveCSS: CSSProperties = useMemo(
@@ -165,10 +159,10 @@ export function SwipePanel(props: SwipePanelProps) {
       inlineSize: INDICATOR_SIZE,
       blockSize: INDICATOR_SIZE,
       borderRadius: '50%',
-      backgroundColor: tokens.border,
-      transition: `background-color ${DURATION.normal}ms ${EASING.easeInOut}`,
+      backgroundColor: tokens.colors.border.default,
+      transition: `background-color ${DURATION.normal} ${EASING.easeInOut}`,
     }),
-    [tokens.border],
+    [tokens.colors.border.default],
   );
 
   return (

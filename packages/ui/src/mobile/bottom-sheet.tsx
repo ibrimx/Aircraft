@@ -12,8 +12,6 @@ import { useThemeTokens } from '@aircraft/design-tokens';
 import { Z_INDEX } from '@aircraft/design-tokens';
 import {
   cssTransition,
-  DURATION,
-  EASING,
   MOBILE_TOUCH_TARGET,
   MOBILE_REDUCED_MOTION,
 } from '@aircraft/design-tokens';
@@ -130,10 +128,10 @@ export function BottomSheet({
   const bdCSS: CSSProperties = {
     position: 'absolute',
     inset: 0,
-    background: tokens.color.overlay,
+    background: tokens.colors.surface.overlay,
     transition: noMotion
       ? 'none'
-      : cssTransition('opacity', DURATION.normal, EASING.easeInOut),
+      : cssTransition('opacity', 'normal', 'easeInOut'),
   };
 
   const sheetCSS: CSSProperties = {
@@ -164,7 +162,7 @@ export function BottomSheet({
     inlineSize: 36,
     blockSize: 4,
     borderRadius: 2,
-    background: tokens.color.border,
+    background: tokens.colors.border.default,
   };
 
   const scrollCSS: CSSProperties = { overflowY: 'auto', flex: 1 };
@@ -172,11 +170,11 @@ export function BottomSheet({
   return createPortal(
     <div style={overlayCSS} onPointerMove={onMove} onPointerUp={onUp}>
       {backdrop && <div style={bdCSS} onClick={onClose} />}
+      <div onPointerDown={onDown}>
       <GlassPanel
         radius="xl"
         className={className}
         style={sheetCSS}
-        onPointerDown={onDown}
       >
         {handle && (
           <div style={hWrap}>
@@ -185,6 +183,7 @@ export function BottomSheet({
         )}
         <div style={scrollCSS}>{children}</div>
       </GlassPanel>
+      </div>
     </div>,
     document.body,
   );

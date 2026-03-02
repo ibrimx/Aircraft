@@ -1,6 +1,6 @@
 // P49
 import { useCallback, type CSSProperties } from 'react';
-import { cssTransition, DURATION, EASING, MOBILE_REDUCED_MOTION } from '@aircraft/design-tokens';
+import { cssTransition, MOBILE_REDUCED_MOTION } from '@aircraft/design-tokens';
 import { Z_INDEX } from '@aircraft/design-tokens';
 
 export interface BottomSheetBackdropProps {
@@ -31,7 +31,7 @@ export function BottomSheetBackdrop({
     pointerEvents: visible ? 'auto' : 'none',
     transition: noMotion
       ? 'none'
-      : cssTransition('opacity', DURATION.fast, EASING.easeOut),
+      : cssTransition('opacity', 'fast', 'easeOut'),
     ...style,
   };
 

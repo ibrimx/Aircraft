@@ -42,7 +42,7 @@ export function useBottomSheet(options?: Options): UseBottomSheetReturn {
     setCurrentSnap(snap);
     setHeightPercent(SHEET_SNAP_CONFIG[snap]);
     if (snap !== prevSnapRef.current) {
-      if (enableHaptic && !reducedMotion) trigger('selection');
+      if (enableHaptic && !reducedMotion) trigger({ kind: 'selection' });
       onSnapChange?.(snap);
     }
     prevSnapRef.current = snap;

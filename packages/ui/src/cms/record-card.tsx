@@ -133,7 +133,7 @@ function formatFieldValue(value: CmsFieldValue): string {
   if (Array.isArray(value)) return value.join(', ')
   if ('type' in value) {
     switch (value.type) {
-      case 'richtext': return value.nodes.map((n) => n.text ?? '').join('')
+      case 'richtext': return value.nodes.map((n) => n.type === 'text' ? (n.content ?? '') : '').join('')
       case 'relation': return `${value.recordIds.length} linked`
       case 'image': return value.alt ?? value.url
       case 'file': return value.name
