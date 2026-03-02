@@ -144,7 +144,7 @@ export default function DashboardPage(): React.JSX.Element {
                     transition: 'filter 0.2s ease-in-out',
                   })}
                 >
-                  <div style={css({ blockSize: 120, background: tk.bg.default })} />
+                  <div style={css({ blockSize: 120, background: tk.bg.surface })} />
                   <div style={css({ paddingBlock: 16, paddingInline: 16 })}>
                     <h3 style={css({ fontSize: 16, fontWeight: 600, color: tk.text.primary })}>
                       {t('dashboard.project', { index: String(i + 1) })}
