@@ -1,3 +1,5 @@
+'use client';
+
 import { type CSSProperties, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -47,6 +49,7 @@ export function DashboardPage(): React.JSX.Element {
         <h1 style={css({ fontSize: 24, fontWeight: 700, color: tk.text.primary })}>
           {t('dashboard.welcome', { name: user?.name ?? '' })}
         </h1>
+
         <Button
           style={css({
             background: tk.accent.default,
