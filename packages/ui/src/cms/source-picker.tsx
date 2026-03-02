@@ -47,6 +47,19 @@ export function SourcePicker({
     ...style,
   }
 
+  const iconStyle: CSSProperties = { fontSize: '24px', lineHeight: 1 }
+
+  const labelStyle = (isSelected: boolean): CSSProperties => ({
+    fontSize: theme.textStyles.caption.fontSize,
+    fontWeight: isSelected
+      ? theme.textStyles.bodyBold.fontWeight
+      : theme.textStyles.body.fontWeight,
+    color: isSelected
+      ? theme.colors.accent.default
+      : theme.colors.text.primary,
+    lineHeight: theme.textStyles.caption.lineHeight,
+  })
+
   return (
     <div
       className={className}
@@ -89,21 +102,8 @@ export function SourcePicker({
               minHeight: '44px',
             }}
           >
-            <span style={{ fontSize: '24px', lineHeight: 1 }}>{source.icon}</span>
-            <span
-              style={{
-                fontSize: theme.textStyles.caption.fontSize,
-                fontWeight: isSelected
-                  ? theme.textStyles.bodyBold.fontWeight
-                  : theme.textStyles.body.fontWeight,
-                color: isSelected
-                  ? theme.colors.accent.default
-                  : theme.colors.text.primary,
-                lineHeight: theme.textStyles.caption.lineHeight,
-              }}
-            >
-              {source.label}
-            </span>
+            <span style={iconStyle}>{source.icon}</span>
+            <span style={labelStyle(isSelected)}>{source.label}</span>
           </button>
         )
       })}
