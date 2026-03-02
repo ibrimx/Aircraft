@@ -6,6 +6,7 @@
   },
   "include": [
     "src",
-    "app"
+    "app",
+    "next-env.d.ts"
   ]
 }
