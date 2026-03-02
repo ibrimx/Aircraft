@@ -55,3 +55,5 @@ export { darkTheme } from './dark-theme'
 
 // Theme Provider
 export { ThemeProvider, useThemeTokens } from './theme-provider'
+
+export type { ThemeTokens } from './theme-tokens'
