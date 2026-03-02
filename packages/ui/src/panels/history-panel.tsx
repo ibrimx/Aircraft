@@ -62,8 +62,8 @@ export const HistoryPanel: FC<HistoryPanelProps> = ({
 
   return (
     <div className={className} style={{ background: theme.colors.surface.default, border: `1px solid ${theme.colors.border.subtle}`, display: 'flex', flexDirection: 'column', ...style }}>
-      <div style= display: 'flex', alignItems: 'center', padding: SPACING[2], gap: SPACING[1] >
-        <span style= fontWeight: 600, fontSize: 13, color: theme.colors.text.primary, flex: 1 >History</span>
+      <div style={{ display: 'flex', alignItems: 'center', padding: SPACING[2], gap: SPACING[1] }}>
+        <span style={{ fontWeight: 600, fontSize: 13, color: theme.colors.text.primary, flex: 1 }}>History</span>
         <Tooltip content="Undo">
           <IconButton size="sm" variant="ghost" onClick={onUndo} disabled={!canUndo} aria-label="Undo">↩</IconButton>
         </Tooltip>
@@ -71,13 +71,13 @@ export const HistoryPanel: FC<HistoryPanelProps> = ({
           <IconButton size="sm" variant="ghost" onClick={onRedo} disabled={!canRedo} aria-label="Redo">↪</IconButton>
         </Tooltip>
       </div>
-      <ScrollArea style= flex: 1 >
+      <ScrollArea style={{ flex: 1 }}>
         {sorted.length === 0 ? (
-          <div style= display: 'flex', justifyContent: 'center', padding: SPACING[4], color: theme.colors.text.tertiary, fontSize: 13 >No history yet</div>
+          <div style={{ display: 'flex', justifyContent: 'center', padding: SPACING[4], color: theme.colors.text.tertiary, fontSize: 13 }}>No history yet</div>
         ) : sorted.map((entry, idx) => (
           <div key={entry.id} style={rowStyle(entry, idx)} onClick={() => onJumpTo(entry.id)}>
-            <span style= fontSize: 13, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' >{entry.action}</span>
-            <span style= fontSize: 11, color: theme.colors.text.tertiary, flexShrink: 0, marginInlineStart: SPACING[2] >{relativeTime(entry.timestamp)}</span>
+            <span style={{ fontSize: 13, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{entry.action}</span>
+            <span style={{ fontSize: 11, color: theme.colors.text.tertiary, flexShrink: 0, marginInlineStart: SPACING[2] }}>{relativeTime(entry.timestamp)}</span>
           </div>
         ))}
       </ScrollArea>
