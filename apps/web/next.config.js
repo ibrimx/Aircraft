@@ -1,5 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
+  trailingSlash: true,
+  images: {
+    unoptimized: true,
+  },
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -12,4 +17,5 @@ const nextConfig = {
     '@aircraft/shared-types'
   ]
 };
+
 module.exports = nextConfig;
