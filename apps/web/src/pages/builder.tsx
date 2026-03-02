@@ -21,12 +21,10 @@ function makeUiError(message: string) {
   return {
     name: 'AircraftError',
     message,
-    // Required (based on TS error you saw)
     code: 'BUILDER_NOT_FOUND',
     category: 'routing',
     severity: 'error',
     userMessage: message,
-    // Extra commonly-required/handy fields (safe for structural typing)
     status: 404,
     retryable: false,
     timestamp: new Date().toISOString(),
@@ -79,12 +77,43 @@ export function BuilderPage(): React.JSX.Element {
 
   if (!projectId) {
     return (
-      <ErrorFallback
-        // We intentionally avoid referencing a non-exported AircraftError type.
-        // Structural typing: provide the required fields.
-        error={notFoundError as any}
-        resetErrorBoundary={() => router.push('/dashboard')}
-      />
+      <BuilderLayout>
+        <div
+          style={css({
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            blockSize: '100%',
+            background: tk.bg.canvas,
+            padding: 24,
+          })}
+        >
+          <div style={css({ maxInlineSize: 520, inlineSize: '100%' })}>
+            <ErrorFallback error={notFoundError as any} />
+
+            <div
+              style={css({
+                marginTop: 16,
+                display: 'flex',
+                justifyContent: 'center',
+              })}
+            >
+              <Button
+                onClick={() => router.push('/dashboard')}
+                style={css({
+                  minBlockSize: 44,
+                  paddingInline: 16,
+                  borderRadius: 8,
+                  border: 'none',
+                  cursor: 'pointer',
+                })}
+              >
+                {t('common.goToDashboard') ?? 'Go to dashboard'}
+              </Button>
+            </div>
+          </div>
+        </div>
+      </BuilderLayout>
     );
   }
 
