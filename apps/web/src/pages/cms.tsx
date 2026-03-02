@@ -22,7 +22,6 @@ function deriveIsLoading(ret: any, sources: unknown, error: unknown): boolean {
   if (typeof ret?.status === 'string') return ret.status === 'loading' || ret.status === 'pending';
   if (typeof ret?.state === 'string') return ret.state === 'loading' || ret.state === 'pending';
 
-  // fallback: لو مفيش error ولسه مفيش sources، اعتبره loading
   const arr = Array.isArray(sources) ? sources : [];
   return !error && arr.length === 0;
 }
@@ -36,7 +35,7 @@ export default function CmsPage(): React.JSX.Element {
   const tk = useThemeTokens();
   const bp = useBreakpoint();
 
-  // ⚠️ Defensive: لا تفترض shape ثابت
+  // Defensive: لا تفترض shape ثابت
   const cms = useCmsSource() as any;
 
   const sources = useMemo(() => {
@@ -213,7 +212,8 @@ export default function CmsPage(): React.JSX.Element {
           overflowY: 'auto',
         })}
       >
-        <SyncStatus />
+        {/* ✅ Fix: SyncStatus requires syncStatus prop */}
+        <SyncStatus syncStatus={(cms?.syncStatus ?? cms?.status ?? cms?.sync ?? {}) as any} />
         <CollectionBrowser sourceId={sourceId} />
       </main>
     </div>
