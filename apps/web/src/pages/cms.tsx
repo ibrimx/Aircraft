@@ -1,5 +1,5 @@
 import { type CSSProperties, useEffect } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 import {
   useAuth,
   useI18n,
@@ -9,16 +9,16 @@ import {
   CollectionBrowser,
   SyncStatus,
   ErrorFallback,
-  Button,
+  Button
 } from '@aircraft/ui';
 import { useThemeTokens } from '@aircraft/design-tokens';
 
 const css = (s: CSSProperties): CSSProperties => s;
 
-export function CmsPage(): React.JSX.Element {
-  const params = useParams<{ sourceId: string }>();
-  const sourceId = params?.sourceId;
+export default function CmsPage(): React.JSX.Element {
   const router = useRouter();
+  const { sourceId } = router.query as { sourceId?: string };
+
   const { isAuthenticated } = useAuth();
   const { t } = useI18n();
   const tk = useThemeTokens();
@@ -26,19 +26,23 @@ export function CmsPage(): React.JSX.Element {
   const { sources, loading, error } = useCmsSource();
 
   useEffect(() => {
-    if (!isAuthenticated) router.replace('/login');
+    if (!isAuthenticated) {
+      router.replace('/login');
+    }
   }, [isAuthenticated, router]);
 
   if (!isAuthenticated) return <></>;
-  if (error)
+
+  if (error) {
     return (
       <ErrorFallback
         message={t('cms.error')}
         onRetry={() => router.push('/cms')}
       />
     );
+  }
 
-  if (loading)
+  if (loading) {
     return (
       <div
         style={css({
@@ -46,7 +50,7 @@ export function CmsPage(): React.JSX.Element {
           gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
           gap: 16,
           paddingBlock: 32,
-          paddingInline: 24,
+          paddingInline: 24
         })}
         role="status"
         aria-label={t('cms.loading')}
@@ -58,15 +62,16 @@ export function CmsPage(): React.JSX.Element {
               blockSize: 120,
               borderRadius: 12,
               background: tk.bg.surface,
-              animation: 'pulse 1.5s ease-in-out infinite',
+              animation: 'pulse 1.5s ease-in-out infinite'
             })}
           />
         ))}
       </div>
     );
+  }
 
   if (!sourceId) {
-    if (sources.length === 0)
+    if (sources.length === 0) {
       return (
         <div
           style={css({
@@ -76,7 +81,7 @@ export function CmsPage(): React.JSX.Element {
             justifyContent: 'center',
             blockSize: '100%',
             gap: 16,
-            color: tk.text.secondary,
+            color: tk.text.secondary
           })}
         >
           <p>{t('cms.noSources')}</p>
@@ -89,15 +94,20 @@ export function CmsPage(): React.JSX.Element {
               paddingInline: 24,
               borderRadius: 8,
               border: 'none',
-              cursor: 'pointer',
+              cursor: 'pointer'
             })}
           >
             {t('cms.addSource')}
           </Button>
         </div>
       );
+    }
 
-    return <SourcePicker onSelect={(type) => router.push(`/cms/${type}`)} />;
+    return (
+      <SourcePicker
+        onSelect={(type) => router.push(`/cms/${type}`)}
+      />
+    );
   }
 
   return (
@@ -105,7 +115,7 @@ export function CmsPage(): React.JSX.Element {
       style={css({
         display: 'flex',
         flexDirection: bp.isMobile ? 'column' : 'row',
-        blockSize: '100%',
+        blockSize: '100%'
       })}
     >
       {!bp.isMobile && (
@@ -116,18 +126,21 @@ export function CmsPage(): React.JSX.Element {
             background: tk.bg.surface,
             paddingBlock: 16,
             paddingInline: 12,
-            overflowY: 'auto',
+            overflowY: 'auto'
           })}
         >
-          <SourcePicker onSelect={(type) => router.push(`/cms/${type}`)} />
+          <SourcePicker
+            onSelect={(type) => router.push(`/cms/${type}`)}
+          />
         </aside>
       )}
+
       <main
         style={css({
           flex: 1,
           paddingBlock: 16,
           paddingInline: 24,
-          overflowY: 'auto',
+          overflowY: 'auto'
         })}
       >
         <SyncStatus />
@@ -136,5 +149,3 @@ export function CmsPage(): React.JSX.Element {
     </div>
   );
 }
-
-export default CmsPage;
