@@ -4,7 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "pnpm --filter @aircraft/shared-types build && pnpm --filter @aircraft/design-tokens build && pnpm --filter @aircraft/ui build && next build",
+    "build": "next build",
+    "export": "next build",
+    "postexport": "node -e \"const fs=require('fs'); const rm=p=>fs.existsSync(p)&&fs.rmSync(p,{recursive:true,force:true}); rm('out/cache'); rm('out/.next');\"",
+    "pages:build": "pnpm --filter @aircraft/shared-types build && pnpm --filter @aircraft/design-tokens build && pnpm --filter @aircraft/ui build && pnpm --filter @aircraft/web export",
     "build:cf": "next-on-pages",
     "preview": "wrangler pages dev",
     "lint": "next lint",
