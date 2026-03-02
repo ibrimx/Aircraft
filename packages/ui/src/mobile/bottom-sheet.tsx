@@ -17,7 +17,6 @@ import {
   MOBILE_TOUCH_TARGET,
   MOBILE_REDUCED_MOTION,
 } from '@aircraft/design-tokens';
-import { SPRING_PRESETS } from '@aircraft/ui';
 import { GlassPanel } from '@aircraft/ui';
 
 type BottomSheetSnapPoint = number; /* 0–1 fraction of viewport height */
@@ -157,7 +156,7 @@ export function BottomSheet({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    minBlockSize: MOBILE_TOUCH_TARGET,
+    minBlockSize: MOBILE_TOUCH_TARGET.minSize,
     cursor: 'grab',
   };
 

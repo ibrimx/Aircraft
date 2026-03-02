@@ -67,7 +67,7 @@ export function BottomRail({ items, activeId, onSelect, className, style }: Bott
             alignItems: 'center',
             justifyContent: 'center',
             flex: 1,
-            minBlockSize: MOBILE_TOUCH_TARGET,
+            minBlockSize: MOBILE_TOUCH_TARGET.minSize,
             cursor: 'pointer',
             color: isActive ? tokens.color.accent : tokens.color.textSecondary,
             transform: scale,

@@ -16,7 +16,7 @@ export function BottomSheetHandle({ className, style }: BottomSheetHandleProps) 
     alignItems: 'center',
     justifyContent: 'center',
     inlineSize: '100%',
-    minBlockSize: MOBILE_TOUCH_TARGET,
+    minBlockSize: MOBILE_TOUCH_TARGET.minSize,
     cursor: 'grab',
     ...style,
   };

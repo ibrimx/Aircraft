@@ -15,6 +15,8 @@ export const SPRING_CONFIGS = {
   molasses: { mass: 1, stiffness: 40,  damping: 20 },
 } as const
 
+export const SPRING_PRESETS = SPRING_CONFIGS
+
 export type SpringConfigKey = keyof typeof SPRING_CONFIGS
 
 export type TransitionPreset = {

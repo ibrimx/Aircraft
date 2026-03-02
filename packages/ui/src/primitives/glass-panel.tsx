@@ -6,12 +6,12 @@
  * 📖 FRAMER §5 Micro-interactions · STUDIO §11 Compliance
  */
 
-import type { ReactNode, ElementType, CSSProperties } from 'react'
+import type { ReactNode, ElementType, CSSProperties, HTMLAttributes } from 'react'
 import { useThemeTokens } from '@aircraft/design-tokens'
 import { cssBackdropBlur } from '@aircraft/design-tokens'
 import type { BlurKey, RadiusKey, SpacingAlias } from '@aircraft/design-tokens'
 
-export type GlassPanelProps = {
+export type GlassPanelProps = HTMLAttributes<HTMLElement> & {
   blur?: BlurKey
   opacity?: number
   padding?: SpacingAlias
@@ -33,12 +33,14 @@ export function GlassPanel({
   className,
   style,
   as: Component = 'div',
+  ...rest
 }: GlassPanelProps): JSX.Element {
   const theme = useThemeTokens()
 
   return (
     <Component
       className={className}
+      {...rest}
       style={{
         background: `rgba(28, 28, 28, ${opacity})`,
         backdropFilter: cssBackdropBlur(blur),

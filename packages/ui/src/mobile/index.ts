@@ -13,7 +13,7 @@ export { BottomRailIndicator } from './bottom-rail-indicator';
 
 // P52: Mobile Toolbar
 export { MobileToolbar } from './mobile-toolbar';
-export { MobileToolbarAutohide } from './mobile-toolbar-autohide';
+export { useMobileToolbarAutohide } from './mobile-toolbar-autohide';
 
 // P53: Mobile Inspector
 export { MobileInspector } from './mobile-inspector';
