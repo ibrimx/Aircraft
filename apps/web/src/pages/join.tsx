@@ -1,6 +1,7 @@
 export const runtime = 'experimental-edge';
+
 import React, { type CSSProperties, useMemo } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useI18n, InviteGate } from '@aircraft/ui';
 import { useThemeTokens } from '@aircraft/design-tokens';
@@ -9,8 +10,7 @@ const css = (s: CSSProperties): CSSProperties => s;
 
 export default function JoinPage(): React.JSX.Element {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const token = searchParams.get('token') ?? undefined;
+  const { token } = router.query as { token?: string };
 
   const { t } = useI18n();
   const tk = useThemeTokens();
@@ -48,10 +48,7 @@ export default function JoinPage(): React.JSX.Element {
       >
         <p>{t('join.invalidLink')}</p>
 
-        <Link
-          href="/login"
-          style={{ color: tk.colors.accent.default }}
-        >
+        <Link href="/login" style={{ color: tk.colors.accent.default }}>
           {t('join.goToLogin')}
         </Link>
       </div>
