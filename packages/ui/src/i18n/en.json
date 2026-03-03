@@ -102,5 +102,66 @@
     "swipeToDelete": "Swipe to delete",
     "pullToRefresh": "Pull to refresh",
     "pinchToZoom": "Pinch to zoom"
+  },
+  "home": {
+    "brand": "Brimair",
+    "nav": {
+      "features": "Features",
+      "pricing": "Pricing",
+      "cta": "Get Started"
+    },
+    "hero": {
+      "title": "Design and publish your aircraft site faster.",
+      "subtitle": "Build pages, manage content, and ship confidently from one workspace.",
+      "cta1": "Start Building",
+      "cta2": "Explore Features"
+    },
+    "social": {
+      "title": "Trusted by modern teams"
+    },
+    "features": {
+      "title": "Everything you need in one workflow",
+      "card0": {
+        "title": "Visual Builder",
+        "desc": "Compose pages with reusable sections and live previews."
+      },
+      "card1": {
+        "title": "CMS Integration",
+        "desc": "Connect and manage content sources without leaving the editor."
+      },
+      "card2": {
+        "title": "Team Collaboration",
+        "desc": "Coordinate content and design updates in real time."
+      },
+      "card3": {
+        "title": "Performance First",
+        "desc": "Ship fast experiences optimized for modern web delivery."
+      }
+    },
+    "showcase": {
+      "placeholder": "Live product showcase"
+    },
+    "scale": {
+      "block0": {
+        "title": "Start quickly",
+        "desc": "Launch polished pages with sensible defaults and patterns."
+      },
+      "block1": {
+        "title": "Iterate safely",
+        "desc": "Refine content and layout with a clear, predictable workflow."
+      },
+      "block2": {
+        "title": "Scale confidently",
+        "desc": "Grow your project with shared components and structured content."
+      }
+    },
+    "finalCta": {
+      "title": "Ready to launch your next experience?",
+      "desc": "Sign in to continue building with Brimair.",
+      "cta": "Continue"
+    },
+    "footer": {
+      "copy": "© Brimair. All rights reserved."
+    }
   }
 }

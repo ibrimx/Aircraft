@@ -1,6 +1,8 @@
 import { createContext, useContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import type { Direction } from '@aircraft/shared-types';
 import { useDirection } from '../hooks/use-direction';
+import arMessages from './ar.json';
+import enMessages from './en.json';
 
 export type Locale = 'ar' | 'en';
 type Messages = Record<string, unknown>;
@@ -43,9 +45,14 @@ const resolve = (obj: Messages, key: string): string | undefined => {
   return typeof cur === 'string' ? cur : undefined;
 };
 
+const staticMessages: Record<Locale, Messages> = {
+  ar: arMessages as Messages,
+  en: enMessages as Messages,
+};
+
 const loaders: Record<Locale, () => Promise<Messages>> = {
-  ar: () => import('./ar.json').then((m) => (m as Record<string, unknown>).default ?? m) as Promise<Messages>,
-  en: () => import('./en.json').then((m) => (m as Record<string, unknown>).default ?? m) as Promise<Messages>,
+  ar: async () => staticMessages.ar,
+  en: async () => staticMessages.en,
 };
 
 export const I18nContext = createContext<I18nContextValue | null>(null);
@@ -54,7 +61,7 @@ I18nContext.displayName = 'I18nContext';
 export function I18nProvider({ children, defaultLocale = 'ar' }: { children: React.ReactNode; defaultLocale?: Locale }): React.JSX.Element {
   const initial = readStoredLocale() ?? detectBrowserLocale() ?? defaultLocale;
   const [locale, setLocaleState] = useState<Locale>(initial);
-  const [msgs, setMsgs] = useState<Messages>({});
+  const [msgs, setMsgs] = useState<Messages>(staticMessages[initial]);
   const { direction } = useDirection();
   const loaded = useRef<Locale | null>(null);
 
