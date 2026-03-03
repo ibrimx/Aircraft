@@ -1,8 +1,5 @@
 import type { Metadata } from 'next';
-import './globals.css';
-
-// لو عندك ThemeProvider / I18nProvider في @aircraft packages استخدمهم هنا.
-// هسيبها "آمنة" من غير ما أفترض أسماء Providers عندك.
+import '../src/styles/global.css';
 
 export const metadata: Metadata = {
   title: 'Aircraft',
