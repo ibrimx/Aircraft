@@ -1,5 +1,7 @@
-import HomeClient from './home-client'
+'use client';
 
-export default function RootPage(): JSX.Element {
-  return <HomeClient />
+import HomePage from '../src/pages/home';
+
+export default function Page() {
+  return <HomePage />;
 }
