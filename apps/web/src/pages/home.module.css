@@ -1,0 +1,373 @@
+/* apps/web/src/pages/home.module.css */
+
+.page {
+  min-height: 100dvh;
+  background: #09090b;
+  color: rgba(255, 255, 255, 0.88);
+  direction: rtl;
+}
+
+.bgGlow {
+  position: fixed;
+  inset: -20%;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(800px 500px at 50% 10%, rgba(99, 102, 241, 0.18), transparent 55%),
+    radial-gradient(700px 450px at 60% 20%, rgba(59, 130, 246, 0.12), transparent 60%),
+    radial-gradient(900px 600px at 40% 5%, rgba(168, 85, 247, 0.10), transparent 60%);
+  filter: blur(10px);
+  opacity: 0.9;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 28px 20px 90px;
+}
+
+.logoWrap {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+.logo {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.92);
+  background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.78));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero {
+  margin-top: 56px;
+  text-align: center;
+}
+
+.heroTitle {
+  margin: 0 auto;
+  max-width: 920px;
+  font-size: clamp(34px, 5vw, 66px);
+  line-height: 1.08;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: rgba(255, 255, 255, 0.94);
+}
+
+.heroSub {
+  margin: 18px auto 0;
+  max-width: 860px;
+  font-size: clamp(15px, 1.6vw, 18px);
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.ctaRow {
+  margin-top: 26px;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btnPrimary,
+.btnSecondary {
+  height: 46px;
+  padding: 0 18px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+  user-select: none;
+}
+
+.btnPrimary {
+  background: rgba(255, 255, 255, 0.92);
+  color: rgba(0, 0, 0, 0.92);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+}
+
+.btnPrimary:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 16px 42px rgba(0, 0, 0, 0.42),
+    0 0 0 1px rgba(255, 255, 255, 0.16) inset,
+    0 0 30px rgba(99, 102, 241, 0.20);
+}
+
+.btnSecondary {
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.86);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.25);
+}
+
+.btnSecondary:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow:
+    0 14px 34px rgba(0, 0, 0, 0.34),
+    0 0 28px rgba(59, 130, 246, 0.16);
+}
+
+/* ---------- Mockup (Framer-like curved) ---------- */
+
+.mockWrap {
+  margin-top: 34px;
+  display: flex;
+  justify-content: center;
+}
+
+.mockPerspective {
+  width: min(1120px, 100%);
+  transform: perspective(1400px) rotateX(9deg);
+  transform-origin: center top;
+}
+
+.mockCard {
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(14px);
+  overflow: hidden;
+  box-shadow:
+    0 34px 90px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+    0 0 60px rgba(99, 102, 241, 0.18);
+}
+
+.mockTopBar {
+  height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.dots {
+  display: inline-flex;
+  gap: 6px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.mockBody {
+  height: clamp(280px, 40vw, 520px);
+  position: relative;
+}
+
+.mockGrid {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(600px 380px at 25% 30%, rgba(99, 102, 241, 0.20), transparent 60%),
+    radial-gradient(520px 320px at 70% 45%, rgba(59, 130, 246, 0.14), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,0.04), transparent 40%),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,0.04) 0px,
+      rgba(255,255,255,0.04) 1px,
+      transparent 1px,
+      transparent 54px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.035) 0px,
+      rgba(255,255,255,0.035) 1px,
+      transparent 1px,
+      transparent 54px
+    );
+  opacity: 0.85;
+}
+
+.mockContent {
+  position: absolute;
+  inset: 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+
+.mockHeader {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.mockPill {
+  height: 26px;
+  width: 120px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mockActions {
+  display: flex;
+  gap: 8px;
+}
+
+.mockChip {
+  height: 26px;
+  width: 74px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mockMain {
+  padding: 16px;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 12px;
+  height: calc(100% - 56px);
+}
+
+.mockPanel {
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.mockPanelTall {
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.mockPanelInner {
+  margin: 12px;
+  height: calc(100% - 24px);
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ---------- Features ---------- */
+
+.features {
+  margin-top: 78px;
+  display: grid;
+  gap: 36px;
+}
+
+.featureRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px;
+  align-items: center;
+}
+
+.featureText {
+  padding: 10px;
+}
+
+.featureTitle {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: rgba(255, 255, 255, 0.92);
+  margin-bottom: 10px;
+}
+
+.featureDesc {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.62);
+  max-width: 520px;
+}
+
+.featureMock {
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(14px);
+  overflow: hidden;
+  box-shadow:
+    0 28px 70px rgba(0, 0, 0, 0.50),
+    0 0 50px rgba(59, 130, 246, 0.12);
+}
+
+.featureMockTop {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  gap: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.featureMockBody {
+  height: 260px;
+  position: relative;
+  background:
+    radial-gradient(500px 320px at 30% 35%, rgba(99, 102, 241, 0.20), transparent 60%),
+    radial-gradient(520px 340px at 70% 60%, rgba(59, 130, 246, 0.14), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+}
+
+.featureMockOverlay {
+  position: absolute;
+  inset: 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.25);
+}
+
+@media (max-width: 860px) {
+  .hero {
+    margin-top: 44px;
+  }
+
+  .mockPerspective {
+    transform: perspective(1400px) rotateX(7deg);
+  }
+
+  .featureRow {
+    grid-template-columns: 1fr;
+  }
+
+  .featureDesc {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .container {
+    padding: 24px 16px 80px;
+  }
+
+  .btnPrimary,
+  .btnSecondary {
+    width: 100%;
+  }
+
+  .mockContent {
+    inset: 14px;
+  }
+
+  .mockMain {
+    grid-template-columns: 1fr;
+  }
+}
