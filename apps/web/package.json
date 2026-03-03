@@ -12,21 +12,35 @@
     "postbuild": "rm -rf .next/cache || true && rm -rf cache || true && rm -rf .vercel/output/static/cache || true && rm -rf .vercel/output/static/cache/webpack || true && find .vercel/output -type d -path \"*/cache/webpack\" -prune -exec rm -rf {} + 2>/dev/null || true"
   },
   "dependencies": {
-    "@aircraft/ui": "workspace:*",
     "@aircraft/design-tokens": "workspace:*",
     "@aircraft/shared-types": "workspace:*",
+    "@aircraft/ui": "workspace:*",
+    "@radix-ui/react-dialog": "^1.1.15",
+    "@radix-ui/react-dropdown-menu": "^2.1.16",
+    "@radix-ui/react-scroll-area": "^1.2.10",
+    "@radix-ui/react-select": "^2.2.6",
+    "@radix-ui/react-separator": "^1.1.8",
+    "@radix-ui/react-slot": "^1.2.4",
+    "@radix-ui/react-toggle": "^1.1.10",
+    "@radix-ui/react-tooltip": "^1.2.8",
+    "autoprefixer": "^10.4.27",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.34.3",
+    "i18next": "^25.5.2",
+    "lucide-react": "^0.576.0",
+    "next": "^15.5.2",
+    "postcss": "^8.5.8",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "next": "^15.5.2",
-    "framer-motion": "^12.23.12",
-    "zustand": "^5.0.8",
-    "i18next": "^25.5.2",
-    "react-i18next": "^15.7.3"
+    "react-i18next": "^15.7.3",
+    "tailwindcss": "^4.2.1",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
+    "@cloudflare/next-on-pages": "^1.13.12",
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19.1.9",
-    "@cloudflare/next-on-pages": "^1.13.12",
+    "tailwind-merge": "^3.5.0",
     "wrangler": "^3.101.0"
   }
 }
