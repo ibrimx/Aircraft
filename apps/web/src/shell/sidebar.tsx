@@ -146,7 +146,7 @@ export function Sidebar({ open, onToggle, children, className, style }: SidebarP
     border: '1px solid transparent',
     borderRadius: '6px',
     fontSize: '11px',
-    color: theme.colors.text.tertiary',
+    color: theme.colors.text.tertiary,
     flexShrink: 0,
   }
 
