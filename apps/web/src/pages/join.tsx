@@ -1,6 +1,4 @@
 export const runtime = 'experimental-edge';
-'use client';
-
 import React, { type CSSProperties, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
