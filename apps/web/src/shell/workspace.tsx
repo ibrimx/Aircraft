@@ -1,12 +1,12 @@
 /**
- * Workspace — Framer 2025 Desktop Style
- * Now with Canvas integration
+ * Workspace — Canvas with Tool Actions
  * @package apps/web
  */
 
 'use client'
 
-import { useRef, type ReactNode, type CSSProperties } from 'react'
+import React from 'react'
+import { useRef, useCallback, type ReactNode, type CSSProperties } from 'react'
 import { ZoomIn, ZoomOut, Maximize } from 'lucide-react'
 import { useThemeTokens } from '@aircraft/design-tokens'
 import { AircraftCanvas, type AircraftCanvasRef } from '@aircraft/fabric-adapter'
@@ -21,12 +21,40 @@ export type WorkspaceProps = {
 export function Workspace({ children, className, style }: WorkspaceProps) {
   const theme = useThemeTokens()
   const builder = useBuilder()
+  const [hoveredZoomBtn, setHoveredZoomBtn] = React.useState<string | null>(null)
+
+  // Handle canvas click to add elements
+  const handleCanvasClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = e.clientX - rect.left - 720 + 100 // Adjust for canvas center (1440/2 - default element size)
+    const y = e.clientY - rect.top - 450 + 75   // Adjust for canvas center (900/2 - default element size)
+
+    switch (builder.activeTool) {
+      case 'rectangle':
+        builder.addRectangle({ x, y })
+        builder.setTool('select') // Auto-switch back to select
+        break
+      case 'ellipse':
+        builder.addEllipse({ x, y })
+        builder.setTool('select')
+        break
+      case 'text':
+        builder.addText({ x, y })
+        builder.setTool('select')
+        break
+      case 'frame':
+        builder.addFrame({ x, y })
+        builder.setTool('select')
+        break
+    }
+  }, [builder])
 
   const mainStyle: CSSProperties = {
     flex: 1,
     position: 'relative',
     overflow: 'hidden',
     background: theme.colors.background.secondary,
+    cursor: getCursor(builder.activeTool),
     ...style,
   }
 
@@ -88,10 +116,8 @@ export function Workspace({ children, className, style }: WorkspaceProps) {
     border: 'none',
   }
 
-  const [hoveredZoomBtn, setHoveredZoomBtn] = React.useState<string | null>(null)
-
   return (
-    <main className={className} style={mainStyle}>
+    <main className={className} style={mainStyle} onClick={handleCanvasClick}>
       <div style={gridStyle} />
 
       <div style={canvasContainerStyle}>
@@ -101,24 +127,28 @@ export function Workspace({ children, className, style }: WorkspaceProps) {
           height={900}
           backgroundColor="#ffffff"
           onSelectionChange={(ids) => {
-            // Sync selection to store
+            // Selection handled by store
           }}
           onElementChange={(element) => {
-            // Sync element changes to store
+            // Element changes handled by store
           }}
           onZoomChange={(zoom) => {
-            // Sync zoom to store
+            // Zoom handled by store
           }}
           style={{
             borderRadius: '2px',
             boxShadow: '0 4px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.04)',
+            pointerEvents: builder.activeTool === 'select' ? 'auto' : 'none', // Disable canvas events when drawing
           }}
         />
       </div>
 
       <div style={zoomBarStyle}>
         <button
-          onClick={builder.zoomOut}
+          onClick={(e) => {
+            e.stopPropagation()
+            builder.zoomOut()
+          }}
           onPointerEnter={() => setHoveredZoomBtn('out')}
           onPointerLeave={() => setHoveredZoomBtn(null)}
           aria-label="Zoom out"
@@ -127,14 +157,20 @@ export function Workspace({ children, className, style }: WorkspaceProps) {
           <ZoomOut size={14} />
         </button>
         <button
-          onClick={builder.fitToScreen}
+          onClick={(e) => {
+            e.stopPropagation()
+            builder.fitToScreen()
+          }}
           style={zoomLabelStyle}
           aria-label="Reset zoom"
         >
           {Math.round(builder.zoom)}%
         </button>
         <button
-          onClick={builder.zoomIn}
+          onClick={(e) => {
+            e.stopPropagation()
+            builder.zoomIn()
+          }}
           onPointerEnter={() => setHoveredZoomBtn('in')}
           onPointerLeave={() => setHoveredZoomBtn(null)}
           aria-label="Zoom in"
@@ -144,7 +180,10 @@ export function Workspace({ children, className, style }: WorkspaceProps) {
         </button>
         <div style={{ width: '1px', height: '16px', background: theme.colors.border.subtle, marginInline: '2px' }} />
         <button
-          onClick={builder.fitToScreen}
+          onClick={(e) => {
+            e.stopPropagation()
+            builder.fitToScreen()
+          }}
           onPointerEnter={() => setHoveredZoomBtn('fit')}
           onPointerLeave={() => setHoveredZoomBtn(null)}
           aria-label="Fit to screen"
@@ -157,4 +196,24 @@ export function Workspace({ children, className, style }: WorkspaceProps) {
       {children}
     </main>
   )
+}
+
+function getCursor(tool: string): string {
+  switch (tool) {
+    case 'select':
+      return 'default'
+    case 'hand':
+      return 'grab'
+    case 'zoom':
+      return 'zoom-in'
+    case 'rectangle':
+    case 'ellipse':
+    case 'text':
+    case 'frame':
+    case 'line':
+    case 'pen':
+      return 'crosshair'
+    default:
+      return 'default'
+  }
 }
