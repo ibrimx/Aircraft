@@ -25,6 +25,7 @@
     "@radix-ui/react-tooltip": "^1.2.8",
     "autoprefixer": "^10.4.27",
     "clsx": "^2.1.1",
+    "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.34.3",
     "i18next": "^25.5.2",
