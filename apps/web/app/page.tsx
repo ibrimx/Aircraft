@@ -1,9 +1,5 @@
-import { AppShell } from '../src/shell/app-shell'
+import HomeClient from './home-client'
 
-export default function RootPage() {
-  return (
-    <AppShell>
-      <div />
-    </AppShell>
-  )
+export default function RootPage(): JSX.Element {
+  return <HomeClient />
 }
