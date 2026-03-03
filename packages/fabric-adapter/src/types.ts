@@ -1,5 +1,3 @@
-import type { fabric } from 'fabric'
-
 export type ElementType = 'frame' | 'rectangle' | 'ellipse' | 'text' | 'image' | 'group'
 
 export type CanvasElement = {
@@ -69,4 +67,4 @@ export type CanvasEventType =
   | 'zoom:changed'
   | 'pan:changed'
 
-export type CanvasEventCallback = (data: any) => void
+export type CanvasEventCallback = (data: unknown) => void
