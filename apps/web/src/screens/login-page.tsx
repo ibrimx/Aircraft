@@ -1,3 +1,5 @@
+'use client';
+
 import { type CSSProperties, type FormEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth, useI18n, Button, Input } from '@aircraft/ui';

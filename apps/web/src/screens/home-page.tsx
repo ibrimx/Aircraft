@@ -1,3 +1,5 @@
+'use client';
+
 import { type CSSProperties, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useI18n, useBreakpoint, Button } from '@aircraft/ui';

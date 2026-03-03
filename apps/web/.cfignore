@@ -1,5 +1,12 @@
 cache/
 **/cache/**
+**/.next/cache
 **/.next/cache/**
+**/.vercel/output/static/cache
+**/.vercel/output/static/cache/**
+**/cache/webpack
+**/cache/webpack/**
 **/webpack/**
 **/*.pack
+**/out/cache
+**/out/cache/**

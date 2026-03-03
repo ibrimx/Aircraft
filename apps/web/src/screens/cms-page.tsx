@@ -1,5 +1,7 @@
+'use client';
+
 import { type CSSProperties, useEffect, useMemo } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import {
   useAuth,
   useI18n,
@@ -16,9 +18,8 @@ import type { AircraftError } from '@aircraft/shared-types';
 
 const css = (s: CSSProperties): CSSProperties => s;
 
-export default function CmsPage(): React.JSX.Element {
+export default function CmsPage({ sourceId }: { sourceId?: string }): React.JSX.Element {
   const router = useRouter();
-  const { sourceId } = router.query as { sourceId?: string };
 
   const { isAuthenticated } = useAuth();
   const { t } = useI18n();
@@ -74,7 +75,7 @@ export default function CmsPage(): React.JSX.Element {
           color: tk.colors.text.primary,
         })}
       >
-        <ErrorFallback error={resolvedError} onRetry={() => router.reload()} />
+        <ErrorFallback error={resolvedError} onRetry={() => router.refresh()} />
         <div>
           <Button
             onClick={() => router.push('/cms')}

@@ -1,14 +1,13 @@
+'use client';
+
 import { type CSSProperties, useMemo } from 'react';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useI18n, InviteGate } from '@aircraft/ui';
 import { useThemeTokens } from '@aircraft/design-tokens';
 
 const css = (s: CSSProperties): CSSProperties => s;
 
-export default function JoinPage(): React.JSX.Element {
-  const router = useRouter();
-  const { token } = router.query as { token?: string };
+export default function JoinPage({ token }: { token?: string }): React.JSX.Element {
 
   const { t } = useI18n();
   const tk = useThemeTokens();
