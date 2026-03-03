@@ -1,14 +1,15 @@
 /**
  * App Shell — Framer 2025 Style
- * Responsive: Desktop (3-column) / Mobile (single column + bottom bar)
+ * Now with BuilderProvider
  * @package apps/web
  */
 
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import type { ReactNode } from 'react'
 import { BREAKPOINT_VALUES } from '@aircraft/design-tokens'
+import { BuilderProvider, useKeyboardShortcuts } from '@aircraft/builder-engine'
 import { DesktopLayout } from './desktop-layout'
 import { MobileLayout } from './mobile-layout'
 import { Sidebar } from './sidebar'
@@ -37,18 +38,18 @@ function useIsMobile(): boolean {
   return isMobile
 }
 
-export function AppShell({
+function AppShellContent({
   children,
-  projectName = 'Untitled',
   defaultSidebarOpen,
   defaultInspectorOpen = true,
 }: AppShellProps) {
   const isMobile = useIsMobile()
-
   const [sidebarOpen, setSidebarOpen] = useState(defaultSidebarOpen ?? !isMobile)
   const [inspectorOpen, setInspectorOpen] = useState(defaultInspectorOpen)
   const [cmdOpen, setCmdOpen] = useState(false)
-  const [activeTool, setActiveTool] = useState('select')
+
+  // Enable keyboard shortcuts
+  useKeyboardShortcuts()
 
   // Command palette: ⌘K
   useEffect(() => {
@@ -62,28 +63,12 @@ export function AppShell({
     return () => document.removeEventListener('keydown', handler)
   }, [])
 
-  // Tool shortcuts
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return
-      const map: Record<string, string> = {
-        v: 'select', f: 'frame', r: 'rectangle', o: 'ellipse',
-        t: 'text', l: 'line', p: 'pen', h: 'hand',
-      }
-      const tool = map[e.key.toLowerCase()]
-      if (tool) setActiveTool(tool)
-    }
-    document.addEventListener('keydown', handler)
-    return () => document.removeEventListener('keydown', handler)
-  }, [])
-
   if (isMobile) {
     return (
       <>
         <MobileLayout
           workspace={<Workspace>{children}</Workspace>}
           statusBar={<StatusBar />}
-          projectName={projectName}
         />
         {cmdOpen && <CommandPalette onClose={() => setCmdOpen(false)} />}
       </>
@@ -101,12 +86,8 @@ export function AppShell({
         }
         toolbar={
           <Toolbar
-            activeTool={activeTool}
-            onToolChange={setActiveTool}
             onToggleSidebar={() => setSidebarOpen((p) => !p)}
             onToggleInspector={() => setInspectorOpen((p) => !p)}
-            projectName={projectName}
-            saveStatus="saved"
           />
         }
         workspace={<Workspace>{children}</Workspace>}
@@ -120,5 +101,20 @@ export function AppShell({
       />
       {cmdOpen && <CommandPalette onClose={() => setCmdOpen(false)} />}
     </>
+  )
+}
+
+export function AppShell(props: AppShellProps) {
+  const handleSave = async (data: string) => {
+    console.log('Saving document...', data.substring(0, 100))
+    // TODO: Implement actual save to storage
+    await new Promise(resolve => setTimeout(resolve, 500))
+    console.log('Document saved')
+  }
+
+  return (
+    <BuilderProvider onSave={handleSave}>
+      <AppShellContent {...props} />
+    </BuilderProvider>
   )
 }
