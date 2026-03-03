@@ -1,7 +1,10 @@
 /**
  * Toolbar — Framer 2025 Desktop Style
+ * Now with Builder integration
  * @package apps/web
  */
+
+'use client'
 
 import { useState, type ReactNode, type CSSProperties } from 'react'
 import {
@@ -22,14 +25,11 @@ import {
   Menu,
 } from 'lucide-react'
 import { useThemeTokens } from '@aircraft/design-tokens'
+import { useBuilder } from '@aircraft/builder-engine'
 
 export type ToolbarProps = {
-  activeTool?: string
-  onToolChange?: (tool: string) => void
   onToggleSidebar?: () => void
   onToggleInspector?: () => void
-  projectName?: string
-  saveStatus?: 'saved' | 'saving' | 'unsaved'
   children?: ReactNode
   className?: string
   style?: CSSProperties
@@ -54,18 +54,18 @@ const TOOLS: ToolDef[] = [
 ]
 
 export function Toolbar({
-  activeTool = 'select',
-  onToolChange,
   onToggleSidebar,
   onToggleInspector,
-  projectName = 'Untitled',
-  saveStatus = 'saved',
   children,
   className,
   style,
 }: ToolbarProps) {
   const theme = useThemeTokens()
+  const builder = useBuilder()
   const [hoveredBtn, setHoveredBtn] = useState<string | null>(null)
+
+  const saveStatusLabel = builder.isDirty ? 'Unsaved' : 'Saved'
+  const saveStatusColor = builder.isDirty ? theme.colors.warning.default : theme.colors.text.tertiary
 
   const headerStyle: CSSProperties = {
     display: 'flex',
@@ -120,7 +120,7 @@ export function Toolbar({
   }
 
   const toolBtnStyle = (id: string): CSSProperties => {
-    const isActive = activeTool === id
+    const isActive = builder.activeTool === id
     const isHovered = hoveredBtn === id
     return {
       ...toolBtnBase,
@@ -156,11 +156,7 @@ export function Toolbar({
   const statusStyle: CSSProperties = {
     fontSize: '10px',
     fontWeight: 500,
-    color: saveStatus === 'saved'
-      ? theme.colors.text.tertiary
-      : saveStatus === 'saving'
-        ? theme.colors.warning.default
-        : theme.colors.destructive.default,
+    color: saveStatusColor,
     background: 'rgba(255,255,255,0.04)',
     paddingInline: '6px',
     paddingBlock: '2px',
@@ -191,8 +187,6 @@ export function Toolbar({
     transition: 'background 0.1s ease',
   }
 
-  const statusLabel = saveStatus === 'saved' ? 'Saved' : saveStatus === 'saving' ? 'Saving…' : 'Unsaved'
-
   return (
     <header className={className} style={headerStyle}>
       {/* Left — Logo + Sidebar Toggle + Tools */}
@@ -218,11 +212,11 @@ export function Toolbar({
           return (
             <button
               key={tool.id}
-              onClick={() => onToolChange?.(tool.id)}
+              onClick={() => builder.setTool(tool.id)}
               onPointerEnter={() => setHoveredBtn(tool.id)}
               onPointerLeave={() => setHoveredBtn(null)}
               aria-label={tool.label}
-              aria-pressed={activeTool === tool.id}
+              aria-pressed={builder.activeTool === tool.id}
               title={`${tool.label} (${tool.shortcut})`}
               style={toolBtnStyle(tool.id)}
             >
@@ -234,30 +228,38 @@ export function Toolbar({
 
       {/* Center — Project Name + Save Status */}
       <div style={centerStyle}>
-        <span style={projectStyle}>{projectName}</span>
-        <span style={statusStyle}>{statusLabel}</span>
+        <span style={projectStyle}>{builder.documentName}</span>
+        <span style={statusStyle}>{saveStatusLabel}</span>
         {children}
       </div>
 
       {/* Right — Actions */}
       <div style={sectionStyle}>
         <button
-          onClick={() => {}}
+          onClick={builder.undo}
           onPointerEnter={() => setHoveredBtn('undo')}
           onPointerLeave={() => setHoveredBtn(null)}
           aria-label="Undo"
           title="Undo (⌘Z)"
-          style={actionBtnStyle('undo')}
+          disabled={!builder.canUndo}
+          style={{
+            ...actionBtnStyle('undo'),
+            opacity: builder.canUndo ? 1 : 0.3,
+          }}
         >
           <Undo2 size={16} />
         </button>
         <button
-          onClick={() => {}}
+          onClick={builder.redo}
           onPointerEnter={() => setHoveredBtn('redo')}
           onPointerLeave={() => setHoveredBtn(null)}
           aria-label="Redo"
           title="Redo (⌘⇧Z)"
-          style={actionBtnStyle('redo')}
+          disabled={!builder.canRedo}
+          style={{
+            ...actionBtnStyle('redo'),
+            opacity: builder.canRedo ? 1 : 0.3,
+          }}
         >
           <Redo2 size={16} />
         </button>
@@ -287,9 +289,12 @@ export function Toolbar({
 
         <div style={sepStyle} />
 
-        <button style={publishBtnStyle}>
+        <button
+          onClick={() => builder.save()}
+          style={publishBtnStyle}
+        >
           <Share2 size={14} />
-          Publish
+          Save
         </button>
 
         {onToggleInspector && (

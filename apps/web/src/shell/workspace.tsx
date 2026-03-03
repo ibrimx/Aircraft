@@ -1,11 +1,16 @@
 /**
  * Workspace — Framer 2025 Desktop Style
+ * Now with Canvas integration
  * @package apps/web
  */
 
-import { useState, useCallback, type ReactNode, type CSSProperties } from 'react'
+'use client'
+
+import { useRef, type ReactNode, type CSSProperties } from 'react'
 import { ZoomIn, ZoomOut, Maximize } from 'lucide-react'
 import { useThemeTokens } from '@aircraft/design-tokens'
+import { AircraftCanvas, type AircraftCanvasRef } from '@aircraft/fabric-adapter'
+import { useBuilder } from '@aircraft/builder-engine'
 
 export type WorkspaceProps = {
   children?: ReactNode
@@ -15,12 +20,7 @@ export type WorkspaceProps = {
 
 export function Workspace({ children, className, style }: WorkspaceProps) {
   const theme = useThemeTokens()
-  const [zoom, setZoom] = useState(100)
-  const [hoveredZoomBtn, setHoveredZoomBtn] = useState<string | null>(null)
-
-  const handleZoomIn = useCallback(() => setZoom((z) => Math.min(z + 25, 400)), [])
-  const handleZoomOut = useCallback(() => setZoom((z) => Math.max(z - 25, 25)), [])
-  const handleZoomReset = useCallback(() => setZoom(100), [])
+  const builder = useBuilder()
 
   const mainStyle: CSSProperties = {
     flex: 1,
@@ -50,17 +50,6 @@ export function Workspace({ children, className, style }: WorkspaceProps) {
     justifyContent: 'center',
   }
 
-  const canvasStyle: CSSProperties = {
-    width: '1440px',
-    height: '900px',
-    background: '#ffffff',
-    borderRadius: '2px',
-    boxShadow: '0 4px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.04)',
-    transform: `scale(${zoom / 100})`,
-    transformOrigin: 'center center',
-    transition: 'transform 0.15s ease-out',
-  }
-
   const zoomBarStyle: CSSProperties = {
     position: 'absolute',
     insetBlockEnd: '12px',
@@ -72,14 +61,15 @@ export function Workspace({ children, className, style }: WorkspaceProps) {
     border: `1px solid ${theme.colors.border.subtle}`,
     borderRadius: '6px',
     padding: '3px',
+    zIndex: 10,
   }
 
-  const zoomBtnStyle = (id: string): CSSProperties => ({
+  const zoomBtnStyle = (isHovered: boolean): CSSProperties => ({
     width: '26px',
     height: '26px',
     display: 'grid',
     placeItems: 'center',
-    background: hoveredZoomBtn === id ? 'rgba(255,255,255,0.04)' : 'transparent',
+    background: isHovered ? 'rgba(255,255,255,0.04)' : 'transparent',
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
@@ -98,53 +88,73 @@ export function Workspace({ children, className, style }: WorkspaceProps) {
     border: 'none',
   }
 
+  const [hoveredZoomBtn, setHoveredZoomBtn] = React.useState<string | null>(null)
+
   return (
     <main className={className} style={mainStyle}>
       <div style={gridStyle} />
 
       <div style={canvasContainerStyle}>
-        <div style={canvasStyle}>
-          {children}
-        </div>
+        <AircraftCanvas
+          ref={builder.canvasRef}
+          width={1440}
+          height={900}
+          backgroundColor="#ffffff"
+          onSelectionChange={(ids) => {
+            // Sync selection to store
+          }}
+          onElementChange={(element) => {
+            // Sync element changes to store
+          }}
+          onZoomChange={(zoom) => {
+            // Sync zoom to store
+          }}
+          style={{
+            borderRadius: '2px',
+            boxShadow: '0 4px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.04)',
+          }}
+        />
       </div>
 
       <div style={zoomBarStyle}>
         <button
-          onClick={handleZoomOut}
+          onClick={builder.zoomOut}
           onPointerEnter={() => setHoveredZoomBtn('out')}
           onPointerLeave={() => setHoveredZoomBtn(null)}
           aria-label="Zoom out"
-          style={zoomBtnStyle('out')}
+          style={zoomBtnStyle(hoveredZoomBtn === 'out')}
         >
           <ZoomOut size={14} />
         </button>
         <button
-          onClick={handleZoomReset}
+          onClick={builder.fitToScreen}
           style={zoomLabelStyle}
           aria-label="Reset zoom"
         >
-          {zoom}%
+          {Math.round(builder.zoom)}%
         </button>
         <button
-          onClick={handleZoomIn}
+          onClick={builder.zoomIn}
           onPointerEnter={() => setHoveredZoomBtn('in')}
           onPointerLeave={() => setHoveredZoomBtn(null)}
           aria-label="Zoom in"
-          style={zoomBtnStyle('in')}
+          style={zoomBtnStyle(hoveredZoomBtn === 'in')}
         >
           <ZoomIn size={14} />
         </button>
         <div style={{ width: '1px', height: '16px', background: theme.colors.border.subtle, marginInline: '2px' }} />
         <button
-          onClick={handleZoomReset}
+          onClick={builder.fitToScreen}
           onPointerEnter={() => setHoveredZoomBtn('fit')}
           onPointerLeave={() => setHoveredZoomBtn(null)}
           aria-label="Fit to screen"
-          style={zoomBtnStyle('fit')}
+          style={zoomBtnStyle(hoveredZoomBtn === 'fit')}
         >
           <Maximize size={14} />
         </button>
       </div>
+
+      {children}
     </main>
   )
 }
