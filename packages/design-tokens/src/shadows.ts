@@ -1,9 +1,8 @@
 /**
  * Shadow tokens — Framer 2025 style.
- * أخف وأنعم مع border خفي على الـ float.
  */
 
-export type ShadowKey = 'sm' | 'md' | 'lg' | 'xl' | 'float' | 'glow' | 'inset' | 'none'
+export type ShadowKey = 'sm' | 'md' | 'lg' | 'xl' | 'float' | 'glow' | 'inset' | 'inner' | 'none'
 
 export const SHADOWS: Record<ShadowKey, string> = {
   none:  'none',
@@ -14,4 +13,5 @@ export const SHADOWS: Record<ShadowKey, string> = {
   float: '0 4px 16px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.04)',
   glow:  '0 0 0 1px rgba(47, 125, 246, 0.35), 0 0 8px rgba(47, 125, 246, 0.10)',
   inset: 'inset 0 1px 2px rgba(0, 0, 0, 0.3)',
+  inner: 'inset 0 1px 2px rgba(0, 0, 0, 0.3)',
 }
