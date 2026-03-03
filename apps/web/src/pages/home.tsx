@@ -1,7 +1,5 @@
 // apps/web/src/pages/home.tsx
 
-'use client';
-
 import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useCallback, useEffect, useState } from 'react';
