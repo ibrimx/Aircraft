@@ -1,5 +1,4 @@
-export const runtime = 'edge';
-
+export const runtime = 'experimental-edge';
 'use client';
 
 import React, { type CSSProperties, useEffect, useMemo } from 'react';
