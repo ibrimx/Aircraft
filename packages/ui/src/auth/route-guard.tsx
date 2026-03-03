@@ -48,23 +48,52 @@ function DefaultFallback() {
   )
 }
 
-export function RouteGuard({ authState, requiredPermission, hasPermission, children, fallback, onRedirectToLogin, className, style }: RouteGuardProps) {
+// ✅ DEV ONLY: bypass auth/permissions to enter builder without login
+const DEV_BYPASS_AUTH = true // IMPORTANT: set false before production
+
+export function RouteGuard({
+  authState,
+  requiredPermission,
+  hasPermission,
+  children,
+  fallback,
+  onRedirectToLogin,
+  className,
+  style,
+}: RouteGuardProps) {
+  const effectiveAuthState: AuthState = DEV_BYPASS_AUTH ? 'authenticated' : authState
+
   useEffect(() => {
-    if (authState === 'unauthenticated' && onRedirectToLogin) {
+    if (effectiveAuthState === 'unauthenticated' && onRedirectToLogin) {
       onRedirectToLogin()
     }
-  }, [authState, onRedirectToLogin])
+  }, [effectiveAuthState, onRedirectToLogin])
 
-  if (authState === 'loading') {
+  if (effectiveAuthState === 'loading') {
     return <div className={className} style={style}>{fallback ?? <DefaultFallback />}</div>
   }
 
-  if (authState === 'unauthenticated') {
-    return <AccessDenied reason="not_authenticated" onLogin={onRedirectToLogin} className={className} style={style} />
+  if (effectiveAuthState === 'unauthenticated') {
+    return (
+      <AccessDenied
+        reason="not_authenticated"
+        onLogin={onRedirectToLogin}
+        className={className}
+        style={style}
+      />
+    )
   }
 
-  if (hasPermission === false) {
-    return <AccessDenied reason="no_permission" requiredPermission={requiredPermission} className={className} style={style} />
+  // bypass permission checks in dev
+  if (!DEV_BYPASS_AUTH && hasPermission === false) {
+    return (
+      <AccessDenied
+        reason="no_permission"
+        requiredPermission={requiredPermission}
+        className={className}
+        style={style}
+      />
+    )
   }
 
   return <>{children}</>
