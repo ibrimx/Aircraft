@@ -5,9 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "pages:build": "pnpm --filter @aircraft/shared-types build && pnpm --filter @aircraft/design-tokens build && pnpm --filter @aircraft/ui build && pnpm --filter @aircraft/web build",
     "build:cf": "next-on-pages",
-    "preview": "wrangler pages dev",
+    "pages:build": "pnpm --filter @aircraft/shared-types build && pnpm --filter @aircraft/design-tokens build && pnpm --filter @aircraft/ui build && pnpm --filter @aircraft/web build:cf",
+    "preview": "wrangler pages dev .vercel/output/static",
     "lint": "next lint",
     "postbuild": "rm -rf .next/cache || true && rm -rf cache || true && rm -rf .vercel/output/static/cache || true && rm -rf .vercel/output/static/cache/webpack || true && find .vercel/output -type d -path \"*/cache/webpack\" -prune -exec rm -rf {} + 2>/dev/null || true"
   },
