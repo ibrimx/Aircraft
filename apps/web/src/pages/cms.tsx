@@ -1,4 +1,5 @@
 export const runtime = 'experimental-edge';
+
 import React, { type CSSProperties, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import {
@@ -28,17 +29,21 @@ export default function CmsPage(): React.JSX.Element {
 
   const cms = useCmsSource() as any;
 
-  const sources = (cms?.sources ?? []) as any[];
+  const sources = cms?.sources as any[] | undefined;
   const error = cms?.error as unknown;
 
   const isLoading = useMemo(() => {
     if (typeof cms?.isLoading === 'boolean') return cms.isLoading as boolean;
     if (typeof cms?.loading === 'boolean') return cms.loading as boolean;
+
+    // Loading: no error + sources not ready yet
     return !error && !Array.isArray(sources);
   }, [cms, error, sources]);
 
   useEffect(() => {
-    if (!isAuthenticated) router.replace('/login');
+    if (!isAuthenticated) {
+      router.replace('/login');
+    }
   }, [isAuthenticated, router]);
 
   if (!isAuthenticated) return <></>;
@@ -71,20 +76,22 @@ export default function CmsPage(): React.JSX.Element {
         })}
       >
         <ErrorFallback error={resolvedError} onRetry={() => router.reload()} />
-        <Button
-          onClick={() => router.push('/cms')}
-          style={css({
-            background: tk.colors.accent.default,
-            color: tk.colors.background.primary,
-            minBlockSize: 44,
-            paddingInline: 16,
-            borderRadius: 8,
-            border: 'none',
-            cursor: 'pointer',
-          })}
-        >
-          {t('cms.retry')}
-        </Button>
+        <div>
+          <Button
+            onClick={() => router.push('/cms')}
+            style={css({
+              background: tk.colors.accent.default,
+              color: tk.colors.background.primary,
+              minBlockSize: 44,
+              paddingInline: 16,
+              borderRadius: 8,
+              border: 'none',
+              cursor: 'pointer',
+            })}
+          >
+            {t('cms.retry')}
+          </Button>
+        </div>
       </div>
     );
   }
@@ -117,6 +124,7 @@ export default function CmsPage(): React.JSX.Element {
     );
   }
 
+  // No source selected yet
   if (!sourceId) {
     if (Array.isArray(sources) && sources.length === 0) {
       return (
@@ -156,6 +164,7 @@ export default function CmsPage(): React.JSX.Element {
     return <SourcePicker onSelect={(type) => router.push(`/cms/${type}`)} />;
   }
 
+  // Selected source view
   return (
     <div
       style={css({
@@ -187,9 +196,7 @@ export default function CmsPage(): React.JSX.Element {
           overflowY: 'auto',
         })}
       >
-        <SyncStatus
-          syncStatus={(cms?.syncStatus ?? cms?.status ?? cms?.sync ?? {}) as any}
-        />
+        <SyncStatus syncStatus={(cms?.syncStatus ?? cms?.status ?? cms?.sync ?? {}) as any} />
 
         <CollectionBrowser
           source={sourceId as any}
