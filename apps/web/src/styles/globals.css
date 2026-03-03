@@ -1,3 +1,7 @@
+/* apps/web/src/styles/globals.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&display=swap');
+
 *,
 *::before,
 *::after {
@@ -15,10 +19,14 @@ html {
 }
 
 body {
-  font-family: 'Inter', -apple-system, system-ui, sans-serif;
+  font-family: 'Noto Sans Arabic', 'Inter', -apple-system, system-ui, sans-serif;
   line-height: 1.5;
   min-height: 100dvh;
-  overflow: hidden;
+
+  /* ✅ أهم إصلاح: خلي الصفحة تقدر تعمل scroll */
+  overflow-x: hidden;
+  overflow-y: auto;
+
   background: #09090b;
   color: rgba(255, 255, 255, 0.88);
 }
@@ -26,8 +34,8 @@ body {
 html,
 body,
 #__next {
-  height: 100%;
-  overflow: hidden;
+  height: auto;
+  min-height: 100%;
 }
 
 img, svg, video, canvas {
@@ -73,10 +81,10 @@ a {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.06);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.10);
 }
