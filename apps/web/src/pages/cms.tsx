@@ -1,6 +1,4 @@
 export const runtime = 'experimental-edge';
-'use client';
-
 import React, { type CSSProperties, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import {
