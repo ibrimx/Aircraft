@@ -1,7 +1,12 @@
+/**
+ * App Shell — Framer 2025 Style
+ * Responsive: Desktop (3-column) / Mobile (single column + bottom bar)
+ * @package apps/web
+ */
+
 'use client'
 
-// P40 · app-shell.tsx — responsive application shell
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import type { ReactNode } from 'react'
 import { BREAKPOINT_VALUES } from '@aircraft/design-tokens'
 import { DesktopLayout } from './desktop-layout'
@@ -14,7 +19,8 @@ import { StatusBar } from './status-bar'
 import { CommandPalette } from './command-palette'
 
 export type AppShellProps = {
-  children: ReactNode
+  children?: ReactNode
+  projectName?: string
   defaultSidebarOpen?: boolean
   defaultInspectorOpen?: boolean
 }
@@ -32,44 +38,86 @@ function useIsMobile(): boolean {
 }
 
 export function AppShell({
-  children, defaultSidebarOpen, defaultInspectorOpen = false,
+  children,
+  projectName = 'Untitled',
+  defaultSidebarOpen,
+  defaultInspectorOpen = true,
 }: AppShellProps) {
   const isMobile = useIsMobile()
+
   const [sidebarOpen, setSidebarOpen] = useState(defaultSidebarOpen ?? !isMobile)
   const [inspectorOpen, setInspectorOpen] = useState(defaultInspectorOpen)
   const [cmdOpen, setCmdOpen] = useState(false)
+  const [activeTool, setActiveTool] = useState('select')
 
+  // Command palette: ⌘K
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault()
-        setCmdOpen(p => !p)
+        setCmdOpen((p) => !p)
       }
     }
     document.addEventListener('keydown', handler)
     return () => document.removeEventListener('keydown', handler)
   }, [])
 
-  const shell = isMobile
-    ? <MobileLayout
-        toolbar={<Toolbar onToggleSidebar={() => setSidebarOpen(p => !p)} />}
-        workspace={<Workspace>{children}</Workspace>}
-        statusBar={<StatusBar />}
-      />
-    : <DesktopLayout
-        sidebar={<Sidebar open={sidebarOpen} onToggle={() => setSidebarOpen(p => !p)} />}
-        toolbar={<Toolbar
-          onToggleSidebar={() => setSidebarOpen(p => !p)}
-          onToggleInspector={() => setInspectorOpen(p => !p)}
-        />}
-        workspace={<Workspace>{children}</Workspace>}
-        inspector={<Inspector open={inspectorOpen} onClose={() => setInspectorOpen(false)} />}
-        statusBar={<StatusBar />}
-      />
+  // Tool shortcuts
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return
+      const map: Record<string, string> = {
+        v: 'select', f: 'frame', r: 'rectangle', o: 'ellipse',
+        t: 'text', l: 'line', p: 'pen', h: 'hand',
+      }
+      const tool = map[e.key.toLowerCase()]
+      if (tool) setActiveTool(tool)
+    }
+    document.addEventListener('keydown', handler)
+    return () => document.removeEventListener('keydown', handler)
+  }, [])
+
+  if (isMobile) {
+    return (
+      <>
+        <MobileLayout
+          workspace={<Workspace>{children}</Workspace>}
+          statusBar={<StatusBar />}
+          projectName={projectName}
+        />
+        {cmdOpen && <CommandPalette onClose={() => setCmdOpen(false)} />}
+      </>
+    )
+  }
 
   return (
     <>
-      {shell}
+      <DesktopLayout
+        sidebar={
+          <Sidebar
+            open={sidebarOpen}
+            onToggle={() => setSidebarOpen((p) => !p)}
+          />
+        }
+        toolbar={
+          <Toolbar
+            activeTool={activeTool}
+            onToolChange={setActiveTool}
+            onToggleSidebar={() => setSidebarOpen((p) => !p)}
+            onToggleInspector={() => setInspectorOpen((p) => !p)}
+            projectName={projectName}
+            saveStatus="saved"
+          />
+        }
+        workspace={<Workspace>{children}</Workspace>}
+        inspector={
+          <Inspector
+            open={inspectorOpen}
+            onClose={() => setInspectorOpen(false)}
+          />
+        }
+        statusBar={<StatusBar />}
+      />
       {cmdOpen && <CommandPalette onClose={() => setCmdOpen(false)} />}
     </>
   )
