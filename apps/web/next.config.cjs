@@ -1,3 +1,5 @@
+const path = require('node:path')
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -10,20 +12,30 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   transpilePackages: [
-    '@aircraft/ui',
+    '@aircraft/shared-types',
     '@aircraft/design-tokens',
-    '@aircraft/shared-types'
+    '@aircraft/builder-engine',
+    '@aircraft/ui',
+    '@aircraft/fabric-adapter',
+    '@aircraft/state-bridge',
   ],
   webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.resolve.alias = {
-        ...(config.resolve.alias || {}),
-        canvas: false,
-        jsdom: false,
-      }
+    config.resolve.alias = {
+      ...(config.resolve.alias || {}),
+      canvas: false,
+      jsdom: false,
+      fabric: false,
+      ...(isServer
+        ? {
+            '@aircraft/fabric-adapter/canvas': path.resolve(
+              process.cwd(),
+              'src/shims/fabric-canvas.tsx'
+            ),
+          }
+        : {}),
     }
     return config
-  }
-};
+  },
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig

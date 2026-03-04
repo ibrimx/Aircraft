@@ -1,7 +1,6 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "rootDir": "./src",
     "outDir": "./dist",
     "jsx": "react-jsx",
     "types": [
@@ -19,12 +18,25 @@
     "emitDeclarationOnly": false,
     "composite": false,
     "baseUrl": ".",
+    "rootDir": "..",
     "paths": {
       "@aircraft/ui": [
         "./src/index.ts"
       ],
       "@aircraft/ui/*": [
         "./src/*"
+      ],
+      "@aircraft/design-tokens": [
+        "../design-tokens/src/index.ts"
+      ],
+      "@aircraft/design-tokens/*": [
+        "../design-tokens/src/*"
+      ],
+      "@aircraft/shared-types": [
+        "../shared-types/src/index.ts"
+      ],
+      "@aircraft/shared-types/*": [
+        "../shared-types/src/*"
       ]
     }
   },

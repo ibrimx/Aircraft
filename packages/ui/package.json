@@ -18,7 +18,7 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "pnpm --filter @aircraft/shared-types build && pnpm --filter @aircraft/design-tokens build && tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
     "@aircraft/design-tokens": "workspace:*",

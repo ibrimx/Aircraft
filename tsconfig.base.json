@@ -17,55 +17,106 @@
     "skipLibCheck": true,
     "paths": {
       "@aircraft/shared-types": [
-        "./packages/shared-types/dist"
+        "./packages/shared-types/src"
       ],
       "@aircraft/studio-engine": [
-        "./packages/studio-engine/dist"
+        "./packages/studio-engine/src"
       ],
       "@aircraft/builder-engine": [
-        "./packages/builder-engine/dist"
+        "./packages/builder-engine/src"
       ],
       "@aircraft/cms-engine": [
-        "./packages/cms-engine/dist"
+        "./packages/cms-engine/src"
       ],
       "@aircraft/auth-engine": [
-        "./packages/auth-engine/dist"
+        "./packages/auth-engine/src"
       ],
       "@aircraft/fabric-adapter": [
-        "./packages/fabric-adapter/dist"
+        "./packages/fabric-adapter/src"
       ],
       "@aircraft/mobile-runtime": [
-        "./packages/mobile-runtime/dist"
+        "./packages/mobile-runtime/src"
       ],
       "@aircraft/brand-kit": [
-        "./packages/brand-kit/dist"
+        "./packages/brand-kit/src"
       ],
       "@aircraft/state-bridge": [
-        "./packages/state-bridge/dist"
+        "./packages/state-bridge/src"
       ],
       "@aircraft/local-draft": [
-        "./packages/local-draft/dist"
+        "./packages/local-draft/src"
       ],
       "@aircraft/sync-engine": [
-        "./packages/sync-engine/dist"
+        "./packages/sync-engine/src"
       ],
       "@aircraft/error-boundary": [
-        "./packages/error-boundary/dist"
+        "./packages/error-boundary/src"
       ],
       "@aircraft/storage-adapter": [
-        "./packages/storage-adapter/dist"
+        "./packages/storage-adapter/src"
       ],
       "@aircraft/publish-adapters": [
-        "./packages/publish-adapters/dist"
+        "./packages/publish-adapters/src"
       ],
       "@aircraft/a11y": [
-        "./packages/a11y/dist"
+        "./packages/a11y/src"
       ],
       "@aircraft/ui": [
-        "./packages/ui/dist"
+        "./packages/ui/src"
       ],
       "@aircraft/design-tokens": [
-        "./packages/design-tokens/dist"
+        "./packages/design-tokens/src"
+      ],
+      "@aircraft/shared-types/*": [
+        "./packages/shared-types/src/*"
+      ],
+      "@aircraft/studio-engine/*": [
+        "./packages/studio-engine/src/*"
+      ],
+      "@aircraft/builder-engine/*": [
+        "./packages/builder-engine/src/*"
+      ],
+      "@aircraft/cms-engine/*": [
+        "./packages/cms-engine/src/*"
+      ],
+      "@aircraft/auth-engine/*": [
+        "./packages/auth-engine/src/*"
+      ],
+      "@aircraft/fabric-adapter/*": [
+        "./packages/fabric-adapter/src/*"
+      ],
+      "@aircraft/mobile-runtime/*": [
+        "./packages/mobile-runtime/src/*"
+      ],
+      "@aircraft/brand-kit/*": [
+        "./packages/brand-kit/src/*"
+      ],
+      "@aircraft/state-bridge/*": [
+        "./packages/state-bridge/src/*"
+      ],
+      "@aircraft/local-draft/*": [
+        "./packages/local-draft/src/*"
+      ],
+      "@aircraft/sync-engine/*": [
+        "./packages/sync-engine/src/*"
+      ],
+      "@aircraft/error-boundary/*": [
+        "./packages/error-boundary/src/*"
+      ],
+      "@aircraft/storage-adapter/*": [
+        "./packages/storage-adapter/src/*"
+      ],
+      "@aircraft/publish-adapters/*": [
+        "./packages/publish-adapters/src/*"
+      ],
+      "@aircraft/a11y/*": [
+        "./packages/a11y/src/*"
+      ],
+      "@aircraft/ui/*": [
+        "./packages/ui/src/*"
+      ],
+      "@aircraft/design-tokens/*": [
+        "./packages/design-tokens/src/*"
       ]
     },
     "baseUrl": "."

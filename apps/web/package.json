@@ -11,7 +11,7 @@
     "pages:build": "pnpm --filter @aircraft/shared-types build && pnpm --filter @aircraft/design-tokens build && pnpm --filter @aircraft/fabric-adapter build && pnpm --filter @aircraft/state-bridge build && pnpm --filter @aircraft/builder-engine build && pnpm --filter @aircraft/ui build && pnpm --filter @aircraft/web build:cf",
     "pages:dev": "pnpm --filter @aircraft/shared-types build && pnpm --filter @aircraft/design-tokens build && pnpm --filter @aircraft/fabric-adapter build && pnpm --filter @aircraft/state-bridge build && pnpm --filter @aircraft/builder-engine build && pnpm --filter @aircraft/ui build && pnpm --filter @aircraft/web dev",
     "pages:deploy": "pnpm pages:build",
-    "lint": "next lint",
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx --max-warnings=0",
     "clean": "rm -rf .next"
   },
   "dependencies": {
@@ -52,6 +52,6 @@
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.1",
     "eslint": "^8.57.0",
-    "eslint-config-next": "^14.2.0"
+    "eslint-config-next": "^15.5.12"
   }
 }

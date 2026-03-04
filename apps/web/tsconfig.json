@@ -16,7 +16,53 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@aircraft/shared-types": [
+        "../../packages/shared-types/src"
+      ],
+      "@aircraft/shared-types/*": [
+        "../../packages/shared-types/src/*"
+      ],
+      "@aircraft/design-tokens": [
+        "../../packages/design-tokens/src"
+      ],
+      "@aircraft/design-tokens/*": [
+        "../../packages/design-tokens/src/*"
+      ],
+      "@aircraft/builder-engine": [
+        "../../packages/builder-engine/src"
+      ],
+      "@aircraft/builder-engine/*": [
+        "../../packages/builder-engine/src/*"
+      ],
+      "@aircraft/ui": [
+        "../../packages/ui/src"
+      ],
+      "@aircraft/ui/*": [
+        "../../packages/ui/src/*"
+      ],
+      "@aircraft/fabric-adapter": [
+        "../../packages/fabric-adapter/src"
+      ],
+      "@aircraft/fabric-adapter/*": [
+        "../../packages/fabric-adapter/src/*"
+      ],
+      "@aircraft/state-bridge": [
+        "../../packages/state-bridge/src"
+      ],
+      "@aircraft/state-bridge/*": [
+        "../../packages/state-bridge/src/*"
+      ],
+      "@aircraft/fabric-adapter/canvas": [
+        "../../packages/fabric-adapter/src/canvas-entry.ts"
+      ]
+    },
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "strict": false,
+    "noImplicitAny": false
   },
   "include": [
     "next-env.d.ts",
