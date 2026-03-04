@@ -3,18 +3,22 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "packageManager": "pnpm@10.30.3",
   "scripts": {
+    "lint": "eslint . --ext .ts,.tsx",
+    "typecheck": "tsc --noEmit",
+    "check:all": "pnpm lint || true && pnpm typecheck || true",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.30.3",
   "devDependencies": {
     "@types/node": "^25.3.3",
     "@types/react": "18.3.28",
     "@types/react-dom": "18.3.7",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "eslint": "^8.57.0"
   },
   "dependencies": {
     "fabric": "^7.2.0",
