@@ -1,6 +1,10 @@
 export { AircraftCanvas } from './canvas'
+export type { AircraftCanvasRef } from './canvas'
+
 export { useCanvas } from './hooks/use-canvas'
 export { useCanvasEvents } from './hooks/use-canvas-events'
+
 export { createRectangle, createEllipse, createText, createFrame } from './elements/create-element'
 export { serializeCanvas, deserializeCanvas } from './serialization'
+
 export type { CanvasElement, CanvasState, ElementType, CreateElementOptions } from './types'
