@@ -1,6 +1,3 @@
-export { AircraftCanvas } from './canvas'
-export type { AircraftCanvasRef } from './canvas'
-
 export { useCanvas } from './hooks/use-canvas'
 export { useCanvasEvents } from './hooks/use-canvas-events'
 

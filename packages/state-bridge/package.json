@@ -18,11 +18,11 @@
   },
   "dependencies": {
     "immer": "^11.1.4",
-    "zustand": "^5.0.11"
+    "zustand": "^5.0.11",
+    "@aircraft/fabric-adapter": "workspace:*"
   },
   "peerDependencies": {
-    "react": "^18.0.0",
-    "@aircraft/fabric-adapter": "workspace:*"
+    "react": "^18.0.0"
   },
   "devDependencies": {
     "typescript": "^5.4.5",

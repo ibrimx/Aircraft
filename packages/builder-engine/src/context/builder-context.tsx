@@ -6,7 +6,8 @@ import {
   useEffect,
   type ReactNode,
 } from 'react'
-import type { AircraftCanvasRef, CanvasElement, CreateElementOptions } from '@aircraft/fabric-adapter'
+import type { AircraftCanvasRef } from '@aircraft/fabric-adapter/canvas'
+import type { CanvasElement, CreateElementOptions } from '@aircraft/fabric-adapter'
 import { createRectangle, createEllipse, createText, createFrame } from '@aircraft/fabric-adapter'
 import { useBuilderStore, useToolStore, useHistoryStore, type Tool } from '@aircraft/state-bridge'
 

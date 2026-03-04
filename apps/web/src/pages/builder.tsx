@@ -1,32 +1,16 @@
-/**
- * Builder Page — Canvas Editor
- * @package apps/web
- */
+import dynamic from 'next/dynamic'
 
-'use client'
+const BuilderApp = dynamic(
+  () => import('../shell/app-shell').then((m) => m.AppShell),
+  { ssr: false }
+)
 
-import { useEffect } from 'react'
-import { useRouter } from 'next/router'
-import { AppShell } from '../shell/app-shell'
-
-export function BuilderPage() {
-  const router = useRouter()
-  const { projectId } = router.query
-
-  useEffect(() => {
-    if (projectId) {
-      console.log('Loading project:', projectId)
-      // TODO: Load project from storage
-    }
-  }, [projectId])
-
+export default function BuilderPage() {
   return (
-    <AppShell
+    <BuilderApp
       projectName="My Design"
       defaultSidebarOpen={true}
       defaultInspectorOpen={true}
     />
   )
 }
-
-export default BuilderPage
