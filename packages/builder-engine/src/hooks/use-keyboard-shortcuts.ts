@@ -1,5 +1,6 @@
 import { useEffect, useCallback } from 'react'
 import { useBuilder } from '../context/builder-context'
+import type { Tool } from '@aircraft/state-bridge'
 
 export function useKeyboardShortcuts() {
   const {
@@ -37,7 +38,7 @@ export function useKeyboardShortcuts() {
 
     // Tool shortcuts (single key)
     if (!isMod && !isShift) {
-      const toolMap: Record<string, string> = {
+      const toolMap: Record<string, Tool> = {
         v: 'select',
         f: 'frame',
         r: 'rectangle',
@@ -48,6 +49,7 @@ export function useKeyboardShortcuts() {
         h: 'hand',
         z: 'zoom',
       }
+
       const tool = toolMap[e.key.toLowerCase()]
       if (tool) {
         e.preventDefault()

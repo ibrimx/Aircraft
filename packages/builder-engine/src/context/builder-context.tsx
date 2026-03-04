@@ -8,7 +8,7 @@ import {
 } from 'react'
 import type { AircraftCanvasRef, CanvasElement, CreateElementOptions } from '@aircraft/fabric-adapter'
 import { createRectangle, createEllipse, createText, createFrame } from '@aircraft/fabric-adapter'
-import { useBuilderStore, useToolStore, useHistoryStore } from '@aircraft/state-bridge'
+import { useBuilderStore, useToolStore, useHistoryStore, type Tool } from '@aircraft/state-bridge'
 
 export type BuilderContextValue = {
   // Canvas ref
@@ -24,8 +24,8 @@ export type BuilderContextValue = {
   selectAll: () => void
 
   // Tool actions
-  activeTool: string
-  setTool: (tool: string) => void
+  activeTool: Tool
+  setTool: (tool: Tool) => void
 
   // Clipboard
   copy: () => void
