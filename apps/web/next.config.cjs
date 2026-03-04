@@ -13,7 +13,17 @@ const nextConfig = {
     '@aircraft/ui',
     '@aircraft/design-tokens',
     '@aircraft/shared-types'
-  ]
+  ],
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.alias = {
+        ...(config.resolve.alias || {}),
+        canvas: false,
+        jsdom: false,
+      }
+    }
+    return config
+  }
 };
 
 module.exports = nextConfig;

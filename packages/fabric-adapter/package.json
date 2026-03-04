@@ -9,6 +9,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./canvas": {
+      "types": "./dist/canvas-entry.d.ts",
+      "import": "./dist/canvas-entry.js"
     }
   },
   "scripts": {

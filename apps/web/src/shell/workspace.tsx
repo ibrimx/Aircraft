@@ -9,7 +9,7 @@ import React from 'react'
 import { useRef, useCallback, type ReactNode, type CSSProperties } from 'react'
 import { ZoomIn, ZoomOut, Maximize } from 'lucide-react'
 import { useThemeTokens } from '@aircraft/design-tokens'
-import { AircraftCanvas, type AircraftCanvasRef } from '@aircraft/fabric-adapter'
+import { AircraftCanvas } from '@aircraft/fabric-adapter/canvas'
 import { useBuilder } from '@aircraft/builder-engine'
 
 export type WorkspaceProps = {
