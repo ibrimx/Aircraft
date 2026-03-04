@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import type { fabric } from 'fabric'
+import type { Canvas as FabricCanvas, FabricObject } from 'fabric'
 import type { CanvasElement } from '../types'
 
 export type CanvasEventHandlers = {
@@ -10,20 +10,21 @@ export type CanvasEventHandlers = {
   onZoomChange?: (zoom: number) => void
 }
 
-export function useCanvasEvents(
-  canvas: fabric.Canvas | null,
-  handlers: CanvasEventHandlers
-) {
+type FabricObjectWithData = FabricObject & { data?: { id?: string; name?: string } }
+
+const isDefinedString = (value: string | undefined): value is string => Boolean(value)
+
+export function useCanvasEvents(canvas: FabricCanvas | null, handlers: CanvasEventHandlers) {
   useEffect(() => {
     if (!canvas) return
 
-    const onSelectionCreated = (e: any) => {
-      const ids = e.selected?.map((obj: any) => obj.data?.id).filter(Boolean) || []
+    const onSelectionCreated = (e: { selected?: FabricObjectWithData[] }) => {
+      const ids = e.selected?.map((obj) => obj.data?.id).filter(isDefinedString) || []
       handlers.onSelectionChange?.(ids)
     }
 
-    const onSelectionUpdated = (e: any) => {
-      const ids = e.selected?.map((obj: any) => obj.data?.id).filter(Boolean) || []
+    const onSelectionUpdated = (e: { selected?: FabricObjectWithData[] }) => {
+      const ids = e.selected?.map((obj) => obj.data?.id).filter(isDefinedString) || []
       handlers.onSelectionChange?.(ids)
     }
 
@@ -31,9 +32,8 @@ export function useCanvasEvents(
       handlers.onSelectionChange?.([])
     }
 
-    const onObjectModified = (e: any) => {
+    const onObjectModified = (e: { target?: FabricObjectWithData }) => {
       if (e.target?.data?.id) {
-        // Element modified - could extract and pass element data
         handlers.onElementModified?.({
           id: e.target.data.id,
           type: 'rectangle',
@@ -45,8 +45,8 @@ export function useCanvasEvents(
           rotation: e.target.angle || 0,
           scaleX: e.target.scaleX || 1,
           scaleY: e.target.scaleY || 1,
-          fill: e.target.fill || null,
-          stroke: e.target.stroke || null,
+          fill: (e.target.fill as string) || null,
+          stroke: (e.target.stroke as string) || null,
           strokeWidth: e.target.strokeWidth || 0,
           opacity: e.target.opacity || 1,
           visible: e.target.visible !== false,
