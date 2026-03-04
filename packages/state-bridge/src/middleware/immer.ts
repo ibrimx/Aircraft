@@ -1,12 +1,9 @@
 import { produce } from 'immer'
-import type {
-  StateCreator,
-  StoreApi,
-  StoreMutatorIdentifier,
-} from 'zustand'
+import type { StateCreator, StoreMutatorIdentifier } from 'zustand'
 
 /**
- * Zustand v5 immer middleware (typed)
+ * Minimal immer middleware for zustand v5.
+ * Avoids module augmentation to prevent duplicate declaration conflicts.
  */
 type Immer = <
   T,
@@ -15,18 +12,6 @@ type Immer = <
 >(
   initializer: StateCreator<T, Mps, Mcs>
 ) => StateCreator<T, Mps, [['zustand/immer', never], ...Mcs]>
-
-declare module 'zustand' {
-  interface StoreMutators<S, A> {
-    ['zustand/immer']: WithImmer<S>
-  }
-}
-
-type WithImmer<S> = S extends StoreApi<infer T>
-  ? Omit<S, 'setState'> & {
-      setState: SetStateWithImmer<T>
-    }
-  : never
 
 type SetStateWithImmer<T> = (
   next:
@@ -38,19 +23,18 @@ type SetStateWithImmer<T> = (
 
 export const immer: Immer =
   (initializer) => (set, get, store) => {
-    const setImmer: typeof set = (next: any, replace?: boolean) => {
+    const setImmer: SetStateWithImmer<ReturnType<typeof get>> = (next, replace) => {
       if (typeof next === 'function') {
-        // next(draft) style
-        const updater = produce(next as (draft: any) => void | any)
-        return set(updater as any, replace)
+        const updater = produce(next as (draft: ReturnType<typeof get>) => void | any)
+        ;(set as any)(updater, replace)
+        return
       }
-      // partial / full state
-      return set(next, replace)
+
+      ;(set as any)(next, replace)
     }
 
-    // Important: patch store.setState so external callers can also use draft fn
-    ;(store as unknown as { setState: SetStateWithImmer<any> }).setState =
-      setImmer as unknown as SetStateWithImmer<any>
+    // Patch store.setState as well (optional but practical)
+    ;(store as any).setState = setImmer
 
-    return initializer(setImmer, get, store)
+    return initializer(setImmer as any, get, store)
   }
