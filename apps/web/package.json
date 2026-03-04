@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:cf": "next build",
+    "build:cf": "next build && next-on-pages",
     "start": "next start",
     "pages:build": "pnpm --filter @aircraft/shared-types build && pnpm --filter @aircraft/design-tokens build && pnpm --filter @aircraft/fabric-adapter build && pnpm --filter @aircraft/state-bridge build && pnpm --filter @aircraft/builder-engine build && pnpm --filter @aircraft/ui build && pnpm --filter @aircraft/web build:cf",
     "pages:dev": "pnpm --filter @aircraft/shared-types build && pnpm --filter @aircraft/design-tokens build && pnpm --filter @aircraft/fabric-adapter build && pnpm --filter @aircraft/state-bridge build && pnpm --filter @aircraft/builder-engine build && pnpm --filter @aircraft/ui build && pnpm --filter @aircraft/web dev",
@@ -15,15 +15,12 @@
     "clean": "rm -rf .next"
   },
   "dependencies": {
-    "next": "^15.5.2",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "@aircraft/shared-types": "workspace:*",
-    "@aircraft/design-tokens": "workspace:*",
-    "@aircraft/ui": "workspace:*",
-    "@aircraft/fabric-adapter": "workspace:*",
-    "@aircraft/state-bridge": "workspace:*",
     "@aircraft/builder-engine": "workspace:*",
+    "@aircraft/design-tokens": "workspace:*",
+    "@aircraft/fabric-adapter": "workspace:*",
+    "@aircraft/shared-types": "workspace:*",
+    "@aircraft/state-bridge": "workspace:*",
+    "@aircraft/ui": "workspace:*",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-dropdown-menu": "^2.1.16",
     "@radix-ui/react-scroll-area": "^1.2.10",
@@ -41,17 +38,21 @@
     "i18next": "^25.5.2",
     "immer": "^11.1.4",
     "lucide-react": "^0.576.0",
+    "next": "^15.5.2",
     "postcss": "^8.5.8",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-i18next": "^15.7.3",
     "tailwindcss": "^4.2.1",
     "zustand": "^5.0.8"
   },
   "devDependencies": {
-    "typescript": "^5.4.5",
+    "@cloudflare/next-on-pages": "^1.13.16",
     "@types/node": "^25.3.3",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.1",
     "eslint": "^8.57.0",
-    "eslint-config-next": "^15.5.12"
+    "eslint-config-next": "^15.5.12",
+    "typescript": "^5.4.5"
   }
 }
