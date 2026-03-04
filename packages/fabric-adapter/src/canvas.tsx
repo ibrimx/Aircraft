@@ -1,23 +1,14 @@
 import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react'
-import {
-  ActiveSelection,
-  Canvas as FabricCanvas,
-  Ellipse,
-  Group,
-  IText,
-  Image as FabricImage,
-  Point,
-  Rect,
-} from 'fabric'
+import { fabric } from 'fabric'
 import type { CSSProperties } from 'react'
-import type { FabricObject, TEvent, TPointerEvent } from 'fabric'
+import type { TEvent, TPointerEvent } from 'fabric'
 import type { CanvasElement, CanvasEventCallback, CanvasEventType, ElementType } from './types'
 
 export type AircraftCanvasProps = {
   width?: number
   height?: number
   backgroundColor?: string
-  onReady?: (canvas: FabricCanvas) => void
+  onReady?: (canvas: fabric.Canvas) => void
   onSelectionChange?: (ids: string[]) => void
   onElementChange?: (element: CanvasElement) => void
   onZoomChange?: (zoom: number) => void
@@ -26,7 +17,7 @@ export type AircraftCanvasProps = {
 }
 
 export type AircraftCanvasRef = {
-  canvas: FabricCanvas | null
+  canvas: fabric.Canvas | null
   addElement: (element: CanvasElement) => void
   removeElement: (id: string) => void
   updateElement: (id: string, updates: Partial<CanvasElement>) => void
@@ -41,268 +32,264 @@ export type AircraftCanvasRef = {
 }
 
 type PointerEventPayload = TEvent<TPointerEvent> & { e: TPointerEvent }
+
+// Fabric “Object” type في v7 هو fabric.Object
+type FabricObject = fabric.Object
 type FabricObjectWithData = FabricObject & { data?: { id?: string; name?: string } }
 
 const isDefinedString = (value: string | undefined): value is string => Boolean(value)
 const getObjectId = (obj: FabricObject): string | undefined => (obj as FabricObjectWithData).data?.id
 
-export const AircraftCanvas = forwardRef<AircraftCanvasRef, AircraftCanvasProps>(
-  function AircraftCanvas(
-    {
-      width = 1440,
-      height = 900,
-      backgroundColor = '#ffffff',
-      onReady,
-      onSelectionChange,
-      onElementChange,
-      onZoomChange,
-      className,
-      style,
-    },
-    ref
-  ) {
-    const canvasRef = useRef<HTMLCanvasElement>(null)
-    const fabricRef = useRef<FabricCanvas | null>(null)
-    const eventListeners = useRef<Map<CanvasEventType, Set<CanvasEventCallback>>>(new Map())
+export const AircraftCanvas = forwardRef<AircraftCanvasRef, AircraftCanvasProps>(function AircraftCanvas(
+  {
+    width = 1440,
+    height = 900,
+    backgroundColor = '#ffffff',
+    onReady,
+    onSelectionChange,
+    onElementChange,
+    onZoomChange,
+    className,
+    style,
+  },
+  ref
+) {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const fabricRef = useRef<fabric.Canvas | null>(null)
+  const eventListeners = useRef<Map<CanvasEventType, Set<CanvasEventCallback>>>(new Map())
 
-    // Keep declared listener map behavior intact
-    void eventListeners
+  // Keep declared listener map behavior intact
+  void eventListeners
 
-    // Initialize canvas
-    useEffect(() => {
-      if (!canvasRef.current || fabricRef.current) return
+  // Initialize canvas
+  useEffect(() => {
+    if (!canvasRef.current || fabricRef.current) return
 
-      const canvas = new FabricCanvas(canvasRef.current, {
-        width,
-        height,
-        backgroundColor,
-        selection: true,
-        preserveObjectStacking: true,
-        renderOnAddRemove: true,
-        enableRetinaScaling: true,
-      })
+    const canvas = new fabric.Canvas(canvasRef.current, {
+      width,
+      height,
+      backgroundColor,
+      selection: true,
+      preserveObjectStacking: true,
+      renderOnAddRemove: true,
+      enableRetinaScaling: true,
+    })
 
-      // Selection events
-      canvas.on('selection:created', (e) => {
-        const ids = e.selected?.map((obj) => getObjectId(obj)).filter(isDefinedString) || []
-        onSelectionChange?.(ids)
-      })
+    // Selection events
+    canvas.on('selection:created', (e) => {
+      const ids = e.selected?.map((obj) => getObjectId(obj as FabricObject)).filter(isDefinedString) || []
+      onSelectionChange?.(ids)
+    })
 
-      canvas.on('selection:updated', (e) => {
-        const ids = e.selected?.map((obj) => getObjectId(obj)).filter(isDefinedString) || []
-        onSelectionChange?.(ids)
-      })
+    canvas.on('selection:updated', (e) => {
+      const ids = e.selected?.map((obj) => getObjectId(obj as FabricObject)).filter(isDefinedString) || []
+      onSelectionChange?.(ids)
+    })
 
-      canvas.on('selection:cleared', () => {
-        onSelectionChange?.([])
-      })
+    canvas.on('selection:cleared', () => {
+      onSelectionChange?.([])
+    })
 
-      // Object modified
-      canvas.on('object:modified', (e) => {
-        if (e.target && getObjectId(e.target)) {
-          const element = fabricObjectToElement(e.target as FabricObjectWithData)
-          onElementChange?.(element)
-        }
-      })
+    // Object modified
+    canvas.on('object:modified', (e) => {
+      if (e.target && getObjectId(e.target as FabricObject)) {
+        const element = fabricObjectToElement(e.target as FabricObjectWithData)
+        onElementChange?.(element)
+      }
+    })
 
-      // Zoom with mouse wheel
-      canvas.on('mouse:wheel', (opt: PointerEventPayload) => {
-        const wheelEvent = opt.e as WheelEvent
-        const delta = wheelEvent.deltaY
-        let zoom = canvas.getZoom()
-        zoom *= 0.999 ** delta
-        zoom = Math.min(Math.max(0.1, zoom), 5)
-        canvas.zoomToPoint(new Point(wheelEvent.offsetX, wheelEvent.offsetY), zoom)
-        wheelEvent.preventDefault()
-        wheelEvent.stopPropagation()
-        onZoomChange?.(zoom * 100)
-      })
+    // Zoom with mouse wheel
+    canvas.on('mouse:wheel', (opt: PointerEventPayload) => {
+      const wheelEvent = opt.e as WheelEvent
+      const delta = wheelEvent.deltaY
+      let zoom = canvas.getZoom()
+      zoom *= 0.999 ** delta
+      zoom = Math.min(Math.max(0.1, zoom), 5)
+      canvas.zoomToPoint(new fabric.Point(wheelEvent.offsetX, wheelEvent.offsetY), zoom)
+      wheelEvent.preventDefault()
+      wheelEvent.stopPropagation()
+      onZoomChange?.(zoom * 100)
+    })
 
-      // Pan with space + drag
-      let isPanning = false
-      let lastPosX = 0
-      let lastPosY = 0
+    // Pan with space + drag
+    let isPanning = false
+    let lastPosX = 0
+    let lastPosY = 0
 
-      canvas.on('mouse:down', (opt: PointerEventPayload) => {
-        const pointerEvent = opt.e as MouseEvent & { code?: string }
-        if (pointerEvent.altKey || pointerEvent.code === 'Space') {
-          isPanning = true
-          canvas.selection = false
+    canvas.on('mouse:down', (opt: PointerEventPayload) => {
+      const pointerEvent = opt.e as MouseEvent & { code?: string }
+      if (pointerEvent.altKey || pointerEvent.code === 'Space') {
+        isPanning = true
+        canvas.selection = false
+        lastPosX = pointerEvent.clientX
+        lastPosY = pointerEvent.clientY
+      }
+    })
+
+    canvas.on('mouse:move', (opt: PointerEventPayload) => {
+      if (isPanning) {
+        const pointerEvent = opt.e as MouseEvent
+        const vpt = canvas.viewportTransform
+        if (vpt) {
+          vpt[4] += pointerEvent.clientX - lastPosX
+          vpt[5] += pointerEvent.clientY - lastPosY
+          canvas.requestRenderAll()
           lastPosX = pointerEvent.clientX
           lastPosY = pointerEvent.clientY
         }
-      })
-
-      canvas.on('mouse:move', (opt: PointerEventPayload) => {
-        if (isPanning) {
-          const pointerEvent = opt.e as MouseEvent
-          const vpt = canvas.viewportTransform
-          if (vpt) {
-            vpt[4] += pointerEvent.clientX - lastPosX
-            vpt[5] += pointerEvent.clientY - lastPosY
-            canvas.requestRenderAll()
-            lastPosX = pointerEvent.clientX
-            lastPosY = pointerEvent.clientY
-          }
-        }
-      })
-
-      canvas.on('mouse:up', () => {
-        isPanning = false
-        canvas.selection = true
-      })
-
-      fabricRef.current = canvas
-      onReady?.(canvas)
-
-      return () => {
-        canvas.dispose()
-        fabricRef.current = null
       }
-    }, [])
+    })
 
-    // Update canvas size
-    useEffect(() => {
-      if (fabricRef.current) {
-        fabricRef.current.setDimensions({ width, height })
+    canvas.on('mouse:up', () => {
+      isPanning = false
+      canvas.selection = true
+    })
+
+    fabricRef.current = canvas
+    onReady?.(canvas)
+
+    return () => {
+      canvas.dispose()
+      fabricRef.current = null
+    }
+    // intentionally only once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // Update canvas size
+  useEffect(() => {
+    if (fabricRef.current) {
+      fabricRef.current.setDimensions({ width, height })
+    }
+  }, [width, height])
+
+  // Expose methods via ref
+  useImperativeHandle(ref, () => ({
+    canvas: fabricRef.current,
+
+    addElement: (element: CanvasElement) => {
+      const canvas = fabricRef.current
+      if (!canvas) return
+
+      const obj = elementToFabricObject(element)
+      if (obj) {
+        ;(obj as FabricObjectWithData).data = { id: element.id }
+        canvas.add(obj)
+        canvas.requestRenderAll()
       }
-    }, [width, height])
+    },
 
-    // Expose methods via ref
-    useImperativeHandle(ref, () => ({
-      canvas: fabricRef.current,
+    removeElement: (id: string) => {
+      const canvas = fabricRef.current
+      if (!canvas) return
 
-      addElement: (element: CanvasElement) => {
-        const canvas = fabricRef.current
-        if (!canvas) return
-
-        const obj = elementToFabricObject(element)
-        if (obj) {
-          ;(obj as FabricObjectWithData).data = { id: element.id }
-          canvas.add(obj)
-          canvas.requestRenderAll()
-        }
-      },
-
-      removeElement: (id: string) => {
-        const canvas = fabricRef.current
-        if (!canvas) return
-
-        const obj = canvas
-          .getObjects()
-          .find((o) => (o as FabricObjectWithData).data?.id === id)
-        if (obj) {
-          canvas.remove(obj)
-          canvas.requestRenderAll()
-        }
-      },
-
-      updateElement: (id: string, updates: Partial<CanvasElement>) => {
-        const canvas = fabricRef.current
-        if (!canvas) return
-
-        const obj = canvas
-          .getObjects()
-          .find((o) => (o as FabricObjectWithData).data?.id === id)
-        if (obj) {
-          applyUpdatesToObject(obj, updates)
-          canvas.requestRenderAll()
-        }
-      },
-
-      selectElement: (id: string) => {
-        const canvas = fabricRef.current
-        if (!canvas) return
-
-        const obj = canvas
-          .getObjects()
-          .find((o) => (o as FabricObjectWithData).data?.id === id)
-        if (obj) {
-          canvas.setActiveObject(obj)
-          canvas.requestRenderAll()
-        }
-      },
-
-      selectElements: (ids: string[]) => {
-        const canvas = fabricRef.current
-        if (!canvas) return
-
-        const objects = canvas
-          .getObjects()
-          .filter((o) => ids.includes((o as FabricObjectWithData).data?.id || ''))
-        if (objects.length > 0) {
-          const selection = new ActiveSelection(objects, { canvas })
-          canvas.setActiveObject(selection)
-          canvas.requestRenderAll()
-        }
-      },
-
-      clearSelection: () => {
-        const canvas = fabricRef.current
-        if (!canvas) return
-
-        canvas.discardActiveObject()
+      const obj = canvas.getObjects().find((o) => (o as FabricObjectWithData).data?.id === id)
+      if (obj) {
+        canvas.remove(obj)
         canvas.requestRenderAll()
-      },
+      }
+    },
 
-      getSelectedIds: () => {
-        const canvas = fabricRef.current
-        if (!canvas) return []
+    updateElement: (id: string, updates: Partial<CanvasElement>) => {
+      const canvas = fabricRef.current
+      if (!canvas) return
 
-        const active = canvas.getActiveObjects()
-        return active.map((obj) => getObjectId(obj)).filter(isDefinedString)
-      },
-
-      zoomTo: (zoom: number) => {
-        const canvas = fabricRef.current
-        if (!canvas) return
-
-        canvas.zoomToPoint(new Point(canvas.getWidth() / 2, canvas.getHeight() / 2), zoom / 100)
+      const obj = canvas.getObjects().find((o) => (o as FabricObjectWithData).data?.id === id)
+      if (obj) {
+        applyUpdatesToObject(obj as FabricObject, updates)
         canvas.requestRenderAll()
-        onZoomChange?.(zoom)
-      },
+      }
+    },
 
-      panTo: (x: number, y: number) => {
-        const canvas = fabricRef.current
-        if (!canvas) return
+    selectElement: (id: string) => {
+      const canvas = fabricRef.current
+      if (!canvas) return
 
-        const vpt = canvas.viewportTransform
-        if (vpt) {
-          vpt[4] = x
-          vpt[5] = y
-          canvas.requestRenderAll()
-        }
-      },
+      const obj = canvas.getObjects().find((o) => (o as FabricObjectWithData).data?.id === id)
+      if (obj) {
+        canvas.setActiveObject(obj)
+        canvas.requestRenderAll()
+      }
+    },
 
-      exportJSON: () => {
-        const canvas = fabricRef.current
-        if (!canvas) return '{}'
+    selectElements: (ids: string[]) => {
+      const canvas = fabricRef.current
+      if (!canvas) return
 
-        const serializableCanvas = canvas as unknown as { toJSON: (propertiesToInclude?: string[]) => unknown }
-        return JSON.stringify(serializableCanvas.toJSON(['data']))
-      },
+      const objects = canvas.getObjects().filter((o) => ids.includes((o as FabricObjectWithData).data?.id || ''))
+      if (objects.length > 0) {
+        const selection = new fabric.ActiveSelection(objects, { canvas })
+        canvas.setActiveObject(selection)
+        canvas.requestRenderAll()
+      }
+    },
 
-      importJSON: (json: string) => {
-        const canvas = fabricRef.current
-        if (!canvas) return
+    clearSelection: () => {
+      const canvas = fabricRef.current
+      if (!canvas) return
 
-        void canvas.loadFromJSON(json).then(() => {
-          canvas.requestRenderAll()
-        })
-      },
-    }))
+      canvas.discardActiveObject()
+      canvas.requestRenderAll()
+    },
 
-    return (
-      <div className={className} style={style}>
-        <canvas ref={canvasRef} />
-      </div>
-    )
-  }
-)
+    getSelectedIds: () => {
+      const canvas = fabricRef.current
+      if (!canvas) return []
+
+      const active = canvas.getActiveObjects()
+      return active.map((obj) => getObjectId(obj as FabricObject)).filter(isDefinedString)
+    },
+
+    zoomTo: (zoom: number) => {
+      const canvas = fabricRef.current
+      if (!canvas) return
+
+      canvas.zoomToPoint(new fabric.Point(canvas.getWidth() / 2, canvas.getHeight() / 2), zoom / 100)
+      canvas.requestRenderAll()
+      onZoomChange?.(zoom)
+    },
+
+    panTo: (x: number, y: number) => {
+      const canvas = fabricRef.current
+      if (!canvas) return
+
+      const vpt = canvas.viewportTransform
+      if (vpt) {
+        vpt[4] = x
+        vpt[5] = y
+        canvas.requestRenderAll()
+      }
+    },
+
+    exportJSON: () => {
+      const canvas = fabricRef.current
+      if (!canvas) return '{}'
+
+      // Fabric has toJSON but typing may vary across builds
+      const serializableCanvas = canvas as unknown as { toJSON: (propertiesToInclude?: string[]) => unknown }
+      return JSON.stringify(serializableCanvas.toJSON(['data']))
+    },
+
+    importJSON: (json: string) => {
+      const canvas = fabricRef.current
+      if (!canvas) return
+
+      void canvas.loadFromJSON(json).then(() => {
+        canvas.requestRenderAll()
+      })
+    },
+  }))
+
+  return (
+    <div className={className} style={style}>
+      <canvas ref={canvasRef} />
+    </div>
+  )
+})
 
 // Helper: Convert CanvasElement to Fabric object
 function elementToFabricObject(element: CanvasElement): FabricObject | null {
-  const baseOptions = {
+  const baseOptions: Record<string, unknown> = {
     left: element.x,
     top: element.y,
     angle: element.rotation,
@@ -317,7 +304,7 @@ function elementToFabricObject(element: CanvasElement): FabricObject | null {
   switch (element.type) {
     case 'rectangle':
     case 'frame':
-      return new Rect({
+      return new fabric.Rect({
         ...baseOptions,
         width: element.width,
         height: element.height,
@@ -329,7 +316,7 @@ function elementToFabricObject(element: CanvasElement): FabricObject | null {
       })
 
     case 'ellipse':
-      return new Ellipse({
+      return new fabric.Ellipse({
         ...baseOptions,
         rx: element.width / 2,
         ry: element.height / 2,
@@ -339,7 +326,7 @@ function elementToFabricObject(element: CanvasElement): FabricObject | null {
       })
 
     case 'text':
-      return new IText(element.text || 'Text', {
+      return new fabric.IText(element.text || 'Text', {
         ...baseOptions,
         fontSize: element.fontSize || 16,
         fontFamily: element.fontFamily || 'Inter',
@@ -369,22 +356,23 @@ function fabricObjectToElement(obj: FabricObjectWithData): CanvasElement {
     scaleY: obj.scaleY || 1,
     fill: (obj.fill as string) || null,
     stroke: (obj.stroke as string) || null,
-    strokeWidth: obj.strokeWidth || 0,
+    strokeWidth: (obj.strokeWidth as number) || 0,
     opacity: obj.opacity || 1,
     visible: obj.visible !== false,
     locked: !obj.selectable,
   }
 
-  if (obj instanceof Rect) {
-    base.cornerRadius = obj.rx || 0
+  if (obj instanceof fabric.Rect) {
+    base.cornerRadius = (obj as fabric.Rect).rx || 0
   }
 
-  if (obj instanceof IText) {
-    base.text = obj.text || ''
-    base.fontSize = obj.fontSize
-    base.fontFamily = obj.fontFamily
-    base.fontWeight = obj.fontWeight
-    base.textAlign = obj.textAlign as 'left' | 'center' | 'right'
+  if (obj instanceof fabric.IText) {
+    const t = obj as fabric.IText
+    base.text = t.text || ''
+    base.fontSize = t.fontSize
+    base.fontFamily = t.fontFamily
+    base.fontWeight = t.fontWeight
+    base.textAlign = t.textAlign as 'left' | 'center' | 'right'
   }
 
   return base
@@ -392,11 +380,11 @@ function fabricObjectToElement(obj: FabricObjectWithData): CanvasElement {
 
 // Helper: Get element type from Fabric object
 function getElementType(obj: FabricObjectWithData): ElementType {
-  if (obj instanceof IText) return 'text'
-  if (obj instanceof Ellipse) return 'ellipse'
-  if (obj instanceof Rect) return 'rectangle'
-  if (obj instanceof Group) return 'group'
-  if (obj instanceof FabricImage) return 'image'
+  if (obj instanceof fabric.IText) return 'text'
+  if (obj instanceof fabric.Ellipse) return 'ellipse'
+  if (obj instanceof fabric.Rect) return 'rectangle'
+  if (obj instanceof fabric.Group) return 'group'
+  if (obj instanceof fabric.Image) return 'image'
   return 'rectangle'
 }
 
@@ -415,13 +403,13 @@ function applyUpdatesToObject(obj: FabricObject, updates: Partial<CanvasElement>
   if (updates.stroke !== undefined) obj.set('stroke', updates.stroke)
   if (updates.strokeWidth !== undefined) obj.set('strokeWidth', updates.strokeWidth)
 
-  if (obj instanceof Rect && updates.cornerRadius !== undefined) {
+  if (obj instanceof fabric.Rect && updates.cornerRadius !== undefined) {
     const r = typeof updates.cornerRadius === 'number' ? updates.cornerRadius : 0
     obj.set('rx', r)
     obj.set('ry', r)
   }
 
-  if (obj instanceof IText) {
+  if (obj instanceof fabric.IText) {
     if (updates.text !== undefined) obj.set('text', updates.text)
     if (updates.fontSize !== undefined) obj.set('fontSize', updates.fontSize)
     if (updates.fontFamily !== undefined) obj.set('fontFamily', updates.fontFamily)
